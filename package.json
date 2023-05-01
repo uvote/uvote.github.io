@@ -1,0 +1,34 @@
+{
+  "name": "uvote",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build_js": "node scripts/build_js.js",
+    "build_css": "sh scripts/build_css.sh",
+    "start": "esbuild src/app.tsx --outdir=public --bundle --servedir=public --watch",
+    "#build_css": "sass --load-path=./node_modules/ src/styles/main.scss public/main.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fibo/uvote.git"
+  },
+  "keywords": [],
+  "author": "Gianluca Casati (http://fibo.github.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fibo/uvote/issues"
+  },
+  "homepage": "https://github.com/fibo/uvote#readme",
+  "dependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.1",
+    "esbuild": "^0.17.18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.62.1",
+    "trunx": "^0.45.2",
+    "typescript": "^5.0.4"
+  }
+}
