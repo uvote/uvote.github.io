@@ -1,3 +1,3 @@
 export const asset = {
-  logoType: '/logo-type.png'
-} as const
+  logoType: "/logo-type.png",
+} as const;

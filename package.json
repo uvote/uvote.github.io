@@ -9,6 +9,7 @@
     "build_js": "node scripts/build_js.js",
     "build_css": "sh scripts/build_css.sh",
     "deploy": "node scripts/deploy.cjs",
+    "lint-staged": "lint-staged",
     "predeploy": "npm run build",
     "start": "esbuild src/app.tsx --outdir=public --bundle --servedir=public --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,16 +24,51 @@
   "bugs": {
     "url": "https://github.com/fibo/uvote/issues"
   },
-  "homepage": "https://github.com/fibo/uvote#readme",
+  "homepage": "https://uvote.github.io",
   "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "trunx": "^0.45.2"
+  },
+  "devDependencies": {
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.1",
     "esbuild": "^0.17.18",
     "gh-pages": "^5.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "lint-staged": "^13.2.2",
+    "pre-commit": "^1.2.2",
+    "prettier": "^2.8.8",
+    "prettier-plugin-jsdoc": "^0.4.2",
+    "prettier-plugin-sh": "^0.12.8",
     "sass": "^1.62.1",
-    "trunx": "^0.45.2",
     "typescript": "^5.0.4"
+  },
+  "lint-staged": {
+    "*.{cjs,js,ts,tsx}": [
+      "prettier --write"
+    ],
+    "*.{css,json,md,scss,sh}": [
+      "prettier --write"
+    ]
+  },
+  "pre-commit": [
+    "lint-staged"
+  ],
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-jsdoc",
+      "prettier-plugin-sh"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "*.ts",
+          "*.tsx"
+        ],
+        "options": {
+          "tsdoc": true
+        }
+      }
+    ]
   }
 }

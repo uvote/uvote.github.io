@@ -10,7 +10,7 @@ import {
   NavbarMenu,
   NavbarEnd,
 } from "trunx";
-import {asset} from '../assets'
+import { asset } from "../assets";
 
 export function Navigation() {
   const [isActive, setIsActive] = useState(false);
