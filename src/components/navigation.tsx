@@ -10,6 +10,7 @@ import {
   NavbarMenu,
   NavbarEnd,
 } from "trunx";
+import {asset} from '../assets'
 
 export function Navigation() {
   const [isActive, setIsActive] = useState(false);
@@ -34,7 +35,7 @@ export function Navigation() {
     <Navbar color="light">
       <NavbarBrand>
         <NavbarItem>
-          <img src="logo-type.png" alt="" />
+          <img src={asset.logoType} alt="" />
         </NavbarItem>
 
         <NavbarBurger isActive={isActive} onClick={onClickBurger} />
