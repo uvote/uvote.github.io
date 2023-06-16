@@ -27,6 +27,8 @@
   },
   "homepage": "https://uvote.github.io",
   "dependencies": {
+    "@metamask/detect-provider": "^2.0.0",
+    "@metamask/sdk": "^0.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "trunx": "^0.45.2"
