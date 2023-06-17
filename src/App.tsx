@@ -1,16 +1,9 @@
 import { FC } from "react";
 import { createRoot } from "react-dom/client";
-import { ConnectMetaMask } from "./components/ConnectMetaMask";
-import { Nav } from "./components/Nav";
+import { GalleryPage } from "./pages/Gallery";
 
 const App: FC = () => {
-  return (
-    <>
-      <Nav />
-
-      <ConnectMetaMask />
-    </>
-  );
+  return <GalleryPage />;
 };
 
 const domNode = document.getElementById("root") as HTMLElement;

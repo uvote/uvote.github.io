@@ -1,16 +1,16 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { Button } from "trunx";
-import { useEthereum } from "../hooks/useEthereum";
+import { EthereumContext } from "../contexts/Ethereum";
 
 const connectLabel = "Connect Wallet";
 const disconnectLabel = "Disconnect Wallet";
 
 export const ConnectMetaMask: FC = () => {
-  const { ethereumIsConnected } = useEthereum();
+  const { isConnected } = useContext(EthereumContext);
 
-  if (ethereumIsConnected === undefined) return null;
+  if (isConnected === undefined) return null;
 
-  let label = ethereumIsConnected ? disconnectLabel : connectLabel;
+  let label = isConnected ? disconnectLabel : connectLabel;
 
-  return <Button color="primary">{label}</Button>;
+  return <Button>{label}</Button>;
 };
