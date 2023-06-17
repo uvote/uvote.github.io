@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "composite": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -13,6 +14,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
+    "tsBuildInfoFile": "node_modules/tsconfig.tsbuildinfo",
     "useDefineForClassFields": true
   }
 }
