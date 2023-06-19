@@ -1,16 +1,29 @@
-import { FC, useContext } from "react";
+import { FC, useCallback, useContext } from "react";
 import { Button } from "trunx";
 import { EthereumContext } from "../contexts/Ethereum";
 
 const connectLabel = "Connect Wallet";
-const disconnectLabel = "Disconnect Wallet";
 
 export const ConnectMetaMask: FC = () => {
-  const { isConnected } = useContext(EthereumContext);
+  const { hasAccount, hasProvider, readAccounts, readAccountsIsPending } =
+    useContext(EthereumContext);
 
-  if (isConnected === undefined) return null;
+  let disabled = readAccountsIsPending;
 
-  let label = isConnected ? disconnectLabel : connectLabel;
+  const onClick = useCallback(() => {
+    if (disabled) return;
+    if (hasAccount) return;
+    if (hasProvider) {
+      readAccounts();
+    }
+  }, [disabled, hasAccount, hasProvider, readAccounts]);
 
-  return <Button>{label}</Button>;
+  if (hasProvider === undefined) return null;
+  if (hasAccount) return null;
+
+  return (
+    <Button disabled={disabled} onClick={onClick}>
+      {connectLabel}
+    </Button>
+  );
 };

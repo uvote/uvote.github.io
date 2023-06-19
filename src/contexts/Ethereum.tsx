@@ -10,93 +10,144 @@ import {
   Reducer,
 } from "react";
 
+type DetectedProvider = MetaMaskInpageProvider | null;
+
 type State = Partial<{
+  account: string;
   chainId: string;
-  isConnected: boolean;
-  provider: MetaMaskInpageProvider | null;
+  provider: DetectedProvider;
+  readAccountsIsPending: boolean;
 }>;
 
-type SET_CHAIN_ID = {
-  type: "SET_CHAIN_ID";
-  data: Pick<State, "chainId">;
+type Action =
+  | {
+      type: "READ_ACCOUNTS_REQUEST";
+    }
+  | { type: "READ_ACCOUNTS_SUCCESS"; data: Pick<State, "account"> }
+  | { type: "READ_ACCOUNTS_FAILURE" }
+  | {
+      type: "SET_CHAIN_ID";
+      data: Required<Pick<State, "chainId">>;
+    }
+  | {
+      type: "SET_PROVIDER";
+      data: Required<Pick<State, "provider">>;
+    };
+
+type ContextValue = Pick<State, "readAccountsIsPending"> & {
+  hasAccount: boolean | undefined;
+  hasProvider: boolean | undefined;
+  readAccounts: () => void;
 };
-
-type SET_IS_CONNECTED = {
-  type: "SET_IS_CONNECTED";
-  data: Pick<State, "isConnected">;
-};
-
-type SET_PROVIDER = {
-  type: "SET_PROVIDER";
-  data: Pick<State, "provider">;
-};
-
-type Action = SET_CHAIN_ID | SET_IS_CONNECTED | SET_PROVIDER;
-
-type ContextValue = Pick<State, "isConnected">;
 
 export const EthereumContext = createContext<ContextValue>({
-  isConnected: undefined,
+  hasAccount: undefined,
+  hasProvider: undefined,
+  readAccounts: () => {},
 });
 
 EthereumContext.displayName = "EthereumContext";
 
-const reducer = (state: State, action: Action) => {
-  switch (action.type) {
-    case "SET_CHAIN_ID": {
-      return {
-        ...state,
-        chainId: action.data.chainId,
-      };
-    }
-
-    case "SET_IS_CONNECTED": {
-      return {
-        ...state,
-        isConnected: action.data.isConnected,
-      };
-    }
-
-    case "SET_PROVIDER": {
-      return {
-        ...state,
-        provider: action.data.provider,
-      };
-    }
-
-    default:
-      return state;
-  }
-};
-
 export const EthereumContextProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
-  const [{ chainId, isConnected, provider }, dispatch] = useReducer<
-    Reducer<State, Action>
-  >(reducer, {});
+  const [{ account, chainId, provider, readAccountsIsPending }, dispatch] =
+    useReducer<Reducer<State, Action>>((state, action) => {
+      switch (action.type) {
+        case "READ_ACCOUNTS_REQUEST": {
+          return {
+            ...state,
+            readAccountsIsPending: true,
+          };
+        }
+
+        case "READ_ACCOUNTS_SUCCESS": {
+          const { account } = action.data;
+          return {
+            ...state,
+            account,
+            readAccountsIsPending: false,
+          };
+        }
+
+        case "READ_ACCOUNTS_FAILURE": {
+          return {
+            ...state,
+            readAccountsIsPending: false,
+          };
+        }
+
+        case "SET_CHAIN_ID": {
+          const { chainId } = action.data;
+          return {
+            ...state,
+            chainId: chainId,
+            isMainnet: chainId === "0x1",
+          };
+        }
+
+        case "SET_PROVIDER": {
+          const { provider } = action.data;
+          return {
+            ...state,
+            provider,
+          };
+        }
+
+        default:
+          return state;
+      }
+    }, {});
 
   const detectProvider = useCallback(async () => {
     if (provider) return;
     const detectedProvider =
       await detectEthereumProvider<MetaMaskInpageProvider>();
     dispatch({
-      type: "SET_IS_CONNECTED",
+      type: "SET_PROVIDER",
       data: {
-        isConnected:
-          detectedProvider === null ? false : detectedProvider.isConnected(),
+        provider: detectedProvider,
       },
     });
   }, [provider]);
 
+  let hasAccount: ContextValue["hasProvider"] = account !== undefined;
+
+  let hasProvider: ContextValue["hasProvider"] = undefined;
+  if (provider !== undefined) {
+    hasProvider = provider === null ? false : true;
+  }
+
   const requestChainId = useCallback(async () => {
     if (!provider) return;
-    const chainId = await provider.request<State["chainId"]>({
+    const chainId = await provider.request<string>({
       method: "eth_chainId",
     });
     if (!chainId) return;
     dispatch({ type: "SET_CHAIN_ID", data: { chainId } });
   }, [provider]);
+
+  const readAccounts = useCallback(async () => {
+    try {
+      if (!provider) return;
+      if (readAccountsIsPending) return;
+      dispatch({ type: "READ_ACCOUNTS_REQUEST" });
+      const accounts = await provider.request<string[]>({
+        method: "eth_requestAccounts",
+      });
+      if (Array.isArray(accounts)) {
+        const account = accounts[0];
+        if (typeof account === "string") {
+          dispatch({ type: "READ_ACCOUNTS_SUCCESS", data: { account } });
+          return;
+        }
+      }
+      dispatch({ type: "READ_ACCOUNTS_FAILURE" });
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: "READ_ACCOUNTS_FAILURE" });
+    }
+  }, [provider, readAccountsIsPending]);
 
   useEffect(() => {
     if (provider === undefined) {
@@ -109,12 +160,13 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
   }, [provider]);
 
   useEffect(() => {
+    if (!provider) return;
     if (chainId) return;
     requestChainId();
-  }, [chainId, requestChainId]);
+  }, [chainId, provider, requestChainId]);
 
   return (
-    <EthereumContext.Provider value={{ isConnected }}>
+    <EthereumContext.Provider value={{ hasAccount, hasProvider, readAccounts }}>
       {children}
     </EthereumContext.Provider>
   );
