@@ -1,4 +1,4 @@
-import { FC, useState, useCallback } from "react";
+import { FC, useCallback, useContext } from "react";
 import {
   Button,
   ButtonDelete,
@@ -8,6 +8,7 @@ import {
   ModalBackground,
   ModalContent,
 } from "trunx";
+import { ConnectWalletContext } from "../contexts/ConnectWallet";
 import { useStopScroll } from "../hooks/useStopScroll";
 import { ConnectMetaMask } from "./ConnectMetaMask";
 import { OpenMetaMaskBrowser } from "./OpenMetaMaskBrowser";
@@ -16,27 +17,32 @@ const label = "Connect";
 const title = "Connect a Wallet";
 
 export const ConnectWallet: FC = () => {
-  const [isActive, setIsActive] = useState(false);
+  const { connectWalletModalIsActive, setConnectWalletModalIsActive } =
+    useContext(ConnectWalletContext);
 
-  const toggleModal = useCallback(() => {
-    setIsActive((active) => !active);
-  }, []);
+  const openModal = useCallback(() => {
+    setConnectWalletModalIsActive(true);
+  }, [setConnectWalletModalIsActive]);
 
-  useStopScroll(isActive);
+  const closeModal = useCallback(() => {
+    setConnectWalletModalIsActive(false);
+  }, [setConnectWalletModalIsActive]);
+
+  useStopScroll(connectWalletModalIsActive);
 
   return (
     <>
-      <Button onClick={toggleModal}>{label}</Button>
+      <Button onClick={openModal}>{label}</Button>
 
-      <Modal isActive={isActive}>
-        <ModalBackground onClick={toggleModal} />
+      <Modal isActive={connectWalletModalIsActive}>
+        <ModalBackground onClick={closeModal} />
 
         <ModalContent>
           <Message
             header={
               <>
                 <p>{title}</p>
-                <ButtonDelete onClick={toggleModal} />
+                <ButtonDelete onClick={closeModal} />
               </>
             }
           >
