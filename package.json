@@ -13,7 +13,7 @@
     "lint-staged": "lint-staged",
     "predeploy": "npm run build",
     "prestart": "npm run build",
-    "start": "esbuild src/App.tsx --outdir=public --bundle --servedir=public --watch",
+    "start": "esbuild --servedir=public",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

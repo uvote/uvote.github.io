@@ -6,5 +6,6 @@ await esbuild.build({
   define: {
     "process.env.NODE_ENV": "'production'",
   },
-  outdir: "public",
+  minify: true,
+  outfile: "public/app.js",
 });
