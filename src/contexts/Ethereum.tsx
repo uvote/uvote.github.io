@@ -169,7 +169,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
     });
   }, [provider]);
 
-  let hasAccount: ContextValue["hasProvider"] = accountAddress !== undefined;
+  const hasAccount: ContextValue["hasProvider"] = accountAddress !== null;
 
   let hasProvider: ContextValue["hasProvider"] = undefined;
   if (provider !== undefined) {
