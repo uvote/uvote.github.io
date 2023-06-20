@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { Navbar, NavbarBrand, NavbarItem } from "trunx";
+
 import { asset } from "../assets";
 import { ConnectWalletContextProvider } from "../contexts/ConnectWallet";
 import { classNames } from "../styles/classNames";

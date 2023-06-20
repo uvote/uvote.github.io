@@ -6,6 +6,6 @@ await esbuild.build({
   define: {
     "process.env.NODE_ENV": "'production'",
   },
-  minify: false,
+  minify: true,
   outfile: "public/uvote.js",
 });

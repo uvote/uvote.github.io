@@ -1,5 +1,6 @@
 import { FC, useCallback, useContext } from "react";
 import { Button } from "trunx";
+
 import { ConnectWalletContext } from "../contexts/ConnectWallet";
 import { useIsMobile } from "../hooks/useIsMobile";
 import { metaMaskDeepLink } from "../locators";

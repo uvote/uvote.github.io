@@ -1,5 +1,6 @@
 import { FC, useCallback, useContext } from "react";
 import { Button } from "trunx";
+
 import { ConnectWalletContext } from "../contexts/ConnectWallet";
 import { EthereumContext } from "../contexts/Ethereum";
 
@@ -11,7 +12,7 @@ export const ConnectMetaMask: FC = () => {
   const { hasProvider, ethRequestAccounts, ethRequestAccountsIsPending } =
     useContext(EthereumContext);
 
-  let disabled = ethRequestAccountsIsPending;
+  const disabled = ethRequestAccountsIsPending;
 
   const onClick = useCallback(() => {
     if (disabled) return;

@@ -8,6 +8,7 @@ import {
   ModalBackground,
   ModalContent,
 } from "trunx";
+
 import { ConnectWalletContext } from "../contexts/ConnectWallet";
 import { useStopScroll } from "../hooks/useStopScroll";
 import { ConnectMetaMask } from "./ConnectMetaMask";

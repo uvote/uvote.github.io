@@ -1,14 +1,15 @@
 import { MetaMaskInpageProvider } from "@metamask/providers";
 import { MetaMaskSDK } from "@metamask/sdk";
 import {
+  createContext,
   FC,
   PropsWithChildren,
-  createContext,
+  Reducer,
   useCallback,
   useEffect,
   useReducer,
-  Reducer,
 } from "react";
+
 import { metadata } from "../metadata";
 
 const MMSDK = new MetaMaskSDK({
@@ -57,6 +58,7 @@ type ContextValue = Pick<
   "ethChainIdIsPending" | "ethRequestAccountsIsPending" | "isMainnet"
 > & {
   ethRequestAccounts: () => void;
+  ethRequestChainId: () => void;
   hasAccount?: boolean | undefined;
   hasProvider?: boolean | undefined;
 };
@@ -69,6 +71,7 @@ const getAccountAddress = (accounts: unknown) => {
 };
 
 export const EthereumContext = createContext<ContextValue>({
+  ethRequestChainId: () => {},
   ethRequestAccounts: () => {},
 });
 
@@ -159,7 +162,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
 
   const hasProvider: ContextValue["hasProvider"] = provider !== null;
 
-  const requestChainId = useCallback(async () => {
+  const ethRequestChainId = useCallback(async () => {
     try {
       if (!provider) return;
       if (ethChainIdIsPending) return;
@@ -204,7 +207,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
   useEffect(() => {
     if (provider !== undefined) return;
     detectProvider();
-  }, [provider]);
+  }, [provider, detectProvider]);
 
   useEffect(() => {
     if (!provider) return;
@@ -218,6 +221,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
       value={{
         ethRequestAccounts,
         ethRequestAccountsIsPending,
+        ethRequestChainId,
         hasAccount,
         hasProvider,
         isMainnet,

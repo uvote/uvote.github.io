@@ -1,7 +1,7 @@
 import {
   BulmaClassName,
-  ClassNamesArg,
   classNames as _classNames,
+  ClassNamesArg,
 } from "trunx";
 
 type ClassName = BulmaClassName;
