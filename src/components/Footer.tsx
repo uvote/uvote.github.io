@@ -1,11 +1,12 @@
 import { FC } from "react";
 import { Content } from "trunx";
+import { metadata } from "../metadata";
 
 export const Footer: FC = () => {
   return (
     <footer className="footer">
       <Content>
-        <p>uvote</p>
+        <p>{metadata.name}</p>
 
         <sub>Made in Italy by yet another GG-team.</sub>
       </Content>

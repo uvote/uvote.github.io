@@ -1,5 +1,5 @@
-import detectEthereumProvider from "@metamask/detect-provider";
 import { MetaMaskInpageProvider } from "@metamask/providers";
+import { MetaMaskSDK } from "@metamask/sdk";
 import {
   FC,
   PropsWithChildren,
@@ -9,29 +9,36 @@ import {
   useReducer,
   Reducer,
 } from "react";
+import { metadata } from "../metadata";
 
-type State = {
+const MMSDK = new MetaMaskSDK({
+  injectProvider: true,
+  dappMetadata: {
+    url: metadata.url,
+    name: metadata.asciiName,
+  },
+});
+
+type State = Partial<{
   accountAddress: string | null;
   chainId: string | null;
+  isMainnet: boolean;
   provider: MetaMaskInpageProvider | null;
-  ethAccountsIsPending: boolean;
+  ethChainIdIsPending: boolean;
   ethRequestAccountsIsPending: boolean;
-};
+}>;
 
-const initialState: State = {
-  accountAddress: null,
-  chainId: null,
-  provider: null,
-  ethAccountsIsPending: false,
-  ethRequestAccountsIsPending: false,
-};
+const initialState: State = {};
 
 type Action =
   | {
-      type: "ETH_ACCOUNTS_REQUEST";
+      type: "ETH_CHAIN_ID_REQUEST";
     }
-  | { type: "ETH_ACCOUNTS_SUCCESS"; data: Pick<State, "accountAddress"> }
-  | { type: "ETH_ACCOUNTS_FAILURE" }
+  | {
+      type: "ETH_CHAIN_ID_SUCCESS";
+      data: Required<Pick<State, "chainId">>;
+    }
+  | { type: "ETH_CHAIN_ID_FAILURE" }
   | {
       type: "ETH_REQUEST_ACCOUNTS_REQUEST";
     }
@@ -41,21 +48,17 @@ type Action =
     }
   | { type: "ETH_REQUEST_ACCOUNTS_FAILURE" }
   | {
-      type: "SET_CHAIN_ID";
-      data: Required<Pick<State, "chainId">>;
-    }
-  | {
       type: "SET_PROVIDER";
       data: Required<Pick<State, "provider">>;
     };
 
 type ContextValue = Pick<
   State,
-  "ethAccountsIsPending" | "ethRequestAccountsIsPending"
+  "ethChainIdIsPending" | "ethRequestAccountsIsPending" | "isMainnet"
 > & {
-  hasAccount: boolean | undefined;
-  hasProvider: boolean | undefined;
   ethRequestAccounts: () => void;
+  hasAccount?: boolean | undefined;
+  hasProvider?: boolean | undefined;
 };
 
 const getAccountAddress = (accounts: unknown) => {
@@ -66,11 +69,7 @@ const getAccountAddress = (accounts: unknown) => {
 };
 
 export const EthereumContext = createContext<ContextValue>({
-  ethAccountsIsPending: false,
   ethRequestAccounts: () => {},
-  ethRequestAccountsIsPending: false,
-  hasAccount: undefined,
-  hasProvider: undefined,
 });
 
 EthereumContext.displayName = "EthereumContext";
@@ -81,34 +80,33 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
   const [
     {
       accountAddress,
-      chainId,
+      isMainnet,
       provider,
-      ethAccountsIsPending,
+      ethChainIdIsPending,
       ethRequestAccountsIsPending,
     },
     dispatch,
   ] = useReducer<Reducer<State, Action>>((state, action) => {
     switch (action.type) {
-      case "ETH_ACCOUNTS_REQUEST": {
+      case "ETH_CHAIN_ID_REQUEST": {
         return {
           ...state,
-          ethAccountsIsPending: true,
+          ethChainIdIsPending: true,
         };
       }
-
-      case "ETH_ACCOUNTS_SUCCESS": {
-        const { accountAddress } = action.data;
+      case "ETH_CHAIN_ID_SUCCESS": {
+        const { chainId } = action.data;
         return {
           ...state,
-          accountAddress,
-          ethAccountsIsPending: false,
+          ethChainIdIsPending: false,
+          chainId: chainId,
+          isMainnet: chainId === "0x1",
         };
       }
-
-      case "ETH_ACCOUNTS_FAILURE": {
+      case "ETH_CHAIN_ID_FAILURE": {
         return {
           ...state,
-          ethAccountsIsPending: false,
+          ethChainIdIsPending: false,
         };
       }
 
@@ -118,7 +116,6 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
           ethRequestAccountsIsPending: true,
         };
       }
-
       case "ETH_REQUEST_ACCOUNTS_SUCCESS": {
         const { accountAddress } = action.data;
         return {
@@ -127,20 +124,10 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
           ethRequestAccountsIsPending: false,
         };
       }
-
       case "ETH_REQUEST_ACCOUNTS_FAILURE": {
         return {
           ...state,
           ethRequestAccountsIsPending: false,
-        };
-      }
-
-      case "SET_CHAIN_ID": {
-        const { chainId } = action.data;
-        return {
-          ...state,
-          chainId: chainId,
-          isMainnet: chainId === "0x1",
         };
       }
 
@@ -158,52 +145,38 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
   }, initialState);
 
   const detectProvider = useCallback(async () => {
-    if (provider) return;
-    const detectedProvider =
-      await detectEthereumProvider<MetaMaskInpageProvider>();
+    if (provider !== undefined) return;
+    const detectedProvider = MMSDK.getProvider();
     dispatch({
       type: "SET_PROVIDER",
       data: {
-        provider: detectedProvider,
+        provider: detectedProvider ?? null,
       },
     });
   }, [provider]);
 
   const hasAccount: ContextValue["hasProvider"] = accountAddress !== null;
 
-  let hasProvider: ContextValue["hasProvider"] = undefined;
-  if (provider !== undefined) {
-    hasProvider = provider === null ? false : true;
-  }
+  const hasProvider: ContextValue["hasProvider"] = provider !== null;
 
   const requestChainId = useCallback(async () => {
-    if (!provider) return;
-    const chainId = await provider.request<string>({
-      method: "eth_chainId",
-    });
-    if (!chainId) return;
-    dispatch({ type: "SET_CHAIN_ID", data: { chainId } });
-  }, [provider]);
-
-  const ethAccounts = useCallback(async () => {
     try {
       if (!provider) return;
-      if (ethAccountsIsPending) return;
-      dispatch({ type: "ETH_ACCOUNTS_REQUEST" });
-      const accounts = await provider.request<string[]>({
-        method: "eth_accounts",
+      if (ethChainIdIsPending) return;
+      dispatch({ type: "ETH_CHAIN_ID_REQUEST" });
+      const chainId = await provider.request<string>({
+        method: "eth_chainId",
       });
-      const accountAddress = getAccountAddress(accounts);
-      if (accountAddress) {
-        dispatch({ type: "ETH_ACCOUNTS_SUCCESS", data: { accountAddress } });
+      if (chainId) {
+        dispatch({ type: "ETH_CHAIN_ID_SUCCESS", data: { chainId } });
       } else {
-        dispatch({ type: "ETH_ACCOUNTS_FAILURE" });
+        dispatch({ type: "ETH_CHAIN_ID_FAILURE" });
       }
     } catch (error) {
       console.error(error);
-      dispatch({ type: "ETH_ACCOUNTS_FAILURE" });
+      dispatch({ type: "ETH_CHAIN_ID_FAILURE" });
     }
-  }, [provider, ethAccountsIsPending]);
+  }, [provider, ethChainIdIsPending]);
 
   const ethRequestAccounts = useCallback(async () => {
     try {
@@ -229,35 +202,25 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
   }, [provider, ethRequestAccountsIsPending]);
 
   useEffect(() => {
-    if (provider === undefined) {
-      detectProvider();
-    } else if (provider !== null) {
-      provider.on("chainChanged", () => {
-        window.location.reload();
-      });
-    }
+    if (provider !== undefined) return;
+    detectProvider();
   }, [provider]);
 
   useEffect(() => {
     if (!provider) return;
-    if (chainId) return;
-    ethAccounts();
-  }, [provider, ethAccounts]);
-
-  useEffect(() => {
-    if (!provider) return;
-    if (chainId) return;
-    requestChainId();
-  }, [chainId, provider, requestChainId]);
+    provider.on("chainChanged", () => {
+      window.location.reload();
+    });
+  }, [provider]);
 
   return (
     <EthereumContext.Provider
       value={{
-        hasAccount,
-        hasProvider,
-        ethAccountsIsPending,
         ethRequestAccounts,
         ethRequestAccountsIsPending,
+        hasAccount,
+        hasProvider,
+        isMainnet,
       }}
     >
       {children}

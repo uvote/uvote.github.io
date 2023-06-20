@@ -2,6 +2,7 @@ import { FC, useState, useCallback } from "react";
 import {
   Button,
   ButtonDelete,
+  Flex,
   Message,
   Modal,
   ModalBackground,
@@ -9,6 +10,7 @@ import {
 } from "trunx";
 import { useStopScroll } from "../hooks/useStopScroll";
 import { ConnectMetaMask } from "./ConnectMetaMask";
+import { OpenMetaMaskBrowser } from "./OpenMetaMaskBrowser";
 
 const label = "Connect";
 const title = "Connect a Wallet";
@@ -38,7 +40,11 @@ export const ConnectWallet: FC = () => {
               </>
             }
           >
-            <ConnectMetaMask />
+            <Flex direction="column">
+              <ConnectMetaMask />
+
+              <OpenMetaMaskBrowser />
+            </Flex>
           </Message>
         </ModalContent>
       </Modal>
