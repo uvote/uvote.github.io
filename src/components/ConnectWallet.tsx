@@ -41,9 +41,13 @@ export const ConnectWallet: FC = () => {
             }
           >
             <Flex direction="column">
-              <ConnectMetaMask />
+              <div>
+                <ConnectMetaMask />
+              </div>
 
-              <OpenMetaMaskBrowser />
+              <div>
+                <OpenMetaMaskBrowser />
+              </div>
             </Flex>
           </Message>
         </ModalContent>
