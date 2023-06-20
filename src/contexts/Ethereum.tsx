@@ -10,21 +10,36 @@ import {
   Reducer,
 } from "react";
 
-type DetectedProvider = MetaMaskInpageProvider | null;
+type State = {
+  accountAddress: string | null;
+  chainId: string | null;
+  provider: MetaMaskInpageProvider | null;
+  ethAccountsIsPending: boolean;
+  ethRequestAccountsIsPending: boolean;
+};
 
-type State = Partial<{
-  account: string;
-  chainId: string;
-  provider: DetectedProvider;
-  readAccountsIsPending: boolean;
-}>;
+const initialState: State = {
+  accountAddress: null,
+  chainId: null,
+  provider: null,
+  ethAccountsIsPending: false,
+  ethRequestAccountsIsPending: false,
+};
 
 type Action =
   | {
-      type: "READ_ACCOUNTS_REQUEST";
+      type: "ETH_ACCOUNTS_REQUEST";
     }
-  | { type: "READ_ACCOUNTS_SUCCESS"; data: Pick<State, "account"> }
-  | { type: "READ_ACCOUNTS_FAILURE" }
+  | { type: "ETH_ACCOUNTS_SUCCESS"; data: Pick<State, "accountAddress"> }
+  | { type: "ETH_ACCOUNTS_FAILURE" }
+  | {
+      type: "ETH_REQUEST_ACCOUNTS_REQUEST";
+    }
+  | {
+      type: "ETH_REQUEST_ACCOUNTS_SUCCESS";
+      data: Pick<State, "accountAddress">;
+    }
+  | { type: "ETH_REQUEST_ACCOUNTS_FAILURE" }
   | {
       type: "SET_CHAIN_ID";
       data: Required<Pick<State, "chainId">>;
@@ -34,16 +49,28 @@ type Action =
       data: Required<Pick<State, "provider">>;
     };
 
-type ContextValue = Pick<State, "readAccountsIsPending"> & {
+type ContextValue = Pick<
+  State,
+  "ethAccountsIsPending" | "ethRequestAccountsIsPending"
+> & {
   hasAccount: boolean | undefined;
   hasProvider: boolean | undefined;
-  readAccounts: () => void;
+  ethRequestAccounts: () => void;
+};
+
+const getAccountAddress = (accounts: unknown) => {
+  if (Array.isArray(accounts)) {
+    const accountAddress = accounts[0];
+    if (typeof accountAddress === "string") return accountAddress;
+  }
 };
 
 export const EthereumContext = createContext<ContextValue>({
+  ethAccountsIsPending: false,
+  ethRequestAccounts: () => {},
+  ethRequestAccountsIsPending: false,
   hasAccount: undefined,
   hasProvider: undefined,
-  readAccounts: () => {},
 });
 
 EthereumContext.displayName = "EthereumContext";
@@ -51,53 +78,84 @@ EthereumContext.displayName = "EthereumContext";
 export const EthereumContextProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
-  const [{ account, chainId, provider, readAccountsIsPending }, dispatch] =
-    useReducer<Reducer<State, Action>>((state, action) => {
-      switch (action.type) {
-        case "READ_ACCOUNTS_REQUEST": {
-          return {
-            ...state,
-            readAccountsIsPending: true,
-          };
-        }
-
-        case "READ_ACCOUNTS_SUCCESS": {
-          const { account } = action.data;
-          return {
-            ...state,
-            account,
-            readAccountsIsPending: false,
-          };
-        }
-
-        case "READ_ACCOUNTS_FAILURE": {
-          return {
-            ...state,
-            readAccountsIsPending: false,
-          };
-        }
-
-        case "SET_CHAIN_ID": {
-          const { chainId } = action.data;
-          return {
-            ...state,
-            chainId: chainId,
-            isMainnet: chainId === "0x1",
-          };
-        }
-
-        case "SET_PROVIDER": {
-          const { provider } = action.data;
-          return {
-            ...state,
-            provider,
-          };
-        }
-
-        default:
-          return state;
+  const [
+    {
+      accountAddress,
+      chainId,
+      provider,
+      ethAccountsIsPending,
+      ethRequestAccountsIsPending,
+    },
+    dispatch,
+  ] = useReducer<Reducer<State, Action>>((state, action) => {
+    switch (action.type) {
+      case "ETH_ACCOUNTS_REQUEST": {
+        return {
+          ...state,
+          ethAccountsIsPending: true,
+        };
       }
-    }, {});
+
+      case "ETH_ACCOUNTS_SUCCESS": {
+        const { accountAddress } = action.data;
+        return {
+          ...state,
+          accountAddress,
+          ethAccountsIsPending: false,
+        };
+      }
+
+      case "ETH_ACCOUNTS_FAILURE": {
+        return {
+          ...state,
+          ethAccountsIsPending: false,
+        };
+      }
+
+      case "ETH_REQUEST_ACCOUNTS_REQUEST": {
+        return {
+          ...state,
+          ethRequestAccountsIsPending: true,
+        };
+      }
+
+      case "ETH_REQUEST_ACCOUNTS_SUCCESS": {
+        const { accountAddress } = action.data;
+        return {
+          ...state,
+          accountAddress,
+          ethRequestAccountsIsPending: false,
+        };
+      }
+
+      case "ETH_REQUEST_ACCOUNTS_FAILURE": {
+        return {
+          ...state,
+          ethRequestAccountsIsPending: false,
+        };
+      }
+
+      case "SET_CHAIN_ID": {
+        const { chainId } = action.data;
+        return {
+          ...state,
+          chainId: chainId,
+          isMainnet: chainId === "0x1",
+        };
+      }
+
+      case "SET_PROVIDER": {
+        const { provider } = action.data;
+        return {
+          ...state,
+          provider,
+        };
+      }
+
+      default:
+        return state;
+    }
+  }, initialState);
 
   const detectProvider = useCallback(async () => {
     if (provider) return;
@@ -111,7 +169,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
     });
   }, [provider]);
 
-  let hasAccount: ContextValue["hasProvider"] = account !== undefined;
+  let hasAccount: ContextValue["hasProvider"] = accountAddress !== undefined;
 
   let hasProvider: ContextValue["hasProvider"] = undefined;
   if (provider !== undefined) {
@@ -127,27 +185,48 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
     dispatch({ type: "SET_CHAIN_ID", data: { chainId } });
   }, [provider]);
 
-  const readAccounts = useCallback(async () => {
+  const ethAccounts = useCallback(async () => {
     try {
       if (!provider) return;
-      if (readAccountsIsPending) return;
-      dispatch({ type: "READ_ACCOUNTS_REQUEST" });
+      if (ethAccountsIsPending) return;
+      dispatch({ type: "ETH_ACCOUNTS_REQUEST" });
+      const accounts = await provider.request<string[]>({
+        method: "eth_accounts",
+      });
+      const accountAddress = getAccountAddress(accounts);
+      if (accountAddress) {
+        dispatch({ type: "ETH_ACCOUNTS_SUCCESS", data: { accountAddress } });
+      } else {
+        dispatch({ type: "ETH_ACCOUNTS_FAILURE" });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: "ETH_ACCOUNTS_FAILURE" });
+    }
+  }, [provider, ethAccountsIsPending]);
+
+  const ethRequestAccounts = useCallback(async () => {
+    try {
+      if (!provider) return;
+      if (ethRequestAccountsIsPending) return;
+      dispatch({ type: "ETH_REQUEST_ACCOUNTS_REQUEST" });
       const accounts = await provider.request<string[]>({
         method: "eth_requestAccounts",
       });
-      if (Array.isArray(accounts)) {
-        const account = accounts[0];
-        if (typeof account === "string") {
-          dispatch({ type: "READ_ACCOUNTS_SUCCESS", data: { account } });
-          return;
-        }
+      const accountAddress = getAccountAddress(accounts);
+      if (accountAddress) {
+        dispatch({
+          type: "ETH_REQUEST_ACCOUNTS_SUCCESS",
+          data: { accountAddress },
+        });
+      } else {
+        dispatch({ type: "ETH_REQUEST_ACCOUNTS_FAILURE" });
       }
-      dispatch({ type: "READ_ACCOUNTS_FAILURE" });
     } catch (error) {
       console.error(error);
-      dispatch({ type: "READ_ACCOUNTS_FAILURE" });
+      dispatch({ type: "ETH_REQUEST_ACCOUNTS_FAILURE" });
     }
-  }, [provider, readAccountsIsPending]);
+  }, [provider, ethRequestAccountsIsPending]);
 
   useEffect(() => {
     if (provider === undefined) {
@@ -162,11 +241,25 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
   useEffect(() => {
     if (!provider) return;
     if (chainId) return;
+    ethAccounts();
+  }, [provider, ethAccounts]);
+
+  useEffect(() => {
+    if (!provider) return;
+    if (chainId) return;
     requestChainId();
   }, [chainId, provider, requestChainId]);
 
   return (
-    <EthereumContext.Provider value={{ hasAccount, hasProvider, readAccounts }}>
+    <EthereumContext.Provider
+      value={{
+        hasAccount,
+        hasProvider,
+        ethAccountsIsPending,
+        ethRequestAccounts,
+        ethRequestAccountsIsPending,
+      }}
+    >
       {children}
     </EthereumContext.Provider>
   );
