@@ -1,24 +1,28 @@
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
-const homepagePathname = join("public", "index.html");
-const pageNotFoundPathname = join("public", "404.html");
+import { metadata } from "../src/metadata.js";
+import { themeColor } from "../src/styles/colors.js";
+
+const pathname = join("public", "index.html");
 
 const content = `<!DOCTYPE html>
 <html lang="en" className="has-navbar-fixed-top">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>u✓ote</title>
-    <link rel="stylesheet" href="uvote.css" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="${themeColor}" />
+
+    <meta name="version" content="%REACT_APP_VERSION%" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+    <title>${metadata.asciiName}</title>
   </head>
   <body>
     <div id="root"></div>
-
-    <script src="uvote.js"></script>
   </body>
 </html>
 `;
 
-await writeFile(homepagePathname, content, { encoding: "utf8" });
-await writeFile(pageNotFoundPathname, content, { encoding: "utf8" });
+await writeFile(pathname, content, { encoding: "utf8" });

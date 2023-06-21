@@ -4,3 +4,5 @@
  */
 export const metaMaskDeepLink =
   "https://metamask.app.link/dapp/uvote.github.io/";
+
+export const gitHubOrganizationUrl = "https://github.com/uvote/";

@@ -1,16 +1,18 @@
 import { FC } from "react";
 
 import { Footer } from "../components/Footer";
+import { Main } from "../components/Main";
 import { Nav } from "../components/Nav";
-import { PageContent } from "../components/PageContent";
 import { EthereumContextProvider } from "../contexts/Ethereum";
 
-export const GalleryPage: FC = () => {
+const GalleryPage: FC = () => {
   return (
     <EthereumContextProvider>
-      <Nav />
-      <PageContent />
+      <Nav withConnectWallet />
+      <Main />
       <Footer />
     </EthereumContextProvider>
   );
 };
+
+export default GalleryPage;

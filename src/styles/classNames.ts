@@ -4,7 +4,9 @@ import {
   ClassNamesArg,
 } from "trunx";
 
-type ClassName = BulmaClassName;
+import type { MainClassName } from "../components/Main";
+
+type ClassName = BulmaClassName | MainClassName;
 
 export const classNames = (...args: ClassNamesArg<ClassName>[]) =>
   _classNames(...args);
