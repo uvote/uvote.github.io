@@ -16,11 +16,11 @@
     "eslint": "eslint --fix --ext .js --ext .ts --ext .tsx src/ scripts/",
     "lint-staged": "lint-staged",
     "postbuild": "cp build/index.html build/404.html",
-    "prebuild": "npm run cleanup",
+    "prebuild": "npm run cleanup && npm run test",
     "predeploy": "npm run build",
     "prestart": "npm run build_html && npm run build_manifest",
     "start": "react-scripts start",
-    "test": "react-scripts test"
+    "test": "react-scripts test --watchAll=false"
   },
   "repository": {
     "type": "git",

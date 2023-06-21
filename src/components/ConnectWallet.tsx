@@ -33,7 +33,9 @@ export const ConnectWallet: FC = () => {
 
   return (
     <>
-      <Button onClick={openModal}>{label}</Button>
+      <Button size="small" onClick={openModal}>
+        {label}
+      </Button>
 
       <Modal isActive={connectWalletModalIsActive}>
         <ModalBackground onClick={closeModal} />

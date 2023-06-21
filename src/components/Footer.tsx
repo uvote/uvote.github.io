@@ -5,6 +5,7 @@ import { Content } from "trunx";
 import { gitHubOrganizationUrl } from "../locators";
 import { metadata } from "../metadata";
 import { routePath } from "../routing";
+import { npmVersion, versionName } from "../version";
 
 const about = "About";
 const gitHub = "GitHub";
@@ -14,8 +15,11 @@ export const Footer: FC = () => {
   return (
     <footer className="footer">
       <Content>
-        <p>{metadata.unicodeName}</p>
-        <sub>{madeInItaly}</sub>
+        <p>
+          {metadata.unicodeName} {versionName} {npmVersion}
+          <br />
+          <sub>{madeInItaly}</sub>
+        </p>
 
         <ul>
           <li>
