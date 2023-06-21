@@ -156,6 +156,11 @@
       "simple-import-sort/exports": "error",
       "simple-import-sort/imports": "error",
       "tsdoc/syntax": "error"
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
     }
   },
   "lint-staged": {
