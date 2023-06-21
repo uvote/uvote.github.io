@@ -5,17 +5,21 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "build": "npm run build_css && npm run build_js",
-    "build_js": "node scripts/build_js.js",
+    "build": "npm run build_html && npm run build_css && npm run build_js",
     "build_css": "sh scripts/build_css.sh",
+    "build_html": "node scripts/build_html.js",
+    "build_js": "node scripts/build_js.js",
     "check_types": "tsc --noEmit --project .",
+    "cleanup": "npm run cleanup_public_dir",
+    "cleanup_public_dir": "rm -f public/*.html public/uvote.css public/uvote.js",
     "deploy": "node scripts/deploy.cjs",
     "eslint": "eslint --fix --ext .ts --ext .tsx .",
     "lint-staged": "lint-staged",
+    "prebuild": "npm run cleanup",
     "predeploy": "npm run build",
     "prestart": "npm run build",
     "start": "esbuild --servedir=public",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run check_types && npm run eslint"
   },
   "repository": {
     "type": "git",
@@ -163,9 +167,8 @@
     ]
   },
   "pre-commit": [
-    "check_types",
     "lint-staged",
-    "eslint"
+    "test"
   ],
   "prettier": {
     "plugins": [
