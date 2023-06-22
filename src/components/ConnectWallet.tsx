@@ -1,4 +1,5 @@
 import { FC, useCallback, useContext } from "react";
+import { FormattedMessage } from "react-intl";
 import {
   Button,
   ButtonDelete,
@@ -14,7 +15,6 @@ import { useStopScroll } from "../hooks/useStopScroll";
 import { ConnectMetaMask } from "./ConnectMetaMask";
 import { OpenMetaMaskBrowser } from "./OpenMetaMaskBrowser";
 
-const label = "Connect";
 const title = "Connect a Wallet";
 
 export const ConnectWallet: FC = () => {
@@ -34,7 +34,7 @@ export const ConnectWallet: FC = () => {
   return (
     <>
       <Button size="small" onClick={openModal}>
-        {label}
+        <FormattedMessage id="ConnectWallet.label" />
       </Button>
 
       <Modal isActive={connectWalletModalIsActive}>
