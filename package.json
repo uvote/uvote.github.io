@@ -5,25 +5,29 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "build": "npm run build_html && npm run build_manifest && npm run build_js && npm run build_translations",
+    "build": "npm run build_js",
+    "build_formatjs_types": "node scripts/build_formatjs_types.js",
     "build_manifest": "node scripts/build_manifest.js",
     "build_html": "node scripts/build_html.js",
     "build_js": "react-scripts build",
     "build_translations": "npm run formatjs:compile:en && npm run formatjs:compile:it",
     "check_types": "tsc --noEmit --project .",
-    "cleanup": "npm run cleanup_public_dir",
-    "cleanup_public_dir": "rm -f public/index.html public/manifest.json",
     "deploy": "node scripts/deploy.cjs",
     "eslint": "eslint --fix --ext .js --ext .ts --ext .tsx src/ scripts/",
     "formatjs:compile:en": "formatjs compile translations/en.json --ast --out-file public/translations/en.json",
     "formatjs:compile:it": "formatjs compile translations/it.json --ast --out-file public/translations/it.json",
+    "generate_files": "npm run build_html && npm run build_manifest && npm run build_translations && npm run build_formatjs_types",
+    "jest": "react-scripts test --watchAll=false",
     "lint-staged": "lint-staged",
     "postbuild": "cp build/index.html build/404.html",
-    "prebuild": "npm run cleanup && npm run test",
+    "prebuild": "npm run test",
+    "prebuild_translations": "npm run test:i18n",
     "predeploy": "npm run build",
-    "prestart": "npm run build_html && npm run build_manifest",
+    "prestart": "npm run generate_files",
+    "pretest": "npm run generate_files",
     "start": "react-scripts start",
-    "test": "react-scripts test --watchAll=false"
+    "test": "npm run jest",
+    "test:i18n": "npm run jest -- src/i18n"
   },
   "repository": {
     "type": "git",
@@ -57,6 +61,7 @@
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",
     "eslint": "^8.43.0",
+    "eslint-plugin-formatjs": "^4.10.3",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-prettier": "^4.2.1",
@@ -105,6 +110,7 @@
     "plugins": [
       "@typescript-eslint",
       "eslint-plugin-tsdoc",
+      "formatjs",
       "import",
       "jsx-a11y",
       "prettier",
@@ -123,6 +129,7 @@
           "varsIgnorePattern": "^_"
         }
       ],
+      "formatjs/no-literal-string-in-jsx": "error",
       "import/first": "error",
       "import/newline-after-import": "error",
       "import/no-cycle": "error",
@@ -140,9 +147,9 @@
         }
       ],
       "prettier/prettier": "error",
+      "react/display-name": "error",
       "react-hooks/exhaustive-deps": "error",
       "react-hooks/rules-of-hooks": "error",
-      "react/display-name": "error",
       "react/hook-use-state": [
         "error",
         {

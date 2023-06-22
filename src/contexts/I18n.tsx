@@ -9,7 +9,11 @@ import {
 } from "react";
 import { IntlProvider } from "react-intl";
 
-import { defaultLocale, detectLocale, localeJsonPathname } from "../locales";
+import {
+  defaultLocale,
+  detectLocale,
+  localeJsonPathname,
+} from "../i18n/locales";
 
 export const I18nContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [{ intlMessagesLoaded, readIntlMessagesIsPending }, dispatch] =
