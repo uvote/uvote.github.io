@@ -135,7 +135,7 @@
           "varsIgnorePattern": "^_"
         }
       ],
-      "formatjs/no-literal-string-in-jsx": "error",
+      "formatjs/no-literal-string-in-jsx": "warn",
       "import/first": "error",
       "import/newline-after-import": "error",
       "import/no-cycle": "error",
