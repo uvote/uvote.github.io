@@ -1,5 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
+
 import translation from "../translations/en.json" assert { type: "json" };
 
 const pathname = join("src", "i18n", "FormatjsIntlMessageIds.d.ts");

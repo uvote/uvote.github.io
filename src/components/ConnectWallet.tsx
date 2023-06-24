@@ -11,19 +11,20 @@ import {
 } from "trunx";
 
 import { ConnectWalletContext } from "../contexts/ConnectWallet";
+import { EthereumContext } from "../contexts/Ethereum";
 import { useStopScroll } from "../hooks/useStopScroll";
 import { ConnectMetaMask } from "./ConnectMetaMask";
 import { OpenMetaMaskBrowser } from "./OpenMetaMaskBrowser";
 
-const title = "Connect a Wallet";
-
 export const ConnectWallet: FC = () => {
+  const { detectProviderIsDone, hasAccount } = useContext(EthereumContext);
   const { connectWalletModalIsActive, setConnectWalletModalIsActive } =
     useContext(ConnectWalletContext);
 
-  const openModal = useCallback(() => {
+  const onClick = useCallback(() => {
+    if (hasAccount) return;
     setConnectWalletModalIsActive(true);
-  }, [setConnectWalletModalIsActive]);
+  }, [hasAccount, setConnectWalletModalIsActive]);
 
   const closeModal = useCallback(() => {
     setConnectWalletModalIsActive(false);
@@ -31,9 +32,20 @@ export const ConnectWallet: FC = () => {
 
   useStopScroll(connectWalletModalIsActive);
 
+  // Wait until detectProvider is done.
+  if (!detectProviderIsDone) return null;
+
+  if (hasAccount) {
+    return (
+      <Button color="ghost" size="small" onClick={onClick}>
+        Connected
+      </Button>
+    );
+  }
+
   return (
     <>
-      <Button size="small" onClick={openModal}>
+      <Button size="small" onClick={onClick}>
         <FormattedMessage id="ConnectWallet.label" />
       </Button>
 
@@ -44,7 +56,7 @@ export const ConnectWallet: FC = () => {
           <Message
             header={
               <>
-                <p>{title}</p>
+                <p>Connect a Wallet</p>
                 <ButtonDelete onClick={closeModal} />
               </>
             }

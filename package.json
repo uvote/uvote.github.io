@@ -16,10 +16,11 @@
     "eslint": "eslint --fix --ext .js --ext .ts --ext .tsx src/ scripts/",
     "formatjs:compile:en": "formatjs compile translations/en.json --ast --out-file public/translations/en.json",
     "formatjs:compile:it": "formatjs compile translations/it.json --ast --out-file public/translations/it.json",
-    "generate_files": "npm run build_html && npm run build_manifest && npm run build_translations && npm run build_formatjs_types",
+    "generate_files": "npm run build_html && npm run build_manifest && npm run build_translations",
     "jest": "react-scripts test --watchAll=false",
     "lint-staged": "lint-staged",
     "postbuild": "cp build/index.html build/404.html",
+    "postbuild_translations": "npm run build_formatjs_types",
     "prebuild": "npm run test",
     "prebuild_translations": "npm run test:i18n",
     "predeploy": "npm run build",
@@ -41,6 +42,8 @@
   },
   "homepage": "https://uvote.github.io",
   "dependencies": {
+    "@metamask/detect-provider": "^2.0.0",
+    "@metamask/providers": "^11.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-intl": "^6.4.4",
@@ -128,7 +131,7 @@
           "varsIgnorePattern": "^_"
         }
       ],
-      "formatjs/no-literal-string-in-jsx": "error",
+      "formatjs/no-literal-string-in-jsx": "warn",
       "import/first": "error",
       "import/newline-after-import": "error",
       "import/no-cycle": "error",

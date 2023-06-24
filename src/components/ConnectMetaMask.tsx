@@ -1,15 +1,15 @@
 import { FC, useCallback, useContext } from "react";
+import { FormattedMessage } from "react-intl";
 import { Button } from "trunx";
 
 import { ConnectWalletContext } from "../contexts/ConnectWallet";
 import { EthereumContext } from "../contexts/Ethereum";
-
-const label = "Connect MetaMask";
+import { metaMaskDownloadUrl } from "../locators";
 
 export const ConnectMetaMask: FC = () => {
   const { setConnectWalletModalIsActive } = useContext(ConnectWalletContext);
 
-  const { hasProvider, ethRequestAccounts, ethRequestAccountsIsPending } =
+  const { ethRequestAccounts, ethRequestAccountsIsPending, hasProvider } =
     useContext(EthereumContext);
 
   const disabled = ethRequestAccountsIsPending;
@@ -19,6 +19,8 @@ export const ConnectMetaMask: FC = () => {
     if (hasProvider) {
       ethRequestAccounts();
       setConnectWalletModalIsActive(false);
+    } else {
+      window.location.href = metaMaskDownloadUrl;
     }
   }, [
     disabled,
@@ -27,11 +29,13 @@ export const ConnectMetaMask: FC = () => {
     setConnectWalletModalIsActive,
   ]);
 
-  if (hasProvider === undefined) return null;
-
   return (
     <Button disabled={disabled} onClick={onClick}>
-      {label}
+      {hasProvider ? (
+        <FormattedMessage id="ConnectMetaMask.connect" />
+      ) : (
+        <FormattedMessage id="ConnectMetaMask.install" />
+      )}
     </Button>
   );
 };
