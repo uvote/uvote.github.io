@@ -1,0 +1,20 @@
+{
+  "ConnectMetaMask.connect": [
+    {
+      "type": 0,
+      "value": "Connettiti con MetaMask"
+    }
+  ],
+  "ConnectMetaMask.install": [
+    {
+      "type": 0,
+      "value": "Installa MetaMask"
+    }
+  ],
+  "ConnectWallet.label": [
+    {
+      "type": 0,
+      "value": "Connetti"
+    }
+  ]
+}
