@@ -1,14 +1,22 @@
 {
-  "ConnectWallet.label": {
-    "defaultMessage": "Connetti",
-    "description": "Testo del bottone ConnectWallet"
-  },
   "ConnectMetaMask.connect": {
     "defaultMessage": "Connettiti con MetaMask",
     "description": ""
   },
   "ConnectMetaMask.install": {
     "defaultMessage": "Installa MetaMask",
+    "description": ""
+  },
+  "ConnectWallet.connect": {
+    "defaultMessage": "Connetti",
+    "description": "Testo del bottone ConnectWallet"
+  },
+  "ConnectWallet.connected": {
+    "defaultMessage": "Connected",
+    "description": "Testo mostrato una volta connesso"
+  },
+  "ConnectWallet.modalTitle": {
+    "defaultMessage": "Connect a wallet",
     "description": ""
   }
 }
