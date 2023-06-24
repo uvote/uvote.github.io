@@ -11,6 +11,10 @@ import {
   useRef,
 } from "react";
 
+const ethereumMainnetChainId = "0x1";
+const ethereumGoerliChainId = "0x5";
+const ethereumTestnetChainIds = [ethereumGoerliChainId];
+
 /**
  * Ethereum Provider JavaScript API
  *
@@ -56,6 +60,7 @@ type State = Partial<{
   accountAddress: string | null;
   chainId: string | null;
   isConnected: boolean;
+  isTestnet: boolean;
   isMainnet: boolean;
   ethChainIdIsPending: boolean;
   ethAccountsIsPending: boolean;
@@ -92,6 +97,10 @@ type Action =
     }
   | { type: "ETH_REQUEST_ACCOUNTS_FAILURE" }
   | {
+      type: "SET_CHAIN_ID";
+      data: Required<Pick<State, "chainId">>;
+    }
+  | {
       type: "SET_DETECT_PROVIDER_IS_DONE";
     }
   | {
@@ -106,8 +115,8 @@ type ContextValue = Pick<
   | "ethAccountsIsPending"
   | "ethRequestAccountsIsPending"
   | "isConnected"
-  | "isMainnet"
 > & {
+  isEthereumNetwork?: boolean | undefined;
   ethAccounts: () => void;
   ethRequestAccounts: () => void;
   ethRequestChainId: () => void;
@@ -120,6 +129,21 @@ const getAccountAddress = (accounts: unknown) => {
     const accountAddress = accounts[0];
     if (typeof accountAddress === "string") return accountAddress;
   }
+};
+
+const getEthereumNetworkByChainId = (
+  chainId: unknown
+): Required<Pick<State, "isMainnet" | "isTestnet">> => {
+  if (typeof chainId !== "string") {
+    return {
+      isMainnet: false,
+      isTestnet: false,
+    };
+  }
+  return {
+    isMainnet: chainId === ethereumMainnetChainId,
+    isTestnet: ethereumTestnetChainIds.includes(chainId),
+  };
 };
 
 export const EthereumContext = createContext<ContextValue>({
@@ -140,6 +164,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
     {
       accountAddress,
       isConnected,
+      isTestnet,
       isMainnet,
       detectProviderIsDone,
       ethChainIdIsPending,
@@ -156,15 +181,27 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
           ethChainIdIsPending: true,
         };
       }
+      case "SET_CHAIN_ID":
       case "ETH_CHAIN_ID_SUCCESS": {
         const { chainId } = action.data;
-        const isMainnet = chainId === "0x1";
-        console.info(action.type, `isMainnet=${isMainnet}`);
+        const { isMainnet, isTestnet } = getEthereumNetworkByChainId(chainId);
+        console.info(
+          action.type,
+          `chainId=${chainId}`,
+          `isMainnet=${isMainnet}`
+        );
+        console.info(
+          action.type,
+          `chainId=${chainId}`,
+          `isTestnet=${isTestnet}`
+        );
         return {
           ...state,
           chainId: chainId,
-          ethChainIdIsPending: false,
+          ethChainIdIsPending:
+            action.type === "ETH_CHAIN_ID_SUCCESS" ? false : undefined,
           isMainnet,
+          isTestnet,
         };
       }
       case "ETH_CHAIN_ID_FAILURE": {
@@ -245,6 +282,19 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
     }
   }, initialState);
 
+  const isEthereumNetwork = isMainnet || isTestnet;
+
+  const onChainChanged = useCallback(
+    (chainId: unknown) => {
+      if (typeof chainId === "string") {
+        dispatch({ data: { chainId }, type: "SET_CHAIN_ID" });
+      } else {
+        console.warn("Unexpected chainId", chainId);
+      }
+    },
+    [dispatch]
+  );
+
   const setIsConnected = useCallback(() => {
     if (isConnected) return;
     console.info("Ethereum provider connected");
@@ -263,6 +313,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
       });
       if (isMetaMaskEthereumProvider(provider)) {
         console.info("Detected MetaMask Ethereum provider");
+        provider.on("chainChanged", onChainChanged);
         providerRef.current = provider;
         if (provider.isConnected()) {
           setIsConnected();
@@ -274,7 +325,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
         type: "SET_DETECT_PROVIDER_IS_DONE",
       });
     }
-  }, [providerRef, setIsConnected]);
+  }, [onChainChanged, providerRef, setIsConnected]);
 
   const hasAccount: ContextValue["hasAccount"] =
     typeof accountAddress === "string";
@@ -367,7 +418,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
         hasAccount,
         hasProvider,
         isConnected,
-        isMainnet,
+        isEthereumNetwork,
       }}
     >
       {children}

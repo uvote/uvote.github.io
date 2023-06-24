@@ -57,7 +57,6 @@ export const ConnectWallet: FC = () => {
             header={
               <>
                 <FormattedMessage id="ConnectWallet.modalTitle" />
-
                 <ButtonDelete onClick={closeModal} />
               </>
             }
