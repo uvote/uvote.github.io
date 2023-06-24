@@ -38,7 +38,7 @@ export const ConnectWallet: FC = () => {
   if (hasAccount) {
     return (
       <Button color="ghost" size="small" onClick={onClick}>
-        Connected
+        <FormattedMessage id="ConnectWallet.connected" />
       </Button>
     );
   }
@@ -46,7 +46,7 @@ export const ConnectWallet: FC = () => {
   return (
     <>
       <Button size="small" onClick={onClick}>
-        <FormattedMessage id="ConnectWallet.label" />
+        <FormattedMessage id="ConnectWallet.connect" />
       </Button>
 
       <Modal isActive={connectWalletModalIsActive}>
@@ -56,7 +56,8 @@ export const ConnectWallet: FC = () => {
           <Message
             header={
               <>
-                <p>Connect a Wallet</p>
+                <FormattedMessage id="ConnectWallet.modalTitle" />
+
                 <ButtonDelete onClick={closeModal} />
               </>
             }

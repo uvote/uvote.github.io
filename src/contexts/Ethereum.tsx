@@ -124,9 +124,9 @@ const getAccountAddress = (accounts: unknown) => {
 
 export const EthereumContext = createContext<ContextValue>({
   detectProviderIsDone: false,
-  ethRequestChainId: () => {},
   ethAccounts: () => {},
   ethRequestAccounts: () => {},
+  ethRequestChainId: () => {},
 });
 
 EthereumContext.displayName = "EthereumContext";
@@ -162,8 +162,8 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
         console.info(action.type, `isMainnet=${isMainnet}`);
         return {
           ...state,
-          ethChainIdIsPending: false,
           chainId: chainId,
+          ethChainIdIsPending: false,
           isMainnet,
         };
       }
@@ -248,7 +248,10 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
   const setIsConnected = useCallback(() => {
     if (isConnected) return;
     console.info("Ethereum provider connected");
-    dispatch({ type: "SET_IS_CONNECTED", data: { isConnected: true } });
+    dispatch({
+      data: { isConnected: true },
+      type: "SET_IS_CONNECTED",
+    });
   }, [isConnected]);
 
   const detectProvider = useCallback(async () => {
@@ -288,7 +291,10 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
         method: "eth_chainId",
       });
       if (typeof chainId === "string") {
-        dispatch({ type: "ETH_CHAIN_ID_SUCCESS", data: { chainId } });
+        dispatch({
+          data: { chainId },
+          type: "ETH_CHAIN_ID_SUCCESS",
+        });
       } else {
         dispatch({ type: "ETH_CHAIN_ID_FAILURE" });
       }
@@ -310,8 +316,8 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
       const accountAddress = getAccountAddress(accounts);
       if (accountAddress) {
         dispatch({
-          type: "ETH_ACCOUNTS_SUCCESS",
           data: { accountAddress },
+          type: "ETH_ACCOUNTS_SUCCESS",
         });
       } else {
         dispatch({ type: "ETH_ACCOUNTS_FAILURE" });
@@ -334,8 +340,8 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
       const accountAddress = getAccountAddress(accounts);
       if (accountAddress) {
         dispatch({
-          type: "ETH_REQUEST_ACCOUNTS_SUCCESS",
           data: { accountAddress },
+          type: "ETH_REQUEST_ACCOUNTS_SUCCESS",
         });
       } else {
         dispatch({ type: "ETH_REQUEST_ACCOUNTS_FAILURE" });

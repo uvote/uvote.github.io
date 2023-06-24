@@ -13,7 +13,10 @@
     "build_translations": "npm run formatjs:compile:en && npm run formatjs:compile:it",
     "check_types": "tsc --noEmit --project .",
     "deploy": "node scripts/deploy.cjs",
-    "eslint": "eslint --fix --ext .js --ext .ts --ext .tsx src/ scripts/",
+    "eslint": "npm run eslint:scripts && npm run eslint:src && npm run eslint:translations",
+    "eslint:scripts": "eslint --fix --ext .js scripts/",
+    "eslint:src": "eslint --fix --ext .js --ext .ts --ext .tsx src/",
+    "eslint:translations": "eslint --fix --ext .json translations/",
     "formatjs:compile:en": "formatjs compile translations/en.json --ast --out-file public/translations/en.json",
     "formatjs:compile:it": "formatjs compile translations/it.json --ast --out-file public/translations/it.json",
     "generate_files": "npm run build_html && npm run build_manifest && npm run build_translations",
@@ -131,7 +134,7 @@
           "varsIgnorePattern": "^_"
         }
       ],
-      "formatjs/no-literal-string-in-jsx": "warn",
+      "formatjs/no-literal-string-in-jsx": "error",
       "import/first": "error",
       "import/newline-after-import": "error",
       "import/no-cycle": "error",
@@ -198,6 +201,7 @@
       ],
       "simple-import-sort/exports": "warn",
       "simple-import-sort/imports": "warn",
+      "sort-keys": "error",
       "tsdoc/syntax": "error"
     },
     "settings": {
