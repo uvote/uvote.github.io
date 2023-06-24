@@ -17,16 +17,34 @@
       "value": "Connetti"
     }
   ],
+  "ConnectWallet.connectModalTitle": [
+    {
+      "type": 0,
+      "value": "Connetti un wallet"
+    }
+  ],
   "ConnectWallet.connected": [
     {
       "type": 0,
-      "value": "Connected"
+      "value": "Connesso"
     }
   ],
-  "ConnectWallet.modalTitle": [
+  "ConnectWallet.connectedToUnsopportedNetworkTitle": [
     {
       "type": 0,
-      "value": "Connect a wallet"
+      "value": "Network non supportato"
+    }
+  ],
+  "ConnectWallet.pleaseSelectEthereumNetwork": [
+    {
+      "type": 0,
+      "value": "Sembra che ti sia collegato ad un altro network. Per favore apri il tuo wallet e seleziona il network Ethereum."
+    }
+  ],
+  "OpenMetaMaskBrowser.label": [
+    {
+      "type": 0,
+      "value": "Apri nel browser di MetaMask"
     }
   ]
 }
