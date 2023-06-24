@@ -1,5 +1,6 @@
 import detectEthereumProvider from "@metamask/detect-provider";
 import { MetaMaskInpageProvider } from "@metamask/providers";
+import { MetaMaskSDK } from "@metamask/sdk";
 import {
   createContext,
   FC,
@@ -10,6 +11,9 @@ import {
   useReducer,
   useRef,
 } from "react";
+
+import { useIsMobile } from "../hooks/useIsMobile";
+import { metadata } from "../metadata";
 
 const ethereumMainnetChainId = "0x1";
 const ethereumGoerliChainId = "0x5";
@@ -59,17 +63,17 @@ const isMetaMaskEthereumProvider = (
 type State = Partial<{
   accountAddress: string | null;
   chainId: string | null;
-  isConnected: boolean;
   isTestnet: boolean;
   isMainnet: boolean;
   ethChainIdIsPending: boolean;
   ethAccountsIsPending: boolean;
   ethRequestAccountsIsPending: boolean;
-}> & {
   detectProviderIsDone: boolean;
+}> & {
+  isConnected: boolean;
 };
 
-const initialState: State = { detectProviderIsDone: false };
+const initialState: State = { isConnected: false };
 
 type Action =
   | {
@@ -108,18 +112,10 @@ type Action =
       data: Required<Pick<State, "isConnected">>;
     };
 
-type ContextValue = Pick<
-  State,
-  | "detectProviderIsDone"
-  | "ethChainIdIsPending"
-  | "ethAccountsIsPending"
-  | "ethRequestAccountsIsPending"
-  | "isConnected"
-> & {
+type ContextValue = Pick<State, "detectProviderIsDone" | "isConnected"> & {
   isEthereumNetwork?: boolean | undefined;
   ethAccounts: () => void;
   ethRequestAccounts: () => void;
-  ethRequestChainId: () => void;
   hasAccount?: boolean | undefined;
   hasProvider?: boolean | undefined;
 };
@@ -150,7 +146,7 @@ export const EthereumContext = createContext<ContextValue>({
   detectProviderIsDone: false,
   ethAccounts: () => {},
   ethRequestAccounts: () => {},
-  ethRequestChainId: () => {},
+  isConnected: false,
 });
 
 EthereumContext.displayName = "EthereumContext";
@@ -160,9 +156,12 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
 }) => {
   const providerRef = useRef<MetaMaskEthereumProvider | null>(null);
 
+  const { isMobile } = useIsMobile();
+
   const [
     {
       accountAddress,
+      chainId,
       isConnected,
       isTestnet,
       isMainnet,
@@ -295,29 +294,38 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
     [dispatch]
   );
 
-  const setIsConnected = useCallback(() => {
-    if (isConnected) return;
-    console.info("Ethereum provider connected");
-    dispatch({
-      data: { isConnected: true },
-      type: "SET_IS_CONNECTED",
-    });
-  }, [isConnected]);
-
   const detectProvider = useCallback(async () => {
     try {
       if (providerRef.current) return;
-      const provider = await detectEthereumProvider();
-      dispatch({
-        type: "SET_DETECT_PROVIDER_IS_DONE",
-      });
-      if (isMetaMaskEthereumProvider(provider)) {
-        console.info("Detected MetaMask Ethereum provider");
-        provider.on("chainChanged", onChainChanged);
-        providerRef.current = provider;
-        if (provider.isConnected()) {
-          setIsConnected();
+      const initialize = (provider: unknown) => {
+        if (isMetaMaskEthereumProvider(provider)) {
+          provider.on("chainChanged", onChainChanged);
+          if (provider.isConnected()) {
+            console.info("Ethereum provider connected");
+            dispatch({
+              data: { isConnected: true },
+              type: "SET_IS_CONNECTED",
+            });
+          }
+          providerRef.current = provider;
         }
+        dispatch({
+          type: "SET_DETECT_PROVIDER_IS_DONE",
+        });
+      };
+
+      if (isMobile) {
+        const MMSDK = new MetaMaskSDK({
+          dappMetadata: {
+            name: metadata.asciiName,
+            url: metadata.url,
+          },
+        });
+        const provider = MMSDK.getProvider();
+        initialize(provider);
+      } else {
+        const provider = await detectEthereumProvider();
+        initialize(provider);
       }
     } catch (error) {
       console.error(error);
@@ -325,7 +333,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
         type: "SET_DETECT_PROVIDER_IS_DONE",
       });
     }
-  }, [onChainChanged, providerRef, setIsConnected]);
+  }, [isMobile, onChainChanged, providerRef]);
 
   const hasAccount: ContextValue["hasAccount"] =
     typeof accountAddress === "string";
@@ -407,14 +415,19 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
     detectProvider();
   }, [detectProvider]);
 
+  useEffect(() => {
+    if (!isConnected) return;
+    if (chainId) return;
+    if (ethChainIdIsPending) return;
+    ethRequestChainId();
+  }, [chainId, isConnected, ethRequestChainId, ethChainIdIsPending]);
+
   return (
     <EthereumContext.Provider
       value={{
         detectProviderIsDone,
         ethAccounts,
         ethRequestAccounts,
-        ethRequestAccountsIsPending,
-        ethRequestChainId,
         hasAccount,
         hasProvider,
         isConnected,

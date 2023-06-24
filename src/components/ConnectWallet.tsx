@@ -17,14 +17,14 @@ import { ConnectMetaMask } from "./ConnectMetaMask";
 import { OpenMetaMaskBrowser } from "./OpenMetaMaskBrowser";
 
 export const ConnectWallet: FC = () => {
-  const { detectProviderIsDone, hasAccount } = useContext(EthereumContext);
+  const { detectProviderIsDone, isConnected, isEthereumNetwork } =
+    useContext(EthereumContext);
   const { connectWalletModalIsActive, setConnectWalletModalIsActive } =
     useContext(ConnectWalletContext);
 
   const onClick = useCallback(() => {
-    if (hasAccount) return;
     setConnectWalletModalIsActive(true);
-  }, [hasAccount, setConnectWalletModalIsActive]);
+  }, [setConnectWalletModalIsActive]);
 
   const closeModal = useCallback(() => {
     setConnectWalletModalIsActive(false);
@@ -35,9 +35,9 @@ export const ConnectWallet: FC = () => {
   // Wait until detectProvider is done.
   if (!detectProviderIsDone) return null;
 
-  if (hasAccount) {
+  if (isConnected && isEthereumNetwork) {
     return (
-      <Button color="ghost" size="small" onClick={onClick}>
+      <Button color="ghost" size="small">
         <FormattedMessage id="ConnectWallet.connected" />
       </Button>
     );
@@ -53,24 +53,40 @@ export const ConnectWallet: FC = () => {
         <ModalBackground onClick={closeModal} />
 
         <ModalContent>
-          <Message
-            header={
-              <>
-                <FormattedMessage id="ConnectWallet.modalTitle" />
-                <ButtonDelete onClick={closeModal} />
-              </>
-            }
-          >
-            <Flex direction="column">
-              <div>
-                <ConnectMetaMask />
-              </div>
+          {isConnected && !isEthereumNetwork ? (
+            <Message
+              color="warning"
+              header={
+                <>
+                  <FormattedMessage id="ConnectWallet.connectedToUnsopportedNetworkTitle" />
+                  <ButtonDelete onClick={closeModal} />
+                </>
+              }
+            >
+              <p>
+                <FormattedMessage id="ConnectWallet.pleaseSelectEthereumNetwork" />
+              </p>
+            </Message>
+          ) : (
+            <Message
+              header={
+                <>
+                  <FormattedMessage id="ConnectWallet.connectModalTitle" />
+                  <ButtonDelete onClick={closeModal} />
+                </>
+              }
+            >
+              <Flex direction="column">
+                <div>
+                  <ConnectMetaMask />
+                </div>
 
-              <div>
-                <OpenMetaMaskBrowser />
-              </div>
-            </Flex>
-          </Message>
+                <div>
+                  <OpenMetaMaskBrowser />
+                </div>
+              </Flex>
+            </Message>
+          )}
         </ModalContent>
       </Modal>
     </>
