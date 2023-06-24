@@ -11,10 +11,22 @@
       "value": "Installa MetaMask"
     }
   ],
-  "ConnectWallet.label": [
+  "ConnectWallet.connect": [
     {
       "type": 0,
       "value": "Connetti"
+    }
+  ],
+  "ConnectWallet.connected": [
+    {
+      "type": 0,
+      "value": "Connected"
+    }
+  ],
+  "ConnectWallet.modalTitle": [
+    {
+      "type": 0,
+      "value": "Connect a wallet"
     }
   ]
 }
