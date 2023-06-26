@@ -155,6 +155,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
   const providerRef = useRef<MetaMaskEthereumProvider | null>(null);
+  const metaMaskSDKRef = useRef<MetaMaskSDK | null>(null);
 
   const { isMobile } = useIsMobile();
 
@@ -296,6 +297,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
 
   const detectProvider = useCallback(async () => {
     try {
+      const metaMaskSDK = metaMaskSDKRef.current;
       if (providerRef.current) return;
       const initialize = (provider: unknown) => {
         if (isMetaMaskEthereumProvider(provider)) {
@@ -314,14 +316,8 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
         });
       };
 
-      if (isMobile) {
-        const MMSDK = new MetaMaskSDK({
-          dappMetadata: {
-            name: metadata.asciiName,
-            url: metadata.url,
-          },
-        });
-        const provider = MMSDK.getProvider();
+      if (metaMaskSDK) {
+        const provider = metaMaskSDK.getProvider();
         initialize(provider);
       } else {
         const provider = await detectEthereumProvider();
@@ -333,7 +329,7 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
         type: "SET_DETECT_PROVIDER_IS_DONE",
       });
     }
-  }, [isMobile, onChainChanged, providerRef]);
+  }, [metaMaskSDKRef, onChainChanged, providerRef]);
 
   const hasAccount: ContextValue["hasAccount"] =
     typeof accountAddress === "string";
@@ -411,9 +407,21 @@ export const EthereumContextProvider: FC<PropsWithChildren> = ({
     }
   }, [ethRequestAccountsIsPending, providerRef]);
 
+  const initializeMetaMaskSDK = useCallback(() => {
+    if (!metaMaskSDKRef.current) return;
+    console.info("initializeMetaMaskSDK");
+    metaMaskSDKRef.current = new MetaMaskSDK({
+      dappMetadata: {
+        name: metadata.asciiName,
+        url: metadata.url,
+      },
+    });
+  }, [metaMaskSDKRef]);
+
   useEffect(() => {
+    if (isMobile) initializeMetaMaskSDK();
     detectProvider();
-  }, [detectProvider]);
+  }, [detectProvider, initializeMetaMaskSDK, isMobile]);
 
   useEffect(() => {
     if (!isConnected) return;
