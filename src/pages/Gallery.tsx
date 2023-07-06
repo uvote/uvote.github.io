@@ -16,7 +16,7 @@ const polls: { id: string; text: string }[] = [
 const GalleryPage: FC = () => {
   return (
     <>
-      <Nav showAccountInfo />
+      <Nav showAccount />
 
       <Main>
         <Columns>

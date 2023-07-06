@@ -1,7 +1,6 @@
 import { configureChains, createConfig } from "wagmi";
 import { foundry, goerli, mainnet } from "wagmi/chains";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
-import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { publicProvider } from "wagmi/providers/public";
 
@@ -23,13 +22,6 @@ export const config = createConfig({
       chains,
       options: {
         appName: metadata.asciiName,
-      },
-    }),
-    new InjectedConnector({
-      chains,
-      options: {
-        name: "Injected",
-        shimDisconnect: true,
       },
     }),
   ],

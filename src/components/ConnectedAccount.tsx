@@ -1,4 +1,5 @@
 import { FC, useCallback } from "react";
+import { FormattedMessage } from "react-intl";
 import { Button } from "trunx";
 import { useAccount, useDisconnect } from "wagmi";
 
@@ -13,7 +14,10 @@ export const ConnectedAccount: FC = () => {
   return (
     <div>
       <div>{address}</div>
-      <Button onClick={onClickDisconnect}>disconnect</Button>
+
+      <Button onClick={onClickDisconnect}>
+        <FormattedMessage id="ConnectedAccount.disconnect" />
+      </Button>
     </div>
   );
 };

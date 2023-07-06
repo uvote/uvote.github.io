@@ -3,24 +3,29 @@ import { Link } from "react-router-dom";
 import { Navbar, NavbarBrand, NavbarItem } from "trunx";
 
 import { asset } from "../assets";
-import { routePath } from "../routing/routes";
+import { AccountPreview } from "../components/AccountPreview";
+import { pathname } from "../routing/pathnames";
 import { classNames } from "../styles/classNames";
 
 type NavProps = {
-  showAccountInfo?: boolean;
+  showAccount?: boolean;
 };
 
-export const Nav: FC<NavProps> = ({ showAccountInfo = false }) => {
+export const Nav: FC<NavProps> = ({ showAccount = false }) => {
   return (
     <Navbar className={classNames("is-fixed-top")} color="light">
       <NavbarBrand>
         <NavbarItem>
-          <Link to={routePath.homepage()}>
+          <Link to={pathname.homepage()}>
             <img src={asset.logoType} alt="" />
           </Link>
         </NavbarItem>
 
-        {showAccountInfo ? <NavbarItem>account</NavbarItem> : null}
+        {showAccount ? (
+          <NavbarItem>
+            <AccountPreview />
+          </NavbarItem>
+        ) : null}
       </NavbarBrand>
     </Navbar>
   );
