@@ -1,32 +1,26 @@
 {
-  "ConnectMetaMask.connect": [
+  "AccountConnectors.coinbaseWallet": [
     {
       "type": 0,
-      "value": "Connect MetaMask"
+      "value": "Coinbase"
     }
   ],
-  "ConnectMetaMask.install": [
+  "AccountConnectors.metaMaskBrowser": [
     {
       "type": 0,
-      "value": "Install MetaMask"
+      "value": "Open with MetaMask browser"
     }
   ],
-  "ConnectWallet.connect": [
+  "AccountConnectors.metaMaskWallet": [
+    {
+      "type": 0,
+      "value": "MetaMask"
+    }
+  ],
+  "AccountPreview.connect": [
     {
       "type": 0,
       "value": "Connect"
-    }
-  ],
-  "ConnectWallet.connectModalTitle": [
-    {
-      "type": 0,
-      "value": "Connect a wallet"
-    }
-  ],
-  "ConnectWallet.connected": [
-    {
-      "type": 0,
-      "value": "Connected"
     }
   ],
   "ConnectWallet.connectedToUnsopportedNetworkTitle": [
@@ -41,10 +35,10 @@
       "value": "It looks like you are connected to another network. Please open your wallet and select Ethereum network."
     }
   ],
-  "OpenMetaMaskBrowser.label": [
+  "ConnectedAccount.disconnect": [
     {
       "type": 0,
-      "value": "Open with MetaMask browser"
+      "value": "Disconnect"
     }
   ]
 }
