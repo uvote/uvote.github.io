@@ -11,13 +11,13 @@
   "AccountPreview.connect": {
     "defaultMessage": "Connetti"
   },
-  "ConnectedAccount.disconnect": {
-    "defaultMessage": "Disconnetti"
-  },
   "ConnectWallet.connectedToUnsopportedNetworkTitle": {
     "defaultMessage": "Network non supportato"
   },
   "ConnectWallet.pleaseSelectEthereumNetwork": {
     "defaultMessage": "Sembra che ti sia collegato ad un altro network. Per favore apri il tuo wallet e seleziona il network Ethereum."
+  },
+  "ConnectedAccount.disconnect": {
+    "defaultMessage": "Disconnetti"
   }
 }

@@ -7,9 +7,9 @@
   "scripts": {
     "build": "npm run build_js",
     "build_formatjs_types": "node scripts/build_formatjs_types.js",
-    "build_manifest": "node scripts/build_manifest.js",
     "build_html": "node scripts/build_html.js",
     "build_js": "tsc && vite build",
+    "build_manifest": "node scripts/build_manifest.js",
     "build_translations": "npm run formatjs:compile:en && npm run formatjs:compile:it",
     "check_types": "tsc --noEmit --project .",
     "deploy": "node scripts/deploy.cjs",
@@ -17,22 +17,21 @@
     "eslint:scripts": "eslint --fix --ext .js scripts/",
     "eslint:src": "eslint --fix --ext .ts --ext .tsx src/",
     "eslint:translations": "eslint --fix --ext .json translations/",
-    "formatjs:compile:en": "formatjs compile translations/en.json --ast --out-file public/translations/en.json",
-    "formatjs:compile:it": "formatjs compile translations/it.json --ast --out-file public/translations/it.json",
+    "formatjs:compile:en": "formatjs compile translations/en.json --ast --out-file public/translations/en-${npm_package_version}.json",
+    "formatjs:compile:it": "formatjs compile translations/it.json --ast --out-file public/translations/it-${npm_package_version}.json",
     "generate_files": "npm run build_html && npm run build_manifest && npm run build_translations",
     "jest": "jest",
     "lint-staged": "lint-staged",
     "postbuild": "cp dist/index.html dist/404.html",
     "postbuild_translations": "npm run build_formatjs_types",
-    "prebuild": "npm run test",
-    "prebuild_translations": "npm run test:i18n",
+    "prebuild": "npm run test && npm run check_types && npm run eslint && npm run build_html && npm run build_manifest",
+    "prebuild_translations": "rm -rf public/translations/",
     "predeploy": "npm run build",
-    "prestart": "npm run generate_files",
-    "pretest": "npm run generate_files",
+    "prestart": "npm run build_html && npm run build_manifest && npm run build_translations",
+    "pretest": "npm run build_translations",
     "preview": "vite preview --host",
     "start": "vite --host",
-    "test": "npm run jest",
-    "test:i18n": "npm run jest -- src/i18n"
+    "test": "npm run jest"
   },
   "repository": {
     "type": "git",
@@ -112,7 +111,8 @@
       "plugin:react/jsx-runtime"
     ],
     "ignorePatterns": [
-      "jest.config.js"
+      "jest.config.js",
+      "package.json"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -218,11 +218,11 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
+    "*.{js,json,ts,tsx}": [
       "prettier --write",
       "eslint --fix"
     ],
-    "*.{css,json,md,scss,sh}": [
+    "*.{css,md,scss,sh}": [
       "prettier --write"
     ]
   },

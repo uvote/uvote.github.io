@@ -1,3 +1,5 @@
+import { npmVersion } from "../version";
+
 export const defaultLocale = "en";
 
 export const locales = [defaultLocale, "it"] as const;
@@ -12,4 +14,4 @@ export const detectLocale = (): Locale => {
 };
 
 export const localeJsonPathname = (locale: Locale) =>
-  `/translations/${locale}.json`;
+  `/translations/${locale}-${npmVersion}.json`;
