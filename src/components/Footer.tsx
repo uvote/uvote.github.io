@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { Content } from "trunx";
 
 import { gitHubOrganizationUrl } from "../locators";
-import { metadata } from "../metadata";
-import { routePath } from "../routing";
+import metadata from "../metadata.json";
+import { routePath } from "../routing/routes";
 import { npmVersion, versionName } from "../version";
 
 const about = "About";

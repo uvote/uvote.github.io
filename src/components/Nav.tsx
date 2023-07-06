@@ -3,16 +3,14 @@ import { Link } from "react-router-dom";
 import { Navbar, NavbarBrand, NavbarItem } from "trunx";
 
 import { asset } from "../assets";
-import { ConnectWalletContextProvider } from "../contexts/ConnectWallet";
-import { routePath } from "../routing";
+import { routePath } from "../routing/routes";
 import { classNames } from "../styles/classNames";
-import { ConnectWallet } from "./ConnectWallet";
 
 type NavProps = {
-  withConnectWallet?: boolean;
+  showAccountInfo?: boolean;
 };
 
-export const Nav: FC<NavProps> = ({ withConnectWallet = false }) => {
+export const Nav: FC<NavProps> = ({ showAccountInfo = false }) => {
   return (
     <Navbar className={classNames("is-fixed-top")} color="light">
       <NavbarBrand>
@@ -22,13 +20,7 @@ export const Nav: FC<NavProps> = ({ withConnectWallet = false }) => {
           </Link>
         </NavbarItem>
 
-        {withConnectWallet ? (
-          <NavbarItem>
-            <ConnectWalletContextProvider>
-              <ConnectWallet />
-            </ConnectWalletContextProvider>
-          </NavbarItem>
-        ) : null}
+        {showAccountInfo ? <NavbarItem>account</NavbarItem> : null}
       </NavbarBrand>
     </Navbar>
   );

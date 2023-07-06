@@ -1,7 +1,6 @@
-build/
-node_modules
-public/index.html
-public/404.html
+dist/
+index.html
+node_modules/
 public/manifest.json
 public/translations/
 src/i18n/FormatjsIntlMessageIds.d.ts

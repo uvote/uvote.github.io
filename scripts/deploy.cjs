@@ -1,5 +1,5 @@
 const ghpages = require("gh-pages");
 
-ghpages.publish("build", (error) => {
+ghpages.publish("dist", (error) => {
   if (error) console.error(error);
 });
