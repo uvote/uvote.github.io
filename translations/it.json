@@ -1,29 +1,23 @@
 {
-  "ConnectMetaMask.connect": {
-    "defaultMessage": "Connettiti con MetaMask"
+  "AccountConnectors.coinbaseWallet": {
+    "defaultMessage": "Coinbase"
   },
-  "ConnectMetaMask.install": {
-    "defaultMessage": "Installa MetaMask"
+  "AccountConnectors.metaMaskBrowser": {
+    "defaultMessage": "Apri nel browser di MetaMask"
   },
-  "ConnectWallet.connect": {
-    "defaultMessage": "Connetti",
-    "description": "Testo del bottone ConnectWallet"
+  "AccountConnectors.metaMaskWallet": {
+    "defaultMessage": "MetaMask"
   },
-  "ConnectWallet.connectModalTitle": {
-    "defaultMessage": "Connetti un wallet",
-    "description": "Titolo del modale per connettersi"
+  "AccountPreview.connect": {
+    "defaultMessage": "Connetti"
   },
-  "ConnectWallet.connected": {
-    "defaultMessage": "Connesso",
-    "description": "Testo mostrato una volta connesso"
+  "ConnectedAccount.disconnect": {
+    "defaultMessage": "Disconnetti"
   },
   "ConnectWallet.connectedToUnsopportedNetworkTitle": {
     "defaultMessage": "Network non supportato"
   },
   "ConnectWallet.pleaseSelectEthereumNetwork": {
     "defaultMessage": "Sembra che ti sia collegato ad un altro network. Per favore apri il tuo wallet e seleziona il network Ethereum."
-  },
-  "OpenMetaMaskBrowser.label": {
-    "defaultMessage": "Apri nel browser di MetaMask"
   }
 }

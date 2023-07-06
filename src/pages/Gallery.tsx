@@ -5,7 +5,6 @@ import { Footer } from "../components/Footer";
 import { Main } from "../components/Main";
 import { Nav } from "../components/Nav";
 import { PollCard } from "../components/PollCard";
-import { EthereumContextProvider } from "../contexts/Ethereum";
 
 const polls: { id: string; text: string }[] = [
   {
@@ -16,8 +15,8 @@ const polls: { id: string; text: string }[] = [
 
 const GalleryPage: FC = () => {
   return (
-    <EthereumContextProvider>
-      <Nav withConnectWallet />
+    <>
+      <Nav showAccount />
 
       <Main>
         <Columns>
@@ -30,7 +29,7 @@ const GalleryPage: FC = () => {
       </Main>
 
       <Footer />
-    </EthereumContextProvider>
+    </>
   );
 };
 

@@ -1,26 +1,29 @@
 import { writeFile } from "node:fs/promises";
-import { join } from "node:path";
 
-import { metadata } from "../src/metadata.js";
-import { themeColor } from "../src/styles/colors.js";
+import metadata from "../src/metadata.json" assert { type: "json" };
+import colors from "../src/styles/colors.json" assert { type: "json" };
 
-const pathname = join("public", "index.html");
+const { themeColor } = colors;
+
+const pathname = "index.html";
 
 const content = `<!DOCTYPE html>
 <html lang="en" className="has-navbar-fixed-top">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="${themeColor}" />
 
-    <meta name="version" content="%REACT_APP_VERSION%" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="apple-touch-icon" href="/logo192.png" />
 
     <title>${metadata.asciiName}</title>
+
+    <script type="module" src="./polyfills.ts"></script>
   </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
 `;

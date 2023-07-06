@@ -1,9 +1,10 @@
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
-import { metadata } from "../src/metadata.js";
-import { backgroundColor } from "../src/styles/colors.js";
-import { themeColor } from "../src/styles/colors.js";
+import metadata from "../src/metadata.json" assert { type: "json" };
+import colors from "../src/styles/colors.json" assert { type: "json" };
+
+const { backgroundColor, themeColor } = colors;
 
 const pathname = join("public", "manifest.json");
 

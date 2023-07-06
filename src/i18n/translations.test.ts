@@ -1,5 +1,5 @@
-import enMessages from "../../translations/en.json";
-import itMessages from "../../translations/it.json";
+import * as enMessages from "../../translations/en.json";
+import * as itMessages from "../../translations/it.json";
 import { IntlMessage, isIntlMessage } from "./intlMessage";
 import { defaultLocale, Locale, locales } from "./locales";
 

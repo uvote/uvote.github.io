@@ -1,4 +1,4 @@
-import pkg from "../package.json";
+import * as pkg from "../package.json";
 import { npmVersion } from "./version";
 
 describe("version", () => {
