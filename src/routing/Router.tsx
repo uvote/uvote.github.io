@@ -1,19 +1,54 @@
-import { FC } from "react";
+import { FC, lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import AboutPage from "../pages/About";
-import AccountPage from "../pages/Account";
-import GalleryPage from "../pages/Gallery";
-import PageNotFound from "../pages/NotFound";
+import { Nav } from "../components/Nav";
 import { routePath } from "./routes";
+
+const AboutPage = lazy(() => import("../pages/About"));
+const AccountPage = lazy(() => import("../pages/Account"));
+const GalleryPage = lazy(() => import("../pages/Gallery"));
+const PageNotFound = lazy(() => import("../pages/NotFound"));
+
+const Loading: FC = () => <Nav />;
 
 export const Router: FC = () => (
   <BrowserRouter>
     <Routes>
-      <Route path={routePath.homepage()} Component={GalleryPage} />
-      <Route path={routePath.about()} Component={AboutPage} />
-      <Route path={routePath.account()} Component={AccountPage} />
-      <Route path="*" Component={PageNotFound} />
+      <Route
+        path={routePath.homepage()}
+        element={
+          <Suspense fallback={<Loading />}>
+            <GalleryPage />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path={routePath.about()}
+        element={
+          <Suspense fallback={<Loading />}>
+            <AboutPage />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path={routePath.account()}
+        element={
+          <Suspense fallback={<Loading />}>
+            <AccountPage />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path="*"
+        element={
+          <Suspense fallback={<Loading />}>
+            <PageNotFound />
+          </Suspense>
+        }
+      />
     </Routes>
   </BrowserRouter>
 );
