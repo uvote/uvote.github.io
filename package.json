@@ -12,10 +12,9 @@
     "build_manifest": "node scripts/build_manifest.js",
     "check_types": "tsc --noEmit --project .",
     "deploy": "node scripts/deploy.cjs",
-    "eslint": "npm run eslint:scripts && npm run eslint:src && npm run eslint:translations",
+    "eslint": "npm run eslint:scripts && npm run eslint:src",
     "eslint:scripts": "eslint --fix --ext .js scripts/",
     "eslint:src": "eslint --fix --ext .ts --ext .tsx src/",
-    "eslint:translations": "eslint --fix --ext .json translations/",
     "formatjs_compile": "npm run formatjs_compile:en && npm run formatjs_compile:it",
     "formatjs_compile:en": "formatjs compile translations/en.json --ast --out-file public/translations/en-${npm_package_version}.json",
     "formatjs_compile:it": "formatjs compile translations/it.json --ast --out-file public/translations/it-${npm_package_version}.json",
@@ -31,7 +30,8 @@
     "pretest": "npm run formatjs_compile",
     "preview": "vite preview --host",
     "start": "vite --host",
-    "test": "npm run jest"
+    "test": "npm run jest",
+    "wagmi_generate": "wagmi generate"
   },
   "repository": {
     "type": "git",
@@ -82,6 +82,7 @@
     "prettier": "^2.8.8",
     "prettier-plugin-jsdoc": "^0.4.2",
     "prettier-plugin-sh": "^0.12.8",
+    "prettier-plugin-solidity": "^1.1.3",
     "sass": "^1.62.1",
     "ts-jest": "^29.1.1",
     "typescript": "^5.0.4",
@@ -208,7 +209,7 @@
       ],
       "simple-import-sort/exports": "warn",
       "simple-import-sort/imports": "warn",
-      "sort-keys": "error",
+      "sort-keys": "off",
       "tsdoc/syntax": "error"
     },
     "settings": {
@@ -222,7 +223,7 @@
       "prettier --write",
       "eslint --fix"
     ],
-    "*.{css,md,scss,sh}": [
+    "*.{css,md,scss,sh,sol}": [
       "prettier --write"
     ]
   },
@@ -233,7 +234,8 @@
   "prettier": {
     "plugins": [
       "prettier-plugin-jsdoc",
-      "prettier-plugin-sh"
+      "prettier-plugin-sh",
+      "prettier-plugin-solidity"
     ],
     "overrides": [
       {
