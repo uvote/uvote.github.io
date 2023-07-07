@@ -1,0 +1,1 @@
+import{j as t,N as s}from"./index-a7137667.js";import{M as e,C as o,F as r}from"./Main-d17e1d6e.js";const n="About uVote",x=()=>t.jsxs(t.Fragment,{children:[t.jsx(s,{}),t.jsx(e,{children:t.jsx(o,{children:t.jsx("h1",{children:n})})}),t.jsx(r,{})]});export{x as default};
