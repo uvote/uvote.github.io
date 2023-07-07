@@ -9,7 +9,7 @@ import { PollCard } from "../components/PollCard";
 const polls: { id: string; text: string }[] = [
   {
     id: "xxx",
-    text: "Do you want to send weapons to Ukrain?",
+    text: "Will you partecipate to web3 revolution?",
   },
 ];
 
