@@ -8,6 +8,13 @@ const { themeColor } = colors;
 const pathname = "index.html";
 
 const content = `<!DOCTYPE html>
+<!-- --------------------------------------------------------------------
+
+
+    THIS FILE IS GENERATED.
+
+
+--------------------------------------------------------------------- -->
 <html lang="en" className="has-navbar-fixed-top">
   <head>
     <meta charset="UTF-8" />
