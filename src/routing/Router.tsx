@@ -2,6 +2,7 @@ import { FC, lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Nav } from "../components/Nav";
+import { routePath as mockupRoutePath } from "../mockup/routing/routes";
 import { routePath } from "./routes";
 
 const AboutPage = lazy(() => import("../pages/About"));
@@ -37,6 +38,15 @@ export const Router: FC = () => (
         element={
           <Suspense fallback={<Loading />}>
             <AccountPage />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path={mockupRoutePath.homepage()}
+        element={
+          <Suspense fallback={<Loading />}>
+            <GalleryPage />
           </Suspense>
         }
       />

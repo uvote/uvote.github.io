@@ -1,11 +1,9 @@
-import { writeFile } from "node:fs/promises";
+import write from "write-file-utf8";
 
 import metadata from "../src/metadata.json" assert { type: "json" };
 import colors from "../src/styles/colors.json" assert { type: "json" };
 
 const { themeColor } = colors;
-
-const pathname = "index.html";
 
 const content = `<!DOCTYPE html>
 <!-- --------------------------------------------------------------------
@@ -35,4 +33,4 @@ const content = `<!DOCTYPE html>
 </html>
 `;
 
-await writeFile(pathname, content, { encoding: "utf8" });
+await write("index.html", content);
