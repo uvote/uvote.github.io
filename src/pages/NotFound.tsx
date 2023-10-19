@@ -1,9 +1,8 @@
+import { Footer } from "_/components/Footer";
+import { Main } from "_/components/Main";
+import { Nav } from "_/components/Nav";
 import { FC } from "react";
 import { Content } from "trunx";
-
-import { Footer } from "../components/Footer";
-import { Main } from "../components/Main";
-import { Nav } from "../components/Nav";
 
 const title = "Page not found";
 

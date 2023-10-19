@@ -5,7 +5,7 @@ import colors from "../src/styles/colors.json" assert { type: "json" };
 
 const { themeColor } = colors;
 
-const content = `<!DOCTYPE html>
+const content = (entryPoint) => `<!DOCTYPE html>
 <!-- --------------------------------------------------------------------
 
 
@@ -24,13 +24,13 @@ const content = `<!DOCTYPE html>
 
     <title>${metadata.asciiName}</title>
 
-    <script type="module" src="./polyfills.ts"></script>
+    <script type="module" src="/src/polyfills.ts"></script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="${entryPoint}"></script>
   </body>
 </html>
 `;
 
-await write("index.html", content);
+await write("index.html", content("/src/main.tsx"));

@@ -1,3 +1,4 @@
 export const routePath = {
-  homepage: () => "/mockup",
+  index: () => "/mockup",
+  gallery: () => "/mockup/gallery",
 };

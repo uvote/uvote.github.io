@@ -1,12 +1,11 @@
+import { AccountConnectors } from "_/components/AccountConnectors";
+import { ConnectedAccount } from "_/components/ConnectedAccount";
+import { Footer } from "_/components/Footer";
+import { Main } from "_/components/Main";
+import { Nav } from "_/components/Nav";
 import { FC } from "react";
 import { Content } from "trunx";
 import { useAccount } from "wagmi";
-
-import { AccountConnectors } from "../components/AccountConnectors";
-import { ConnectedAccount } from "../components/ConnectedAccount";
-import { Footer } from "../components/Footer";
-import { Main } from "../components/Main";
-import { Nav } from "../components/Nav";
 
 const AccountPage: FC = () => {
   const { isConnected } = useAccount();

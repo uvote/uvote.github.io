@@ -13,6 +13,7 @@ export default defineConfig({
   publicDir: "public",
   resolve: {
     alias: {
+      _: "/src",
       process: "process/browser",
       util: "util",
     },
