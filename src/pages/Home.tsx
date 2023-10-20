@@ -12,7 +12,7 @@ const polls: { id: string; text: string }[] = [
   },
 ];
 
-const GalleryPage: FC = () => {
+const HomePage: FC = () => {
   return (
     <>
       <Nav showAccount />
@@ -32,4 +32,4 @@ const GalleryPage: FC = () => {
   );
 };
 
-export default GalleryPage;
+export default HomePage;

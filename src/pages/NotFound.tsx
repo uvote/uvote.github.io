@@ -1,4 +1,5 @@
 import { Footer } from "_/components/Footer";
+import { Title } from "_/components/library";
 import { Main } from "_/components/Main";
 import { Nav } from "_/components/Nav";
 import { FC } from "react";
@@ -13,7 +14,7 @@ const PageNotFound: FC = () => {
 
       <Main>
         <Content>
-          <h1>{title}</h1>
+          <Title>{title}</Title>
         </Content>
       </Main>
 

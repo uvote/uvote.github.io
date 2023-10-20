@@ -4,7 +4,7 @@ import {
   ClassNamesArg,
 } from "trunx";
 
-import type { MainClassName } from "../components/Main";
+type MainClassName = "main__container";
 
 type ClassName = BulmaClassName | MainClassName;
 

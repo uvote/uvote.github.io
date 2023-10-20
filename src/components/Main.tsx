@@ -1,9 +1,6 @@
+import { classNames } from "_/styles/classNames";
 import { FC, PropsWithChildren } from "react";
 import { Container } from "trunx";
-
-import { classNames } from "../styles/classNames";
-
-export type MainClassName = "main__container";
 
 export const Main: FC<PropsWithChildren> = ({ children }) => {
   return (

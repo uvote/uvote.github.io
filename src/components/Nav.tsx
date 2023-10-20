@@ -16,7 +16,7 @@ export const Nav: FC<NavProps> = ({ showAccount = false }) => {
     <Navbar className={classNames("is-fixed-top")} color="light">
       <NavbarBrand>
         <NavbarItem>
-          <Link to={pathname.homepage()}>
+          <Link to={pathname.home()}>
             <img src={asset.logoType} alt="" />
           </Link>
         </NavbarItem>

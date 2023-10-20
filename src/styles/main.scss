@@ -1,3 +1,9 @@
-@import "./bulma";
+// 1. Import bulma theme, colors and fonts first;
+@import "./bulma/theme/colors";
+@import "./bulma/theme/fonts";
+// 2. other bulma theme imports;
+@import "./bulma/theme/box";
+// 3. then bulma modules;
+@import "bulma/bulma";
 
 @import "./components/main";

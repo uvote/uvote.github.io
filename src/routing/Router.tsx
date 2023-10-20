@@ -4,13 +4,14 @@ import { routePath } from "_/routing/routes";
 import { FC, lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-const AboutPage = lazy(() => import("_/pages/About"));
-const AccountPage = lazy(() => import("_/pages/Account"));
-const GalleryPage = lazy(() => import("_/pages/Gallery"));
-const PageNotFound = lazy(() => import("_/pages/NotFound"));
+const About = lazy(() => import("_/pages/About"));
+const Account = lazy(() => import("_/pages/Account"));
+const Home = lazy(() => import("_/pages/Home"));
+const NotFound = lazy(() => import("_/pages/NotFound"));
 
+// Mockup s.
 const MockupIndex = lazy(() => import("_/mockup/pages/Index"));
-const MockupGallery = lazy(() => import("_/mockup/pages/Gallery"));
+const MockupHome = lazy(() => import("_/mockup/pages/Home"));
 
 const Loading: FC = () => <Nav />;
 
@@ -18,10 +19,10 @@ export const Router: FC = () => (
   <BrowserRouter>
     <Routes>
       <Route
-        path={routePath.homepage()}
+        path={routePath.home()}
         element={
           <Suspense fallback={<Loading />}>
-            <GalleryPage />
+            <Home />
           </Suspense>
         }
       />
@@ -30,7 +31,7 @@ export const Router: FC = () => (
         path={routePath.about()}
         element={
           <Suspense fallback={<Loading />}>
-            <AboutPage />
+            <About />
           </Suspense>
         }
       />
@@ -39,10 +40,12 @@ export const Router: FC = () => (
         path={routePath.account()}
         element={
           <Suspense fallback={<Loading />}>
-            <AccountPage />
+            <Account />
           </Suspense>
         }
       />
+
+      {/* Mockup routes. */}
 
       <Route
         path={mockupRoutePath.index()}
@@ -57,16 +60,18 @@ export const Router: FC = () => (
         path={mockupRoutePath.gallery()}
         element={
           <Suspense fallback={<Loading />}>
-            <MockupGallery />
+            <MockupHome />
           </Suspense>
         }
       />
+
+      {/*  not found. */}
 
       <Route
         path="*"
         element={
           <Suspense fallback={<Loading />}>
-            <PageNotFound />
+            <NotFound />
           </Suspense>
         }
       />

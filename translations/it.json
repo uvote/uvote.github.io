@@ -19,5 +19,29 @@
   },
   "ConnectedAccount.disconnect": {
     "defaultMessage": "Disconnetti"
+  },
+  "CreateSection.ctaText": {
+    "defaultMessage": "Create"
+  },
+  "CreateSection.title": {
+    "defaultMessage": "Create Upoll"
+  },
+  "HypeSection.ctaText": {
+    "defaultMessage": "See all"
+  },
+  "HypeSection.title": {
+    "defaultMessage": "Hype Upoll"
+  },
+  "MyPollsSection.ctaText": {
+    "defaultMessage": "Your Upoll"
+  },
+  "MyPollsSection.title": {
+    "defaultMessage": "Your Upoll"
+  },
+  "VoteSection.ctaText": {
+    "defaultMessage": "Go to Upoll"
+  },
+  "VoteSection.title": {
+    "defaultMessage": "Vote by Invitation"
   }
 }
