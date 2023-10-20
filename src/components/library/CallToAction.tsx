@@ -1,6 +1,8 @@
 import { classNames } from "_/styles/classNames";
 import { FC } from "react";
-import { Button, ButtonProps } from "trunx";
+import { Button, ButtonProps, Flex } from "trunx";
+
+import { Icon } from "./Icon";
 
 type Props = Omit<ButtonProps, "color" | "className"> & {
   text: string;
@@ -9,7 +11,10 @@ type Props = Omit<ButtonProps, "color" | "className"> & {
 export const CallToAction: FC<Props> = ({ text, ...props }) => {
   return (
     <Button color="ghost" {...props}>
-      <span className={classNames("is-uppercase")}>{text}</span>
+      <Flex direction="row" alignItems="center">
+        <span className={classNames("is-uppercase", "mr-3")}>{text}</span>
+        <Icon name="next" />
+      </Flex>
     </Button>
   );
 };

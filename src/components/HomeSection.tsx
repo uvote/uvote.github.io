@@ -20,7 +20,7 @@ export const HomeSection: FC<PropsWithChildren<Props>> = ({
         {children}
 
         <Flex justify="end">
-          <CallToAction text={ctaText} />
+          <CallToAction size="large" text={ctaText} />
         </Flex>
       </Box>
     </Section>
