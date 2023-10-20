@@ -1,4 +1,4 @@
 export const routePath = {
   index: () => "/mockup",
-  gallery: () => "/mockup/gallery",
+  home: () => "/mockup/home",
 };

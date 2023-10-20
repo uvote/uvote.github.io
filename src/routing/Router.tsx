@@ -57,7 +57,7 @@ export const Router: FC = () => (
       />
 
       <Route
-        path={mockupRoutePath.gallery()}
+        path={mockupRoutePath.home()}
         element={
           <Suspense fallback={<Loading />}>
             <MockupHome />

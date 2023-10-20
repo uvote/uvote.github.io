@@ -1,6 +1,5 @@
 import { Footer } from "_/components/Footer";
-import { Column, Columns } from "_/components/library";
-import { Main } from "_/components/Main";
+import { Column, Columns, Main } from "_/components/library";
 import { Nav } from "_/components/Nav";
 import { CreateSection } from "_/mockup/components/CreateSection";
 import { HypeSection } from "_/mockup/components/HypeSection";

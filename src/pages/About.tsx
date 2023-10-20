@@ -1,6 +1,5 @@
 import { Footer } from "_/components/Footer";
-import { Title } from "_/components/library";
-import { Main } from "_/components/Main";
+import { Main, Title } from "_/components/library";
 import { Nav } from "_/components/Nav";
 import { FC } from "react";
 import { Content } from "trunx";

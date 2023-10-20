@@ -1,2 +1,3 @@
 export * from "./library/CallToAction";
-export { Box, Column, Columns, Flex, Section, Title } from "trunx";
+export * from "./library/Main";
+export { Box, Column, Columns, Container, Flex, Section, Title } from "trunx";

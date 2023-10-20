@@ -1,5 +1,5 @@
 import { Footer } from "_/components/Footer";
-import { Main } from "_/components/Main";
+import { Main } from "_/components/library";
 import { Nav } from "_/components/Nav";
 import { PollCard } from "_/components/PollCard";
 import { FC } from "react";

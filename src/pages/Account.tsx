@@ -1,7 +1,7 @@
 import { AccountConnectors } from "_/components/AccountConnectors";
 import { ConnectedAccount } from "_/components/ConnectedAccount";
 import { Footer } from "_/components/Footer";
-import { Main } from "_/components/Main";
+import { Main } from "_/components/library";
 import { Nav } from "_/components/Nav";
 import { FC } from "react";
 import { Content } from "trunx";
