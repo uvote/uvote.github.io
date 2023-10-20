@@ -40,5 +40,53 @@
       "type": 0,
       "value": "Disconnetti"
     }
+  ],
+  "CreateSection.ctaText": [
+    {
+      "type": 0,
+      "value": "Create"
+    }
+  ],
+  "CreateSection.title": [
+    {
+      "type": 0,
+      "value": "Create Upoll"
+    }
+  ],
+  "HypeSection.ctaText": [
+    {
+      "type": 0,
+      "value": "See all"
+    }
+  ],
+  "HypeSection.title": [
+    {
+      "type": 0,
+      "value": "Hype Upoll"
+    }
+  ],
+  "MyPollsSection.ctaText": [
+    {
+      "type": 0,
+      "value": "Your Upoll"
+    }
+  ],
+  "MyPollsSection.title": [
+    {
+      "type": 0,
+      "value": "Your Upoll"
+    }
+  ],
+  "VoteSection.ctaText": [
+    {
+      "type": 0,
+      "value": "Go to Upoll"
+    }
+  ],
+  "VoteSection.title": [
+    {
+      "type": 0,
+      "value": "Vote by Invitation"
+    }
   ]
 }
