@@ -15,14 +15,18 @@ const content = (entryPoint) => `<!DOCTYPE html>
 --------------------------------------------------------------------- -->
 <html lang="en" className="has-navbar-fixed-top">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="${themeColor}" />
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="${themeColor}">
 
-    <link rel="apple-touch-icon" href="/logo192.png" />
+    <link rel="apple-touch-icon" href="/logo192.png">
 
     <title>${metadata.asciiName}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <script type="module" src="/src/polyfills.ts"></script>
   </head>
