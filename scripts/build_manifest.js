@@ -1,12 +1,10 @@
-import { writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import read from "read-file-utf8";
+import write from "write-file-utf8";
 
-import metadata from "../src/metadata.json" assert { type: "json" };
-import colors from "../src/styles/colors.json" assert { type: "json" };
+const metadata = await read("src/metadata.json");
+const colors = await read("src/styles/colors.json");
 
 const { backgroundColor, themeColor } = colors;
-
-const pathname = join("public", "manifest.json");
 
 const content = `{
   "short_name": "${metadata.asciiName}",
@@ -34,4 +32,4 @@ const content = `{
   "background_color": "${backgroundColor}"
 }`;
 
-await writeFile(pathname, content, { encoding: "utf8" });
+await write("public/manifest.json", content);
