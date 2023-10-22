@@ -6,6 +6,7 @@ export const HypeSection: FC<PropsWithChildren> = ({ children }) => {
   const { formatMessage } = useIntl();
   return (
     <HomeSection
+      color="primary-d"
       ctaText={formatMessage({ id: "HypeSection.ctaText" })}
       title={formatMessage({ id: "HypeSection.title" })}
     >

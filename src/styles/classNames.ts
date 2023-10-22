@@ -4,9 +4,14 @@ import {
   ClassNamesArg,
 } from "trunx";
 
-type MainClassName = "main__container";
+type BoxClassName =
+  | "Box--primary-a"
+  | "Box--primary-b"
+  | "Box--primary-c"
+  | "Box--primary-d";
+type MainClassName = "Main__container";
 
-type ClassName = BulmaClassName | MainClassName;
+type ClassName = BulmaClassName | BoxClassName | MainClassName;
 
 export const classNames = (...args: ClassNamesArg<ClassName>[]) =>
   _classNames(...args);

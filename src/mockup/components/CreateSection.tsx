@@ -6,6 +6,7 @@ export const CreateSection: FC<PropsWithChildren> = ({ children }) => {
   const { formatMessage } = useIntl();
   return (
     <HomeSection
+      color="primary-b"
       ctaText={formatMessage({ id: "CreateSection.ctaText" })}
       title={formatMessage({ id: "CreateSection.title" })}
     >

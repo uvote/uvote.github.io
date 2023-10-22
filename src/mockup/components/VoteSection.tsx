@@ -6,6 +6,7 @@ export const VoteSection: FC<PropsWithChildren> = ({ children }) => {
   const { formatMessage } = useIntl();
   return (
     <HomeSection
+      color="primary-a"
       ctaText={formatMessage({ id: "VoteSection.ctaText" })}
       title={formatMessage({ id: "VoteSection.title" })}
     >

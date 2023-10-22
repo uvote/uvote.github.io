@@ -6,4 +6,7 @@
 // 3. then bulma modules;
 @import "bulma/bulma";
 
-@import "./components/main";
+@import "./colors";
+
+@import "./components/library/Box";
+@import "./components/library/Main";
