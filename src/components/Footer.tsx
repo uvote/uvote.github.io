@@ -4,7 +4,7 @@ import { Content } from "trunx";
 
 import { gitHubOrganizationUrl } from "../locators";
 import metadata from "../metadata.json";
-import { routePath } from "../routing/routes";
+import { pathname } from "../routing/pathnames";
 import { npmVersion, versionName } from "../version";
 
 const about = "About";
@@ -23,7 +23,7 @@ export const Footer: FC = () => {
 
         <ul>
           <li>
-            <Link to={routePath.about()}>{about}</Link>
+            <Link to={pathname.about()}>{about}</Link>
           </li>
 
           <li>

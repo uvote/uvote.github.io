@@ -2,6 +2,7 @@ import {
   Box,
   BoxProps,
   CallToAction,
+  CallToActionProps,
   Flex,
   Section,
   Title,
@@ -9,14 +10,16 @@ import {
 import { classNames } from "_/styles/classNames";
 import { FC, PropsWithChildren } from "react";
 
-type Props = {
+export type HomeSectionProps = {
   ctaText: string;
+  ctaOnClick?: CallToActionProps["onClick"];
   title: string;
 } & Pick<BoxProps, "color">;
 
-export const HomeSection: FC<PropsWithChildren<Props>> = ({
+export const HomeSection: FC<PropsWithChildren<HomeSectionProps>> = ({
   children,
   color,
+  ctaOnClick,
   ctaText,
   title,
 }) => {
@@ -28,7 +31,7 @@ export const HomeSection: FC<PropsWithChildren<Props>> = ({
         {children}
 
         <Flex justify="end">
-          <CallToAction size="large" text={ctaText} />
+          <CallToAction size="large" onClick={ctaOnClick} text={ctaText} />
         </Flex>
       </Box>
     </Section>

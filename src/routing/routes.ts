@@ -1,5 +1,5 @@
 export const routePath = {
-  about: () => "/about",
-  account: () => "/account",
-  home: () => "/",
+  about: "/about",
+  account: "/account",
+  home: "/",
 };

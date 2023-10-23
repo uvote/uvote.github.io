@@ -4,11 +4,11 @@ import { Button, ButtonProps, Flex } from "trunx";
 
 import { Icon } from "./Icon";
 
-type Props = Omit<ButtonProps, "color" | "className"> & {
+export type CallToActionProps = Omit<ButtonProps, "color" | "className"> & {
   text: string;
 };
 
-export const CallToAction: FC<Props> = ({ text, ...props }) => {
+export const CallToAction: FC<CallToActionProps> = ({ text, ...props }) => {
   return (
     <Button color="ghost" {...props}>
       <Flex direction="row" alignItems="center">

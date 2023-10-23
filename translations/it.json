@@ -20,6 +20,9 @@
   "ConnectedAccount.disconnect": {
     "defaultMessage": "Disconnetti"
   },
+  "CreatePollPage.title": {
+    "defaultMessage": "Create Upoll"
+  },
   "CreateSection.ctaText": {
     "defaultMessage": "Create"
   },

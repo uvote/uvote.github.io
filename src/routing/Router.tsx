@@ -12,6 +12,7 @@ const NotFound = lazy(() => import("_/pages/NotFound"));
 // Mockup s.
 const MockupIndex = lazy(() => import("_/mockup/pages/Index"));
 const MockupHome = lazy(() => import("_/mockup/pages/Home"));
+const MockupCreatePoll = lazy(() => import("_/mockup/pages/CreatePoll"));
 
 const Loading: FC = () => <Nav />;
 
@@ -19,7 +20,7 @@ export const Router: FC = () => (
   <BrowserRouter>
     <Routes>
       <Route
-        path={routePath.home()}
+        path={routePath.home}
         element={
           <Suspense fallback={<Loading />}>
             <Home />
@@ -28,7 +29,7 @@ export const Router: FC = () => (
       />
 
       <Route
-        path={routePath.about()}
+        path={routePath.about}
         element={
           <Suspense fallback={<Loading />}>
             <About />
@@ -37,7 +38,7 @@ export const Router: FC = () => (
       />
 
       <Route
-        path={routePath.account()}
+        path={routePath.account}
         element={
           <Suspense fallback={<Loading />}>
             <Account />
@@ -48,7 +49,7 @@ export const Router: FC = () => (
       {/* Mockup routes. */}
 
       <Route
-        path={mockupRoutePath.index()}
+        path={mockupRoutePath.index}
         element={
           <Suspense fallback={<Loading />}>
             <MockupIndex />
@@ -57,10 +58,19 @@ export const Router: FC = () => (
       />
 
       <Route
-        path={mockupRoutePath.home()}
+        path={mockupRoutePath.home}
         element={
           <Suspense fallback={<Loading />}>
             <MockupHome />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path={mockupRoutePath.createPoll}
+        element={
+          <Suspense fallback={<Loading />}>
+            <MockupCreatePoll />
           </Suspense>
         }
       />

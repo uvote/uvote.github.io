@@ -1,7 +1,7 @@
-import { routePath } from "../routing/routes";
+import { routePath } from "_/routing/routes";
 
 export const pathname = {
-  about: () => routePath.about(),
-  account: () => routePath.account(),
-  home: () => routePath.home(),
+  about: () => routePath.about,
+  account: () => routePath.account,
+  home: () => routePath.home,
 };
