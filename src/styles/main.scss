@@ -1,8 +1,9 @@
 // 1. Import bulma theme, colors and fonts first;
-@import "./bulma/theme/colors";
-@import "./bulma/theme/fonts";
+@import "./bulma/theme/_colors";
+@import "./bulma/theme/_fonts";
 // 2. other bulma theme imports;
 @import "./bulma/theme/box";
+@import "./bulma/theme/navbar";
 // 3. then bulma modules;
 @import "bulma/bulma";
 
@@ -10,3 +11,4 @@
 
 @import "./components/library/Box";
 @import "./components/library/Main";
+@import "./components/library/TopBar";

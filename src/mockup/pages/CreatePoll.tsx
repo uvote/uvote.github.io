@@ -1,6 +1,6 @@
 import { Footer } from "_/components/Footer";
 import { Flex, Main, Title } from "_/components/library";
-import { Nav } from "_/components/Nav";
+import { ConnectionBar } from "_/mockup/components/ConnectionBar";
 import { classNames } from "_/styles/classNames";
 import { FC } from "react";
 import { FormattedMessage } from "react-intl";
@@ -8,7 +8,7 @@ import { FormattedMessage } from "react-intl";
 const CreatePollPage: FC = () => {
   return (
     <>
-      <Nav showAccount />
+      <ConnectionBar color="primary-b" />
 
       <Main>
         <Flex justify="center">
