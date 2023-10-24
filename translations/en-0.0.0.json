@@ -1,4 +1,10 @@
 {
+  "AboutPage.title": [
+    {
+      "type": 0,
+      "value": "About uVote"
+    }
+  ],
   "AccountConnectors.coinbaseWallet": [
     {
       "type": 0,
@@ -17,7 +23,7 @@
       "value": "MetaMask"
     }
   ],
-  "AccountPreview.connect": [
+  "ConnectButton.connect": [
     {
       "type": 0,
       "value": "Connect"
@@ -41,6 +47,12 @@
       "value": "Disconnect"
     }
   ],
+  "CreatePollPage.title": [
+    {
+      "type": 0,
+      "value": "Create Upoll"
+    }
+  ],
   "CreateSection.ctaText": [
     {
       "type": 0,
@@ -51,6 +63,18 @@
     {
       "type": 0,
       "value": "Create Upoll"
+    }
+  ],
+  "FindPollSection.ctaText": [
+    {
+      "type": 0,
+      "value": "Go to Upoll"
+    }
+  ],
+  "FindPollSection.title": [
+    {
+      "type": 0,
+      "value": "Vote by Invitation"
     }
   ],
   "HypeSection.ctaText": [
@@ -65,6 +89,18 @@
       "value": "Hype Upoll"
     }
   ],
+  "ListPollsPage.title": [
+    {
+      "type": 0,
+      "value": "Hype Upoll"
+    }
+  ],
+  "MyPollsPage.title": [
+    {
+      "type": 0,
+      "value": "Your Upoll"
+    }
+  ],
   "MyPollsSection.ctaText": [
     {
       "type": 0,
@@ -77,16 +113,10 @@
       "value": "Your Upoll"
     }
   ],
-  "VoteSection.ctaText": [
+  "PageNotFound.title": [
     {
       "type": 0,
-      "value": "Go to Upoll"
-    }
-  ],
-  "VoteSection.title": [
-    {
-      "type": 0,
-      "value": "Vote by Invitation"
+      "value": "Page not found"
     }
   ]
 }
