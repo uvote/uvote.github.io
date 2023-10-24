@@ -1,4 +1,4 @@
-import { Button, Main } from "_/components/library";
+import { Button } from "_/components/library";
 import { FC, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { useAccount, useDisconnect } from "wagmi";
