@@ -1,15 +1,30 @@
-.TopBar--primary-a {
-  background-color: $primary-a;
-}
+.TopBar {
+  &__content {
+    display: flex;
+    flex-direction: row;
+    height: $navbar-height;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 1rem;
 
-.TopBar--primary-b {
-  background-color: $primary-b;
-}
+    @include from($tablet) {
+      padding-inline: 2rem;
+    }
+  }
 
-.TopBar--primary-c {
-  background-color: $primary-c;
-}
+  &--primary-a {
+    background-color: $primary-a;
+  }
 
-.TopBar--primary-d {
-  background-color: $primary-d;
+  &--primary-b {
+    background-color: $primary-b;
+  }
+
+  &--primary-c {
+    background-color: $primary-c;
+  }
+
+  &--primary-d {
+    background-color: $primary-d;
+  }
 }

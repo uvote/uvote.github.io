@@ -1,6 +1,6 @@
+import { ConnectionBar } from "_/components/ConnectionBar";
 import { Footer } from "_/components/Footer";
 import { Main } from "_/components/library";
-import { Nav } from "_/components/Nav";
 import { PollCard } from "_/components/PollCard";
 import { FC } from "react";
 import { Column, Columns } from "trunx";
@@ -15,7 +15,7 @@ const polls: { id: string; text: string }[] = [
 const HomePage: FC = () => {
   return (
     <>
-      <Nav showAccount />
+      <ConnectionBar />
 
       <Main>
         <Columns>

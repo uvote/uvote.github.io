@@ -1,9 +1,7 @@
-import { pathname } from "_/routing/pathnames";
 import { classNames } from "_/styles/classNames";
 import { PrimaryColor } from "_/styles/colors";
 import { FC, PropsWithChildren } from "react";
-import { Link } from "react-router-dom";
-import { ColorModifierProp, Flex, Navbar, NavbarProps } from "trunx";
+import { ColorModifierProp, Navbar, NavbarProps } from "trunx";
 
 import { LogoType } from "./Logotype";
 
@@ -24,13 +22,10 @@ export const TopBar: FC<PropsWithChildren<TopBarProps>> = ({
         "TopBar--primary-d": color === "primary-d",
       })}
     >
-      <Flex direction="row" alignItems="center">
-        <Link to={pathname.home()}>
-          <LogoType />
-        </Link>
-
+      <div className={classNames("TopBar__content")}>
+        <LogoType />
         {children}
-      </Flex>
+      </div>
     </Navbar>
   );
 };

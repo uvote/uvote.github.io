@@ -1,4 +1,7 @@
 {
+  "AboutPage.title": {
+    "defaultMessage": "About uVote"
+  },
   "AccountConnectors.coinbaseWallet": {
     "defaultMessage": "Coinbase"
   },
@@ -40,6 +43,9 @@
   },
   "MyPollsSection.title": {
     "defaultMessage": "Your Upoll"
+  },
+  "PageNotFound.title": {
+    "defaultMessage": "Page not found"
   },
   "VoteSection.ctaText": {
     "defaultMessage": "Go to Upoll"

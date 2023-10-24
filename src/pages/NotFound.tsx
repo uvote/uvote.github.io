@@ -1,19 +1,19 @@
 import { Footer } from "_/components/Footer";
-import { Main, Title } from "_/components/library";
-import { Nav } from "_/components/Nav";
+import { Main, Title, TopBar } from "_/components/library";
 import { FC } from "react";
+import { FormattedMessage } from "react-intl";
 import { Content } from "trunx";
-
-const title = "Page not found";
 
 const PageNotFound: FC = () => {
   return (
     <>
-      <Nav />
+      <TopBar />
 
       <Main>
         <Content>
-          <Title>{title}</Title>
+          <Title>
+            <FormattedMessage id="PageNotFound.title" />
+          </Title>
         </Content>
       </Main>
 

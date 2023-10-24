@@ -1,6 +1,6 @@
 import { Footer } from "_/components/Footer";
 import { Column, Columns, Main } from "_/components/library";
-import { Nav } from "_/components/Nav";
+import { ConnectionBar } from "_/mockup/components/ConnectionBar";
 import { CreateSection } from "_/mockup/components/CreateSection";
 import { HypeSection } from "_/mockup/components/HypeSection";
 import { MyPollsSection } from "_/mockup/components/MyPollsSection";
@@ -10,7 +10,7 @@ import { FC } from "react";
 const HomePage: FC = () => {
   return (
     <>
-      <Nav showAccount />
+      <ConnectionBar />
 
       <Main>
         <Columns>

@@ -1,4 +1,4 @@
-import { Nav } from "_/components/Nav";
+import { TopBar } from "_/components/library";
 import { routePath as mockupRoutePath } from "_/mockup/routing/routes";
 import { routePath } from "_/routing/routes";
 import { FC, lazy, Suspense } from "react";
@@ -14,15 +14,13 @@ const MockupIndex = lazy(() => import("_/mockup/pages/Index"));
 const MockupHome = lazy(() => import("_/mockup/pages/Home"));
 const MockupCreatePoll = lazy(() => import("_/mockup/pages/CreatePoll"));
 
-const Loading: FC = () => <Nav />;
-
 export const Router: FC = () => (
   <BrowserRouter>
     <Routes>
       <Route
         path={routePath.home}
         element={
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<TopBar />}>
             <Home />
           </Suspense>
         }
@@ -31,7 +29,7 @@ export const Router: FC = () => (
       <Route
         path={routePath.about}
         element={
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<TopBar />}>
             <About />
           </Suspense>
         }
@@ -40,7 +38,7 @@ export const Router: FC = () => (
       <Route
         path={routePath.account}
         element={
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<TopBar />}>
             <Account />
           </Suspense>
         }
@@ -51,7 +49,7 @@ export const Router: FC = () => (
       <Route
         path={mockupRoutePath.index}
         element={
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<TopBar />}>
             <MockupIndex />
           </Suspense>
         }
@@ -60,7 +58,7 @@ export const Router: FC = () => (
       <Route
         path={mockupRoutePath.home}
         element={
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<TopBar />}>
             <MockupHome />
           </Suspense>
         }
@@ -69,7 +67,7 @@ export const Router: FC = () => (
       <Route
         path={mockupRoutePath.createPoll}
         element={
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<TopBar color="primary-b" />}>
             <MockupCreatePoll />
           </Suspense>
         }
@@ -80,7 +78,7 @@ export const Router: FC = () => (
       <Route
         path="*"
         element={
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<TopBar />}>
             <NotFound />
           </Suspense>
         }

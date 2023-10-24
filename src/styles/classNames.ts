@@ -12,6 +12,7 @@ type BoxClassName =
 type ConnectButtonClassName = "ConnectButton__address";
 type MainClassName = "Main__container";
 type TopBarClassName =
+  | "TopBar__content"
   | "TopBar--primary-a"
   | "TopBar--primary-b"
   | "TopBar--primary-c"
