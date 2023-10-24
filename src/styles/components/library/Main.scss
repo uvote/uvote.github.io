@@ -1,4 +1,6 @@
-.Main__container {
-  margin-top: $navbar-height;
-  min-height: 100vh;
+.Main {
+  &__container {
+    margin-top: $navbar-height;
+    min-height: 100vh;
+  }
 }

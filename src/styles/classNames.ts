@@ -9,6 +9,7 @@ type BoxClassName =
   | "Box--primary-b"
   | "Box--primary-c"
   | "Box--primary-d";
+type ConnectButtonClassName = "ConnectButton__address";
 type MainClassName = "Main__container";
 type TopBarClassName =
   | "TopBar--primary-a"
@@ -16,11 +17,13 @@ type TopBarClassName =
   | "TopBar--primary-c"
   | "TopBar--primary-d";
 
-type ClassName =
-  | BulmaClassName
+type ComponentClassName =
   | BoxClassName
+  | ConnectButtonClassName
   | MainClassName
   | TopBarClassName;
+
+type ClassName = BulmaClassName | ComponentClassName;
 
 export const classNames = (...args: ClassNamesArg<ClassName>[]) =>
   _classNames(...args);

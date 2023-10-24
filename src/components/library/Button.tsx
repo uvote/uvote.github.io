@@ -6,15 +6,16 @@ import {
   MainColor,
 } from "trunx";
 
-export type ButtonProps = Omit<
-  _ButtonProps,
-  "className" | "color" | "isRounded"
-> &
+export type ButtonProps = Omit<_ButtonProps, "color" | "isRounded"> &
   ColorModifierProp<Extract<MainColor, "warning" | "success">>;
 
 export const Button: FC<PropsWithChildren<ButtonProps>> = ({
   children,
   ...props
 }) => {
-  return <_Button {...props}>{children}</_Button>;
+  return (
+    <_Button isRounded {...props}>
+      {children}
+    </_Button>
+  );
 };

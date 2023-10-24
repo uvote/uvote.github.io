@@ -1,15 +1,17 @@
-.Box--primary-a {
-  background-color: $primary-a;
-}
+.Box {
+  &--primary-a {
+    background-color: $primary-a;
+  }
 
-.Box--primary-b {
-  background-color: $primary-b;
-}
+  &--primary-b {
+    background-color: $primary-b;
+  }
 
-.Box--primary-c {
-  background-color: $primary-c;
-}
+  &--primary-c {
+    background-color: $primary-c;
+  }
 
-.Box--primary-d {
-  background-color: $primary-d;
+  &--primary-d {
+    background-color: $primary-d;
+  }
 }

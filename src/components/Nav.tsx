@@ -1,4 +1,4 @@
-import { AccountPreview } from "_/components/AccountPreview";
+import { ConnectButton } from "_/components/ConnectButton";
 import { classNames } from "_/styles/classNames";
 import { FC } from "react";
 import { Navbar, NavbarBrand, NavbarItem } from "trunx";
@@ -13,7 +13,7 @@ export const Nav: FC<NavProps> = ({ showAccount = false }) => {
       <NavbarBrand>
         {showAccount ? (
           <NavbarItem>
-            <AccountPreview />
+            <ConnectButton />
           </NavbarItem>
         ) : null}
       </NavbarBrand>

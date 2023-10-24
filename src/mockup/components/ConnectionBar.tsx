@@ -1,4 +1,5 @@
-import { Button, TopBar, TopBarProps } from "_/components/library";
+import { TopBar, TopBarProps } from "_/components/library";
+import { ConnectButton } from "_/mockup/components/ConnectButton";
 import { FC } from "react";
 
 type Props = Pick<TopBarProps, "color">;
@@ -6,7 +7,7 @@ type Props = Pick<TopBarProps, "color">;
 export const ConnectionBar: FC<Props> = ({ color }) => {
   return (
     <TopBar color={color}>
-      <Button color="warning">Connect</Button>
+      <ConnectButton />
     </TopBar>
   );
 };

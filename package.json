@@ -18,7 +18,7 @@
     "formatjs_compile": "npm run formatjs_compile:en && npm run formatjs_compile:it",
     "formatjs_compile:en": "formatjs compile translations/en.json --ast --out-file public/translations/en-${npm_package_version}.json",
     "formatjs_compile:it": "formatjs compile translations/it.json --ast --out-file public/translations/it-${npm_package_version}.json",
-    "generate_files": "npm run build_html && npm run build_manifest && npm run formatjs_compile",
+    "generate_files": "npm run build_html && npm run build_manifest && npm run formatjs_compile && npm run build_formatjs_types",
     "jest": "jest",
     "lint-staged": "lint-staged",
     "postbuild": "cp dist/index.html dist/404.html",
@@ -51,7 +51,7 @@
     "react-dom": "^18.2.0",
     "react-intl": "^6.4.4",
     "react-router-dom": "^6.13.0",
-    "trunx": "^0.45.2",
+    "trunx": "^0.45.7",
     "util": "^0.12.4",
     "viem": "~0.3.36",
     "wagmi": "^1.0.6"

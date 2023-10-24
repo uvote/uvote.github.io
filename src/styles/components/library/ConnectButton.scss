@@ -1,0 +1,7 @@
+.ConnectButton {
+  &__address {
+    max-width: 108px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

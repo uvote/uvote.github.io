@@ -8,7 +8,7 @@
   "AccountConnectors.metaMaskWallet": {
     "defaultMessage": "MetaMask"
   },
-  "AccountPreview.connect": {
+  "ConnectButton.connect": {
     "defaultMessage": "Connetti"
   },
   "ConnectWallet.connectedToUnsopportedNetworkTitle": {
