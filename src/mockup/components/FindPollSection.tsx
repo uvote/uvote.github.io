@@ -4,22 +4,22 @@ import { FC, PropsWithChildren, useCallback } from "react";
 import { useIntl } from "react-intl";
 import { useNavigate } from "react-router-dom";
 
-export const MyPollsSection: FC<PropsWithChildren> = ({ children }) => {
+export const FindPollSection: FC<PropsWithChildren> = ({ children }) => {
   const { formatMessage } = useIntl();
   const navigate = useNavigate();
 
   const ctaOnClick = useCallback<
     NonNullable<HomeSectionProps["ctaOnClick"]>
   >(() => {
-    navigate(pathname.myPolls());
+    navigate(pathname.pollExample1());
   }, [navigate]);
 
   return (
     <HomeSection
-      color="primary-c"
+      color="primary-a"
       ctaOnClick={ctaOnClick}
-      ctaText={formatMessage({ id: "MyPollsSection.ctaText" })}
-      title={formatMessage({ id: "MyPollsSection.title" })}
+      ctaText={formatMessage({ id: "FindPollSection.ctaText" })}
+      title={formatMessage({ id: "FindPollSection.title" })}
     >
       {children}
     </HomeSection>

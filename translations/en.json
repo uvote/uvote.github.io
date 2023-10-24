@@ -38,6 +38,12 @@
   "HypeSection.title": {
     "defaultMessage": "Hype Upoll"
   },
+  "ListPollsPage.title": {
+    "defaultMessage": "Hype Upoll"
+  },
+  "MyPollsPage.title": {
+    "defaultMessage": "Your Upoll"
+  },
   "MyPollsSection.ctaText": {
     "defaultMessage": "Your Upoll"
   },
@@ -47,10 +53,10 @@
   "PageNotFound.title": {
     "defaultMessage": "Page not found"
   },
-  "VoteSection.ctaText": {
+  "FindPollSection.ctaText": {
     "defaultMessage": "Go to Upoll"
   },
-  "VoteSection.title": {
+  "FindPollSection.title": {
     "defaultMessage": "Vote by Invitation"
   }
 }
