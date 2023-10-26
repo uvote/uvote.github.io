@@ -56,6 +56,9 @@
   "FindPollSection.ctaText": {
     "defaultMessage": "Go to Upoll"
   },
+  "FindPollSection.label": {
+    "defaultMessage": "Invitation by Link/Name"
+  },
   "FindPollSection.title": {
     "defaultMessage": "Vote by Invitation"
   }

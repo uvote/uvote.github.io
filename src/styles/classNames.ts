@@ -4,27 +4,34 @@ import {
   ClassNamesArg,
 } from "trunx";
 
-type BoxClassName =
+// Component library.
+
+type Box =
   | "Box--primary-a"
   | "Box--primary-b"
   | "Box--primary-c"
   | "Box--primary-d";
-type ConnectButtonClassName = "ConnectButton__address";
-type MainClassName = "Main__container";
-type TopBarClassName =
+type ConnectButton = "ConnectButton__address";
+type Main = "Main__container";
+type TopBar =
   | "TopBar__content"
   | "TopBar--primary-a"
   | "TopBar--primary-b"
   | "TopBar--primary-c"
   | "TopBar--primary-d";
 
-type ComponentClassName =
-  | BoxClassName
-  | ConnectButtonClassName
-  | MainClassName
-  | TopBarClassName;
+type ComponentLibraryClassName = Box | ConnectButton | Main | TopBar;
 
-type ClassName = BulmaClassName | ComponentClassName;
+// Other components.
+
+type FindPollSection = "FindPollSection__input" | "FindPollSection__label";
+
+type ComponentClassName = FindPollSection;
+
+type ClassName =
+  | BulmaClassName
+  | ComponentClassName
+  | ComponentLibraryClassName;
 
 export const classNames = (...args: ClassNamesArg<ClassName>[]) =>
   _classNames(...args);

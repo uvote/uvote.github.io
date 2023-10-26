@@ -1,10 +1,11 @@
+import { FindPollSection } from "_/components/FindPollSection";
 import { Footer } from "_/components/Footer";
 import { Column, Columns, Main } from "_/components/library";
 import { ConnectionBar } from "_/mockup/components/ConnectionBar";
 import { CreateSection } from "_/mockup/components/CreateSection";
-import { FindPollSection } from "_/mockup/components/FindPollSection";
 import { HypeSection } from "_/mockup/components/HypeSection";
 import { MyPollsSection } from "_/mockup/components/MyPollsSection";
+import { pathname } from "_/mockup/routing/pathnames";
 import { FC } from "react";
 
 const HomePage: FC = () => {
@@ -15,7 +16,7 @@ const HomePage: FC = () => {
       <Main>
         <Columns>
           <Column>
-            <FindPollSection />
+            <FindPollSection target={pathname.pollExample1} />
             <HypeSection />
           </Column>
 
