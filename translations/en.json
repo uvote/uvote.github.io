@@ -41,6 +41,9 @@
   "ListPollsPage.title": {
     "defaultMessage": "Hype Upoll"
   },
+  "Main.noNetwork": {
+    "defaultMessage": "No network"
+  },
   "MyPollsPage.title": {
     "defaultMessage": "Your Upoll"
   },

@@ -26,7 +26,7 @@
     "prebuild": "npm run test && npm run build_formatjs_types && npm run check_types && npm run eslint && npm run build_html && npm run build_manifest",
     "preformatjs_compile": "rm -rf public/translations/",
     "predeploy": "npm run build",
-    "prestart": "npm run build_html && npm run build_manifest && npm run formatjs_compile",
+    "prestart": "npm run generate_files",
     "pretest": "npm run formatjs_compile",
     "preview": "vite preview --host",
     "start": "vite --host",
