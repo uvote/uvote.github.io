@@ -26,7 +26,7 @@ export const FindPollSection: FC<Props> = ({ target }) => {
       ctaText={formatMessage({ id: "FindPollSection.ctaText" })}
       title={formatMessage({ id: "FindPollSection.title" })}
     >
-      <Label className={classNames("FindPollSection__label")}>
+      <Label>
         <FormattedMessage id="FindPollSection.label" />
       </Label>
 

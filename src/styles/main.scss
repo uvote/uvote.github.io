@@ -7,6 +7,8 @@
 // 3. then bulma modules;
 @import "bulma/bulma";
 // 4. and finally the overrides.
+@import "./bulma/overrides/box";
+@import "./bulma/overrides/label";
 @import "./bulma/overrides/navbar";
 
 @import "./colors";

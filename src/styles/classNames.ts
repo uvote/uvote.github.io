@@ -24,7 +24,7 @@ type ComponentLibraryClassName = Box | ConnectButton | Main | TopBar;
 
 // Other components.
 
-type FindPollSection = "FindPollSection__input" | "FindPollSection__label";
+type FindPollSection = "FindPollSection__input";
 
 type ComponentClassName = FindPollSection;
 

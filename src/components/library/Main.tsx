@@ -6,7 +6,6 @@ import { Container, Message } from "trunx";
 
 export const Main: FC<PropsWithChildren> = ({ children }) => {
   const isOffline = useOfflineDetection();
-  console.log("isOffline", isOffline);
 
   return (
     <main className={classNames("Main__container", "px-2", "py-4")}>

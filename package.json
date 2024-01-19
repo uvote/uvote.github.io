@@ -22,7 +22,6 @@
     "jest": "jest",
     "lint-staged": "lint-staged",
     "postbuild": "cp dist/index.html dist/404.html",
-    "postbuild_translations": "npm run build_formatjs_types",
     "prebuild": "npm run test && npm run build_formatjs_types && npm run check_types && npm run eslint && npm run build_html && npm run build_manifest",
     "preformatjs_compile": "rm -rf public/translations/",
     "predeploy": "npm run build",

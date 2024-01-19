@@ -1,6 +1,7 @@
 export * from "./library/Box";
 export * from "./library/Button";
 export * from "./library/CallToAction";
+export * from "./library/Label";
 export * from "./library/Main";
 export * from "./library/TopBar";
 export {
@@ -10,7 +11,6 @@ export {
   Field,
   Flex,
   Input,
-  Label,
   Section,
   Tabs,
   Title,

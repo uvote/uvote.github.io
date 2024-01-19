@@ -1,6 +1,6 @@
 {
   "AboutPage.title": {
-    "defaultMessage": "About uVote"
+    "defaultMessage": "About Uvote"
   },
   "AccountConnectors.coinbaseWallet": {
     "defaultMessage": "Coinbase"
@@ -23,6 +23,9 @@
   "ConnectedAccount.disconnect": {
     "defaultMessage": "Disconnetti"
   },
+  "CreateSection.subtitle": {
+    "defaultMessage": "Crea il tuo Upoll scritto nella blockchain"
+  },
   "CreatePollPage.title": {
     "defaultMessage": "Create Upoll"
   },
@@ -31,6 +34,27 @@
   },
   "CreateSection.title": {
     "defaultMessage": "Create Upoll"
+  },
+  "CreateSection.instruction1": {
+    "defaultMessage": "Choose a title <em>(max 30 characters)</em>."
+  },
+  "CreateSection.instruction2": {
+    "defaultMessage": "Formulate the poll <em>(max 250 characters)</em>."
+  },
+  "CreateSection.instruction3": {
+    "defaultMessage": "Set end time and options."
+  },
+  "CreateSection.instruction4": {
+    "defaultMessage": "Pay the blockchain writing fee."
+  },
+  "Footer.GitHub": {
+    "defaultMessage": "GitHub"
+  },
+  "Footer.title": {
+    "defaultMessage": "Uvote {versionName} {version}"
+  },
+  "Footer.subtitle": {
+    "defaultMessage": "Made in Italy dall'ennesimo GG-team"
   },
   "HypeSection.ctaText": {
     "defaultMessage": "See all"

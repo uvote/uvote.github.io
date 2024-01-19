@@ -38,10 +38,31 @@ module.exports = {
         varsIgnorePattern: "^_",
       },
     ],
-    "formatjs/no-literal-string-in-jsx": "warn",
+    "formatjs/enforce-placeholders": "error",
+    "formatjs/no-literal-string-in-jsx": [
+      "warn",
+      {
+        props: {
+          include: [
+            // check aria attributes that the screen reader announces.
+            ["*", "aria-{label,description,details,errormessage}"],
+            // check placeholder and title attribute of all native DOM elements.
+            ["[a-z]*([a-z0-9])", "(placeholder|title)"],
+            // check alt attribute of the img tag.
+            ["img", "alt"],
+            // check other props that may contain literal strings
+            ["*", "header"],
+            ["*", "label"],
+          ],
+        },
+      },
+    ],
+    "func-style": ["warn", "expression"],
     "import/first": "error",
     "import/newline-after-import": "error",
     "import/no-cycle": "error",
+    "jsx-a11y/aria-props": "error",
+    "jsx-a11y/aria-proptypes": "error",
     "jsx-a11y/aria-unsupported-elements": "error",
     "jsx-a11y/role-has-required-aria-props": "error",
     "no-case-declarations": "error",
