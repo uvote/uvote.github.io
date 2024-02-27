@@ -18,15 +18,15 @@
     "formatjs_compile": "npm run formatjs_compile:en && npm run formatjs_compile:it",
     "formatjs_compile:en": "formatjs compile translations/en.json --ast --out-file public/translations/en-${npm_package_version}.json",
     "formatjs_compile:it": "formatjs compile translations/it.json --ast --out-file public/translations/it-${npm_package_version}.json",
-    "generate_files": "npm run build_html && npm run build_manifest && npm run formatjs_compile && npm run build_formatjs_types",
+    "generate_files": "npm run build_html && npm run build_manifest && npm run formatjs_compile && npm run build_formatjs_types && npm run wagmi_generate",
     "jest": "jest",
     "lint-staged": "lint-staged",
     "postbuild": "cp dist/index.html dist/404.html",
-    "prebuild": "npm run test && npm run build_formatjs_types && npm run check_types && npm run eslint && npm run build_html && npm run build_manifest",
+    "prebuild": "npm run test && npm run check_types && npm run eslint",
     "preformatjs_compile": "rm -rf public/translations/",
     "predeploy": "npm run build",
     "prestart": "npm run generate_files",
-    "pretest": "npm run formatjs_compile",
+    "pretest": "npm run generate_files",
     "preview": "vite preview --host",
     "start": "vite --host",
     "test": "npm run jest",
@@ -112,7 +112,8 @@
   },
   "pre-commit": [
     "check_types",
-    "lint-staged"
+    "lint-staged",
+    "test"
   ],
   "prettier": {
     "plugins": [

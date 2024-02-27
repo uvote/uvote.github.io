@@ -10,7 +10,7 @@ contract NicknameRegistry {
     //  return nicknameOf[account]
     // }
 
-    function setNickname(string nickname) public {
+    function setNickname(string memory nickname) public {
         // Set a limit to nickname length.
         // require(bytes(nickname).length <= 42, "Nickname too long");
 

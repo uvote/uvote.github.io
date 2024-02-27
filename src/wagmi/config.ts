@@ -4,7 +4,7 @@ import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { publicProvider } from "wagmi/providers/public";
 
-import * as metadata from "./metadata.json";
+import * as metadata from "../metadata.json";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
@@ -14,7 +14,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [publicProvider()]
 );
 
-export const config = createConfig({
+export const wagmiConfig = createConfig({
   autoConnect: true,
   connectors: [
     new MetaMaskConnector({ chains }),
