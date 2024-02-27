@@ -2,7 +2,7 @@
   "AboutPage.title": [
     {
       "type": 0,
-      "value": "About uVote"
+      "value": "About Uvote"
     }
   ],
   "AccountConnectors.coinbaseWallet": [
@@ -59,6 +59,64 @@
       "value": "Create"
     }
   ],
+  "CreateSection.instruction1": [
+    {
+      "type": 0,
+      "value": "Choose a title "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "(max 30 characters)"
+        }
+      ],
+      "type": 8,
+      "value": "em"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "CreateSection.instruction2": [
+    {
+      "type": 0,
+      "value": "Formulate the poll "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "(max 250 characters)"
+        }
+      ],
+      "type": 8,
+      "value": "em"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "CreateSection.instruction3": [
+    {
+      "type": 0,
+      "value": "Set end time and options."
+    }
+  ],
+  "CreateSection.instruction4": [
+    {
+      "type": 0,
+      "value": "Pay the blockchain writing fee."
+    }
+  ],
+  "CreateSection.subtitle": [
+    {
+      "type": 0,
+      "value": "Create your Upoll written in the blockchain"
+    }
+  ],
   "CreateSection.title": [
     {
       "type": 0,
@@ -71,10 +129,46 @@
       "value": "Go to Upoll"
     }
   ],
+  "FindPollSection.label": [
+    {
+      "type": 0,
+      "value": "Invitation by Link/Name"
+    }
+  ],
   "FindPollSection.title": [
     {
       "type": 0,
       "value": "Vote by Invitation"
+    }
+  ],
+  "Footer.GitHub": [
+    {
+      "type": 0,
+      "value": "GitHub"
+    }
+  ],
+  "Footer.subtitle": [
+    {
+      "type": 0,
+      "value": "Made in Italy by yet another GG-team"
+    }
+  ],
+  "Footer.title": [
+    {
+      "type": 0,
+      "value": "Uvote "
+    },
+    {
+      "type": 1,
+      "value": "versionName"
+    },
+    {
+      "type": 0,
+      "value": " "
+    },
+    {
+      "type": 1,
+      "value": "version"
     }
   ],
   "HypeSection.ctaText": [
@@ -93,6 +187,12 @@
     {
       "type": 0,
       "value": "Hype Upoll"
+    }
+  ],
+  "Main.noNetwork": [
+    {
+      "type": 0,
+      "value": "No network"
     }
   ],
   "MyPollsPage.title": [
