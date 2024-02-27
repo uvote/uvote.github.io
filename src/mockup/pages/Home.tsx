@@ -1,14 +1,17 @@
 import { CreateSection } from "_/components/CreateSection";
 import { FindPollSection } from "_/components/FindPollSection";
 import { Footer } from "_/components/Footer";
+import { HypeSection } from "_/components/HypeSection";
 import { Column, Columns, Main } from "_/components/library";
+import { MyPollsSection } from "_/components/MyPollsSection";
 import { ConnectionBar } from "_/mockup/components/ConnectionBar";
-import { HypeSection } from "_/mockup/components/HypeSection";
-import { MyPollsSection } from "_/mockup/components/MyPollsSection";
 import { pathname } from "_/mockup/routing/pathnames";
 import { FC } from "react";
 
 const HomePage: FC = () => {
+  const getPollUrl = () => pathname.pollExample1();
+  const getMyPollsUrl = () => pathname.myPolls();
+
   return (
     <>
       <ConnectionBar />
@@ -16,13 +19,13 @@ const HomePage: FC = () => {
       <Main>
         <Columns>
           <Column>
-            <FindPollSection target={pathname.pollExample1} />
+            <FindPollSection getPollUrl={getPollUrl} />
             <HypeSection />
           </Column>
 
           <Column>
             <CreateSection />
-            <MyPollsSection />
+            <MyPollsSection getMyPollsUrl={getMyPollsUrl} />
           </Column>
         </Columns>
       </Main>

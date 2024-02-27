@@ -27,39 +27,35 @@ export const CreateSection: FC = () => {
         {formatMessage({ id: "CreateSection.subtitle" })}
       </Title>
 
-      <p>
-        <ol>
-          <li>
-            <FormattedMessage
-              id="CreateSection.instruction1"
-              values={{
-                em: (chunks) => (
-                  <span className={classNames("has-text-danger")}>
-                    {chunks}
-                  </span>
-                ),
-              }}
-            />
-          </li>
+      <ol>
+        <li>
+          <FormattedMessage
+            id="CreateSection.instruction1"
+            values={{
+              em: (chunks) => (
+                <span className={classNames("has-text-danger")}>{chunks}</span>
+              ),
+            }}
+          />
+        </li>
 
-          <li>
-            <FormattedMessage
-              id="CreateSection.instruction2"
-              values={{
-                em: (chunks) => <span>{chunks}</span>,
-              }}
-            />
-          </li>
+        <li>
+          <FormattedMessage
+            id="CreateSection.instruction2"
+            values={{
+              em: (chunks) => <span>{chunks}</span>,
+            }}
+          />
+        </li>
 
-          <li>
-            <FormattedMessage id="CreateSection.instruction3" />
-          </li>
+        <li>
+          <FormattedMessage id="CreateSection.instruction3" />
+        </li>
 
-          <li>
-            <FormattedMessage id="CreateSection.instruction4" />
-          </li>
-        </ol>
-      </p>
+        <li>
+          <FormattedMessage id="CreateSection.instruction4" />
+        </li>
+      </ol>
     </HomeSection>
   );
 };

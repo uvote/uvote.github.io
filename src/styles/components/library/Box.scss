@@ -1,10 +1,12 @@
 .Box {
   &--primary-a {
+    padding: 3em 2em 1em 2em;
     background-color: $primary-a;
   }
 
   &--primary-b {
     background-color: $primary-b;
+    padding: 3em 2em 1em 2em;
   }
 
   &--primary-c {

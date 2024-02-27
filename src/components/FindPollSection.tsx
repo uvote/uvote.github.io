@@ -6,18 +6,20 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
-  target: () => string;
+  getPollUrl: () => string | undefined;
 };
 
-export const FindPollSection: FC<Props> = ({ target }) => {
+export const FindPollSection: FC<Props> = ({ getPollUrl }) => {
   const { formatMessage } = useIntl();
   const navigate = useNavigate();
 
   const ctaOnClick = useCallback<
     NonNullable<HomeSectionProps["ctaOnClick"]>
   >(() => {
-    navigate(target());
-  }, [navigate, target]);
+    const target = getPollUrl();
+    if (!target) return;
+    navigate(target);
+  }, [navigate, getPollUrl]);
 
   return (
     <HomeSection
