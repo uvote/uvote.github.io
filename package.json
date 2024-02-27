@@ -64,7 +64,7 @@
     "@types/react-dom": "^18.0.3",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",
-    "@vitejs/plugin-react": "^4.0.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "@wagmi/cli": "^1.0.0",
     "eslint": "^8.43.0",
     "eslint-plugin-formatjs": "^4.10.3",
@@ -86,7 +86,7 @@
     "sass": "^1.62.1",
     "ts-jest": "^29.1.1",
     "typescript": "^5.0.4",
-    "vite": "^4.3.5",
+    "vite": "^5.1.4",
     "write-file-utf8": "^3.0.2"
   },
   "browserslist": {
