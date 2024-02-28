@@ -6,19 +6,18 @@ contract NicknameRegistry {
 
     mapping(address => string) nicknameOf;
 
-    // function getNickname(address account) public returns(string) {
-    //  return nicknameOf[account]
-    // }
+    function getNickname(address account) public view returns (string memory) {
+        return nicknameOf[account];
+    }
 
     function setNickname(string memory nickname) public {
         // Set a limit to nickname length.
-        // require(bytes(nickname).length <= 42, "Nickname too long");
-
+        require(bytes(nickname).length <= 42, "Nickname too long");
         // If it is a new nickname, increment count.
-        // if (!nicknameOf[msg.sender]) {
-        //  count++;
-        //}
-
+        if (bytes(nicknameOf[msg.sender]).length == 0) {
+            count++;
+        }
+        // Set nickname.
         nicknameOf[msg.sender] = nickname;
     }
 }
