@@ -1,8 +1,8 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
 contract NicknameRegistry {
-    uint256 public count = 0;
+    uint256 count = 0;
 
     mapping(address => string) nicknameOf;
 
