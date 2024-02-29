@@ -6,6 +6,10 @@ contract NicknameRegistry {
 
     mapping(address => string) nicknameOf;
 
+    function getCount() public view returns (uint256) {
+        return count;
+    }
+
     function getNickname(address account) public view returns (string memory) {
         return nicknameOf[account];
     }

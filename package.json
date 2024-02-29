@@ -15,6 +15,7 @@
     "eslint": "npm run eslint:scripts && npm run eslint:src",
     "eslint:scripts": "eslint --fix --ext .js scripts/",
     "eslint:src": "eslint --fix --ext .ts --ext .tsx src/",
+    "forge_test": "forge test",
     "formatjs_compile": "npm run formatjs_compile:en && npm run formatjs_compile:it",
     "formatjs_compile:en": "formatjs compile translations/en.json --ast --out-file public/translations/en-${npm_package_version}.json",
     "formatjs_compile:it": "formatjs compile translations/it.json --ast --out-file public/translations/it-${npm_package_version}.json",
@@ -29,7 +30,7 @@
     "pretest": "npm run generate_files",
     "preview": "vite preview --host",
     "start": "vite --host",
-    "test": "npm run jest",
+    "test": "npm run jest && npm run forge_test",
     "wagmi_generate": "wagmi generate"
   },
   "repository": {
@@ -80,8 +81,6 @@
     "pre-commit": "^1.2.2",
     "prettier": "^2.8.8",
     "prettier-plugin-jsdoc": "^0.4.2",
-    "prettier-plugin-sh": "^0.12.8",
-    "prettier-plugin-solidity": "^1.3.1",
     "read-file-utf8": "^3.0.0",
     "sass": "^1.62.1",
     "ts-jest": "^29.1.1",
@@ -106,8 +105,11 @@
       "prettier --write",
       "eslint --fix"
     ],
-    "*.{css,md,scss,sh,sol}": [
+    "*.{css,md,scss}": [
       "prettier --write"
+    ],
+    "*.sol": [
+      "forge fmt"
     ]
   },
   "pre-commit": [
@@ -117,9 +119,7 @@
   ],
   "prettier": {
     "plugins": [
-      "prettier-plugin-jsdoc",
-      "prettier-plugin-sh",
-      "prettier-plugin-solidity"
+      "prettier-plugin-jsdoc"
     ],
     "overrides": [
       {
