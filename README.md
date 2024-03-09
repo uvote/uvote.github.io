@@ -4,11 +4,9 @@
 
 
 
-DECENTRALIZATED POLLS ON BLOCKCHAIN
+**DECENTRALIZATED POLLS ON BLOCKCHAIN**
 
- 
+*Blockchain technology, through permanent data writing, allows to generate ballots completely clear, unassailable by fraudulent acts, with a practically nil cost.*
 
 
-Blockchain technology, through permanent data writing, allows to generate ballots completely clear, unassailable by fraudulent acts, with a practically nil cost.
-
-Uvote (dapp) aims to give a truthful depiction of reality, using secure polls, verifiable in real-time, by anyone.
+***uVote aims to render a truthful depiction of reality, using secure polls, verifiable in real-time, by anyone.***
