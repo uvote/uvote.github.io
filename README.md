@@ -4,7 +4,7 @@
 
 
 
-**DECENTRALIZATED POLLS ON BLOCKCHAIN**
+**THE FASTEST AND SECURE WAY TO GENERATE POLLS**
 
 *Blockchain technology, through permanent data writing, allows to generate ballots completely clear, unassailable by fraudulent acts, with a practically nil cost.*
 
