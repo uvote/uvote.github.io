@@ -2,6 +2,9 @@
   "AboutPage.title": {
     "defaultMessage": "About Uvote"
   },
+  "AccountConnectors.cannotConnect": {
+    "defaultMessage": "Could not connect wallet"
+  },
   "AccountConnectors.coinbaseWallet": {
     "defaultMessage": "Coinbase"
   },

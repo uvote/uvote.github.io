@@ -1,30 +1,21 @@
-import { configureChains, createConfig } from "wagmi";
-import { foundry, goerli, mainnet } from "wagmi/chains";
-import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import { publicProvider } from "wagmi/providers/public";
+import { createConfig, http } from "wagmi";
+import { goerli, mainnet } from "wagmi/chains";
+import { coinbaseWallet, injected } from "wagmi/connectors";
 
 import * as metadata from "../metadata.json";
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [
-    mainnet,
-    ...(import.meta.env?.MODE === "development" ? [goerli, foundry] : []),
-  ],
-  [publicProvider()]
-);
+const appName = metadata.asciiName;
 
 export const wagmiConfig = createConfig({
-  autoConnect: true,
+  chains: [mainnet, goerli],
   connectors: [
-    new MetaMaskConnector({ chains }),
-    new CoinbaseWalletConnector({
-      chains,
-      options: {
-        appName: metadata.asciiName,
-      },
+    injected(),
+    coinbaseWallet({
+      appName,
     }),
   ],
-  publicClient,
-  webSocketPublicClient,
+  transports: {
+    [mainnet.id]: http(),
+    [goerli.id]: http(),
+  },
 });

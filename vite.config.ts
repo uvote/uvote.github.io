@@ -3,13 +3,6 @@ import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  build: {
-    rollupOptions: {
-      manualChunks: {
-        react: ["react", "react-dom"],
-      },
-    },
-  },
   define: {
     global: "globalThis",
   },
@@ -21,8 +14,6 @@ export default defineConfig({
   resolve: {
     alias: {
       _: "/src",
-      process: "process/browser",
-      util: "util",
     },
   },
   server: {

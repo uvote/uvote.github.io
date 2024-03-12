@@ -7,14 +7,15 @@ import { useNavigate } from "react-router-dom";
 import { useAccount } from "wagmi";
 
 export const ConnectButton: FC = () => {
-  const { address, isConnected } = useAccount();
+  const account = useAccount();
+  const { address, isConnected } = account;
   const navigate = useNavigate();
 
   const color: ButtonProps["color"] = isConnected ? "success" : "warning";
 
   const onClick = useCallback(() => {
-    if (isConnected) navigate(pathname.account());
-  }, [isConnected, navigate]);
+    navigate(pathname.account());
+  }, [navigate]);
 
   return (
     <Button color={color} onClick={onClick}>
