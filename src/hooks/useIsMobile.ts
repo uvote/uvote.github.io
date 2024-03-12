@@ -4,9 +4,10 @@ export const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const userAgent = window.navigator.userAgent;
-    const mobile = Boolean(userAgent.match(/Android|iPhone|iPad/i));
-    setIsMobile(mobile);
+    const isMobile = Boolean(
+      window.navigator.userAgent.match(/Android|iPhone|iPad/i)
+    );
+    setIsMobile(isMobile);
   }, []);
 
   return { isMobile };
