@@ -1,1 +1,0 @@
-import{h as l}from"./index-89a292e3.js";const e={createPoll:()=>l.createPoll,listPolls:()=>l.listPolls,myPolls:()=>l.myPolls,home:()=>l.home,pollExample1:()=>l.pollExample1,connectedAccount:()=>l.connectedAccount};export{e as p};

@@ -1,0 +1,1 @@
+import{j as s,T as t}from"./index-4iJhRmvq.js";import{C as r,F as e}from"./Footer-BRIRtfbO.js";import{T as o}from"./Title-D4VmPYwY.js";import{M as a,F as i}from"./Main-Yp8ndLRy.js";const d=()=>s.jsxs(s.Fragment,{children:[s.jsx(t,{}),s.jsx(a,{children:s.jsx(r,{children:s.jsx(o,{children:s.jsx(i,{id:"AboutPage.title"})})})}),s.jsx(e,{})]});export{d as default};

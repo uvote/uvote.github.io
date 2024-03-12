@@ -5,6 +5,12 @@
       "value": "About Uvote"
     }
   ],
+  "AccountConnectors.cannotConnect": [
+    {
+      "type": 0,
+      "value": "Could not connect wallet"
+    }
+  ],
   "AccountConnectors.coinbaseWallet": [
     {
       "type": 0,

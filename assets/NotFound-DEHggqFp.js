@@ -1,0 +1,1 @@
+import{j as s,T as t}from"./index-4iJhRmvq.js";import{C as o,F as r}from"./Footer-BRIRtfbO.js";import{T as e}from"./Title-D4VmPYwY.js";import{M as a,F as i}from"./Main-Yp8ndLRy.js";const j=()=>s.jsxs(s.Fragment,{children:[s.jsx(t,{}),s.jsx(a,{children:s.jsx(o,{children:s.jsx(e,{children:s.jsx(i,{id:"PageNotFound.title"})})})}),s.jsx(r,{})]});export{j as default};
