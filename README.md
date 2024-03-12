@@ -1,4 +1,4 @@
-<p align="center"><img src="\public\logotype\logotype-framecircle.svg" alt="logotype_centered" width='35%'></p>
+<p align="center"><img src="\public\logotype\logotype-framesquare.svg" alt="logotype_centered" width='35%'></p>
 
 
 **THE FASTEST AND SECURE WAY TO GENERATE POLLS**
