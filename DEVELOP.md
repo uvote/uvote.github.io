@@ -1,4 +1,4 @@
-# Uvote development
+# uVote development
 
 ## Launch webapp locally
 

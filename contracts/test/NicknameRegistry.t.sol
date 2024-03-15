@@ -11,10 +11,36 @@ contract NicknameRegistryTest is Test {
         nicknameRegistry = new NicknameRegistry();
     }
 
-    function test_setNickname_increments_count() public {
-        uint256 previousCount = nicknameRegistry.getCount();
+    function test_setNickname() public {
+        vm.prank(address(1));
         nicknameRegistry.setNickname("nickname");
-        assertEq(nicknameRegistry.getCount(), previousCount + 1);
+        assertEq(nicknameRegistry.getNickname(address(1)), "nickname");
+    }
+
+    function test_setNickname_then_update_it() public {
+        vm.startPrank(address(1));
+        nicknameRegistry.setNickname("nickname1");
+        nicknameRegistry.setNickname("nickname2");
+        assertEq(nicknameRegistry.getNickname(address(1)), "nickname2");
+        vm.stopPrank();
+    }
+
+    function test_setNickname_increments_count() public {
+        vm.prank(address(1));
+        nicknameRegistry.setNickname("nickname1");
+        assertEq(nicknameRegistry.getCount(), 1);
+        vm.prank(address(2));
+        nicknameRegistry.setNickname("nickname2");
+        assertEq(nicknameRegistry.getCount(), 2);
+    }
+
+    function test_setNickname_increments_count_only_once() public {
+        vm.startPrank(address(1));
+        nicknameRegistry.setNickname("nickname1");
+        assertEq(nicknameRegistry.getCount(), 1);
+        nicknameRegistry.setNickname("nickname2");
+        assertEq(nicknameRegistry.getCount(), 1);
+        vm.stopPrank();
     }
 
     function testFail_setNickname_too_long() public {
