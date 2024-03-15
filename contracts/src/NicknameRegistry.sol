@@ -15,6 +15,8 @@ contract NicknameRegistry {
     }
 
     function setNickname(string memory nickname) public {
+        // Check nickname is not empty.
+        require(bytes(nickname).length > 0, "Nickname too long");
         // Set a limit to nickname length.
         require(bytes(nickname).length <= 42, "Nickname too long");
         // If it is a new nickname, increment count.
@@ -23,5 +25,13 @@ contract NicknameRegistry {
         }
         // Set nickname.
         nicknameOf[msg.sender] = nickname;
+    }
+
+    function deleteNickname() public {
+        // If nickname exists, decrement count and delete it.
+        if (bytes(nicknameOf[msg.sender]).length > 0) {
+            count--;
+            delete nicknameOf[msg.sender];
+        }
     }
 }

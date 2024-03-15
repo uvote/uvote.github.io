@@ -29,6 +29,7 @@ contract NicknameRegistryTest is Test {
         vm.prank(address(1));
         nicknameRegistry.setNickname("nickname1");
         assertEq(nicknameRegistry.getCount(), 1);
+
         vm.prank(address(2));
         nicknameRegistry.setNickname("nickname2");
         assertEq(nicknameRegistry.getCount(), 2);
@@ -43,7 +44,36 @@ contract NicknameRegistryTest is Test {
         vm.stopPrank();
     }
 
+    function testFail_setNickname_is_empty() public {
+        nicknameRegistry.setNickname("");
+    }
+
     function testFail_setNickname_too_long() public {
         nicknameRegistry.setNickname("nicknametoolongcauseithasmorethenfourtytwocharacters");
+    }
+
+    function test_deleteNickname() public {
+        vm.startPrank(address(1));
+        nicknameRegistry.setNickname("nickname");
+        nicknameRegistry.deleteNickname();
+        assertEq(nicknameRegistry.getNickname(address(1)), "");
+        vm.stopPrank();
+    }
+
+    function test_deleteNickname_decrements_count() public {
+        vm.prank(address(1));
+        nicknameRegistry.setNickname("nickname1");
+
+        vm.startPrank(address(2));
+        nicknameRegistry.setNickname("nickname2");
+        nicknameRegistry.deleteNickname();
+        assertEq(nicknameRegistry.getCount(), 1);
+        vm.stopPrank();
+    }
+
+    function test_deleteNickname_does_not_decrement_count_to_negative() public {
+        vm.prank(address(1));
+        nicknameRegistry.deleteNickname();
+        assertEq(nicknameRegistry.getCount(), 0);
     }
 }
