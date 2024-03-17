@@ -10,3 +10,7 @@ src/i18n/FormatjsIntlMessageIds.d.ts
 contracts/cache/
 contracts/out/
 src/wagmi/generated.ts
+
+# IDE related settings.
+.vscode
+.vim
