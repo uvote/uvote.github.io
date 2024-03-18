@@ -13,7 +13,7 @@ contract UVote {
     mapping(address => bytes32[]) pollsOf;
 
     function createPoll(string memory title, string memory description, string[] memory options)
-        public
+        external
         returns (bytes32)
     {
         // Set a limit to title length.
@@ -39,7 +39,7 @@ contract UVote {
         return id;
     }
 
-    function getPoll(bytes32 id) public view returns (Poll memory) {
+    function getPoll(bytes32 id) external view returns (Poll memory) {
         return pollBy[id];
     }
 
