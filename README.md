@@ -2,7 +2,10 @@
 <br/><br/>
 **THE FASTEST AND SECURE WAY TO GENERATE POLLS**
 
-*Blockchain technology, through permanent data writing, allows to generate ballots completely clear, unassailable by fraudulent acts, with a practically nil cost.*
+_Blockchain technology, through permanent data writing, allows to generate ballots completely clear, unassailable by fraudulent acts, with a practically nil cost._
 
+**_u✔ote aims to render a truthful depiction of reality, using secure polls, verifiable in real-time, by anyone._**
 
-***u✔ote aims to render a truthful depiction of reality, using secure polls, verifiable in real-time, by anyone.***
+## Credits
+
+Thanks to our friend [@pedrovalido](https://github.com/pedrovalido) for suggestions regarding Solidity.
