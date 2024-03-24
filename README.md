@@ -5,7 +5,7 @@
 
 _Blockchain technology, through permanent data writing, allows to generate ballots completely clear, unassailable by fraudulent acts, with a practically nil cost._
 
-**_u✔ote aims to render a truthful depiction of reality, using secure polls, verifiable in real-time, by anyone._**
+**_uVote aims to render a truthful depiction of reality, using secure polls, verifiable in real-time, by anyone._**
 
 ## Credits
 
