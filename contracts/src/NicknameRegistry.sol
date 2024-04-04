@@ -36,7 +36,7 @@ contract NicknameRegistry {
         nicknameOf[msg.sender] = nickname;
     }
 
-    /// @notice An address can delete its nickname; no other address, even the NicknameRegistry contract owner, can do that.
+    /// @notice An address can delete its nickname; no other address can do that, the NicknameRegistry contract owner niether.
     function deleteNickname() external {
         // If nickname exists, decrement count and delete it.
         if (bytes(nicknameOf[msg.sender]).length > 0) {

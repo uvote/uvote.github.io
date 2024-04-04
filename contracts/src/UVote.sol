@@ -22,7 +22,7 @@ contract UVote {
         require(bytes(description).length <= 250, "Description too long");
         // Set a limit to options length.
         require(options.length > 1, "Too few options");
-        require(options.length <= 10, "Too many options");
+        require(options.length <= 9, "Too many options");
         // Set a limit to every option length.
         for (uint256 i = 0; i < options.length; i++) {
             require(bytes(options[i]).length <= 42, "Option too long");
