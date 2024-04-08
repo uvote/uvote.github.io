@@ -12,27 +12,46 @@ contract NicknameRegistryTest is Test {
     }
 
     function test_setNickname() public {
-        vm.prank(address(1));
-        nicknameRegistry.setNickname("nickname");
-        assertEq(nicknameRegistry.getNickname(address(1)), "nickname");
+        address nicknameOwner1 = address(1);
+        string memory nickname1 = "nickname";
+        address nicknameOwner2 = address(2);
+        string memory nickname2 = "nicknameThatIsExactlyFourtyTwoBytesLong___";
+        vm.prank(nicknameOwner1);
+        nicknameRegistry.setNickname(nickname1);
+        vm.prank(nicknameOwner2);
+        nicknameRegistry.setNickname(nickname2);
+        assertEq(nicknameRegistry.getNickname(nicknameOwner1), nickname1);
+        assertEq(nicknameRegistry.getNickname(nicknameOwner2), nickname2);
     }
 
     function test_setNickname_then_update_it() public {
-        vm.startPrank(address(1));
-        nicknameRegistry.setNickname("nickname1");
-        nicknameRegistry.setNickname("nickname2");
-        assertEq(nicknameRegistry.getNickname(address(1)), "nickname2");
-        vm.stopPrank();
+        address nicknameOwner = address(1);
+        string memory nickname1 = "nickname";
+        string memory nickname2 = "another nickname";
+        vm.prank(nicknameOwner);
+        nicknameRegistry.setNickname(nickname1);
+        assertEq(nicknameRegistry.getNickname(nicknameOwner), nickname1);
+        vm.prank(nicknameOwner);
+        nicknameRegistry.setNickname(nickname2);
+        assertEq(nicknameRegistry.getNickname(nicknameOwner), nickname2);
     }
 
     function test_setNickname_increments_count() public {
-        vm.prank(address(1));
-        nicknameRegistry.setNickname("nickname1");
+        address nicknameOwner1 = address(1);
+        address nicknameOwner2 = address(2);
+        address nicknameOwner3 = address(3);
+        string memory nickname1 = "nickname1AndNickname2AreTheSame";
+        string memory nickname2 = "nickname1AndNickname2AreTheSame";
+        string memory nickname3 = "another nickname";
+        vm.prank(nicknameOwner1);
+        nicknameRegistry.setNickname(nickname1);
         assertEq(nicknameRegistry.getCount(), 1);
-
-        vm.prank(address(2));
-        nicknameRegistry.setNickname("nickname2");
+        vm.prank(nicknameOwner2);
+        nicknameRegistry.setNickname(nickname2);
         assertEq(nicknameRegistry.getCount(), 2);
+        vm.prank(nicknameOwner3);
+        nicknameRegistry.setNickname(nickname3);
+        assertEq(nicknameRegistry.getCount(), 3);
     }
 
     function test_setNickname_increments_count_only_once() public {
@@ -44,12 +63,14 @@ contract NicknameRegistryTest is Test {
         vm.stopPrank();
     }
 
-    function testFail_setNickname_is_empty() public {
+    function test_setNickname_cannot_be_empty() public {
+        vm.expectRevert(ErrorEmptyNickname.selector);
         nicknameRegistry.setNickname("");
     }
 
-    function testFail_setNickname_too_long() public {
-        nicknameRegistry.setNickname("nicknametoolongcauseithasmorethenfourtytwocharacters");
+    function test_setNickname_checks_input_is_not_too_long() public {
+        vm.expectRevert(ErrorNicknameIsTooLong.selector);
+        nicknameRegistry.setNickname("nickname_too_long_cause_it_has_more_then_42_bytes");
     }
 
     function test_deleteNickname() public {
