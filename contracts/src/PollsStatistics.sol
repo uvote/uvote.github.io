@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
+// @notice A voter can submit only one choice per poll, hence total number of votes is the sum of valid votes and blank votes.
+// @dev This struct uses 256 bits, for gas optimization.
 struct PollStatistics {
-    uint64 totalNumberOfVotes;
-    uint64 numberOfValidVotes;
-    uint64 numberOfBlankVotes;
+    uint256 numberOfValidVotes;
+    uint256 numberOfBlankVotes;
 }
 
 // @notice A voter cannot submit the same valid vote twice.
@@ -28,6 +29,7 @@ error ErrorVoterDidSomeValidVote();
 /// @title Polls statistics
 /// @notice It collects poll results and few basic metrics.
 /// @author Gianluca Casati https://fibo.github.io
+/// @dev Comments refer to a "poll factory" as a contract that inherits from this.
 contract PollsStatistics {
     type PollKey is bytes32;
     type VoterKey is bytes32;
@@ -36,14 +38,11 @@ contract PollsStatistics {
     mapping(VoterKey => bool) private seenBlankVote;
     mapping(VoterKey => bool) private seenValidVote;
 
-    // @notice The total number of votes by given poll: it includes valid votes and blank votes.
-    mapping(PollKey => uint32) private totalNumberOfVotes;
-
     // @notice The number of valid votes by given poll.
-    mapping(PollKey => uint32) private numberOfValidVotes;
+    mapping(PollKey => uint256) private numberOfValidVotes;
 
     // @notice The number of blank votes by given poll.
-    mapping(PollKey => uint32) private numberOfBlankVotes;
+    mapping(PollKey => uint256) private numberOfBlankVotes;
 
     function getPollKey(address pollFactory, uint32 pollId) internal pure returns (PollKey) {
         return PollKey.wrap(keccak256(abi.encodePacked(pollFactory, pollId)));
@@ -55,7 +54,7 @@ contract PollsStatistics {
 
     function readPollStatistics(address pollFactory, uint32 pollId) external view returns (PollStatistics memory) {
         PollKey pollKey = getPollKey(pollFactory, pollId);
-        return PollStatistics(totalNumberOfVotes[pollKey], numberOfValidVotes[pollKey], numberOfBlankVotes[pollKey]);
+        return PollStatistics(numberOfValidVotes[pollKey], numberOfBlankVotes[pollKey]);
     }
 
     function readPollResults(address pollFactory, uint32 pollId, uint8 numChoices)
@@ -74,7 +73,7 @@ contract PollsStatistics {
     }
 
     // @notice A voter can vote her/his choice.
-    // @dev The `pollFactory` here is the `msg.sender`.
+    // @dev The poll factory here is the `msg.sender`.
     function vote(uint32 pollId, address voter, uint8 choice) external {
         // Check that voter did not already choose a blank vote.
 
@@ -95,7 +94,6 @@ contract PollsStatistics {
 
         // Increment number of votes on given poll.
 
-        totalNumberOfVotes[pollKey]++;
         numberOfValidVotes[pollKey]++;
     }
 
@@ -116,12 +114,11 @@ contract PollsStatistics {
 
         // Decrement number of votes on given poll.
 
-        totalNumberOfVotes[pollKey]--;
         numberOfValidVotes[pollKey]--;
     }
 
     // @notice A voter can choose to do a blank vote.
-    // @dev The `pollFactory` here is the `msg.sender`.
+    // @dev The poll factory here is the `msg.sender`.
     function blankVote(uint32 pollId, address voter) external {
         // Check that voter did not already choose some valid vote.
 
@@ -138,7 +135,6 @@ contract PollsStatistics {
         PollKey pollKey = getPollKey(msg.sender, pollId);
 
         seenBlankVote[voterKey] = true;
-        totalNumberOfVotes[pollKey]++;
         numberOfBlankVotes[pollKey]++;
     }
 
@@ -155,7 +151,6 @@ contract PollsStatistics {
         PollKey pollKey = getPollKey(msg.sender, pollId);
 
         seenBlankVote[voterKey] = false;
-        totalNumberOfVotes[pollKey]--;
         numberOfBlankVotes[pollKey]--;
     }
 }

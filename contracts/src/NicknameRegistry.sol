@@ -8,15 +8,7 @@ error ErrorNicknameIsTooLong();
 /// @notice It associates an address to a nickname.
 /// @author Gianluca Casati https://fibo.github.io
 contract NicknameRegistry {
-    uint256 private count;
-
     mapping(address => string) private nicknameOf;
-
-    /// @notice On every new address associated with a nickname, a counter is incremented.
-    /// @return count of addresses associated
-    function getCount() external view returns (uint256) {
-        return count;
-    }
 
     /// @param wallet address of associated nickname, if any
     /// @return nickname
@@ -30,20 +22,15 @@ contract NicknameRegistry {
         // Check nickname is not empty.
         if (bytes(nickname).length == 0) revert ErrorEmptyNickname();
         // Set a limit to nickname length.
-        if (bytes(nickname).length > 42) revert ErrorNicknameIsTooLong();
-        // If it is a new nickname, increment count.
-        if (bytes(nicknameOf[msg.sender]).length == 0) {
-            count++;
-        }
+        if (bytes(nickname).length > 32) revert ErrorNicknameIsTooLong();
         // Set nickname.
         nicknameOf[msg.sender] = nickname;
     }
 
     /// @notice An address can delete its nickname; no other address can do that, the NicknameRegistry contract owner niether.
     function deleteNickname() external {
-        // If nickname exists, decrement count and delete it.
+        // If nickname exists, delete it.
         if (bytes(nicknameOf[msg.sender]).length > 0) {
-            count--;
             delete nicknameOf[msg.sender];
         }
     }

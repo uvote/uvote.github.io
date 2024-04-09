@@ -29,7 +29,6 @@ contract PollsStatisticsTest is Test {
         vm.stopPrank();
         vm.prank(statisticsConsumer);
         PollStatistics memory pollStatistics = pollsStatistics.readPollStatistics(pollFactory, pollId);
-        assertEq(pollStatistics.totalNumberOfVotes, 3);
         assertEq(pollStatistics.numberOfValidVotes, 3);
         assertEq(pollStatistics.numberOfBlankVotes, 0);
     }
@@ -49,7 +48,6 @@ contract PollsStatisticsTest is Test {
         vm.stopPrank();
         vm.prank(statisticsConsumer);
         PollStatistics memory pollStatistics = pollsStatistics.readPollStatistics(pollFactory, pollId);
-        assertEq(pollStatistics.totalNumberOfVotes, 1);
         assertEq(pollStatistics.numberOfValidVotes, 1);
         assertEq(pollStatistics.numberOfBlankVotes, 0);
     }
@@ -70,7 +68,6 @@ contract PollsStatisticsTest is Test {
         vm.stopPrank();
         vm.prank(statisticsConsumer);
         PollStatistics memory pollStatistics = pollsStatistics.readPollStatistics(pollFactory, pollId);
-        assertEq(pollStatistics.totalNumberOfVotes, 3);
         assertEq(pollStatistics.numberOfValidVotes, 2);
         assertEq(pollStatistics.numberOfBlankVotes, 1);
     }
@@ -92,7 +89,6 @@ contract PollsStatisticsTest is Test {
         vm.stopPrank();
         vm.prank(statisticsConsumer);
         PollStatistics memory pollStatistics = pollsStatistics.readPollStatistics(pollFactory, pollId);
-        assertEq(pollStatistics.totalNumberOfVotes, 2);
         assertEq(pollStatistics.numberOfValidVotes, 2);
         assertEq(pollStatistics.numberOfBlankVotes, 0);
     }
