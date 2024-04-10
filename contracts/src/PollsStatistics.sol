@@ -31,126 +31,108 @@ error ErrorVoterDidSomeValidVote();
 /// @author Gianluca Casati https://fibo.github.io
 /// @dev Comments refer to a "poll factory" as a contract that inherits from this.
 contract PollsStatistics {
-    type PollKey is bytes32;
+    enum Vote {
+        None,
+        Valid,
+        Blank
+    }
+
     type VoterKey is bytes32;
 
-    mapping(PollKey => mapping(uint8 => uint32)) private pollResults;
-    mapping(VoterKey => bool) private seenBlankVote;
-    mapping(VoterKey => bool) private seenValidVote;
+    mapping(uint256 => mapping(uint8 => uint256)) private pollResults;
+    mapping(VoterKey => Vote) private seenVote;
 
     // @notice The number of valid votes by given poll.
-    mapping(PollKey => uint256) private numberOfValidVotes;
+    mapping(uint256 => uint256) private numberOfValidVotes;
 
     // @notice The number of blank votes by given poll.
-    mapping(PollKey => uint256) private numberOfBlankVotes;
+    mapping(uint256 => uint256) private numberOfBlankVotes;
 
-    function getPollKey(address pollFactory, uint32 pollId) internal pure returns (PollKey) {
-        return PollKey.wrap(keccak256(abi.encodePacked(pollFactory, pollId)));
+    function getVoterKey(address voter, uint256 pollId) internal pure returns (VoterKey) {
+        return VoterKey.wrap(keccak256(abi.encodePacked(voter, pollId)));
     }
 
-    function getVoterKey(address pollFactory, uint32 pollId, address voter) internal pure returns (VoterKey) {
-        return VoterKey.wrap(keccak256(abi.encodePacked(pollFactory, pollId, voter)));
+    function readPollStatistics(uint256 pollId) external view returns (PollStatistics memory) {
+        return PollStatistics(numberOfValidVotes[pollId], numberOfBlankVotes[pollId]);
     }
 
-    function readPollStatistics(address pollFactory, uint32 pollId) external view returns (PollStatistics memory) {
-        PollKey pollKey = getPollKey(pollFactory, pollId);
-        return PollStatistics(numberOfValidVotes[pollKey], numberOfBlankVotes[pollKey]);
-    }
-
-    function readPollResults(address pollFactory, uint32 pollId, uint8 numChoices)
-        external
-        view
-        returns (uint32[] memory)
-    {
-        uint32[] memory results = new uint32[](numChoices);
-        PollKey key = getPollKey(pollFactory, pollId);
+    function readPollResults(uint256 pollId, uint8 numChoices) external view returns (uint256[] memory) {
+        uint256[] memory results = new uint256[](numChoices);
         uint8 i;
         while (i < numChoices) {
-            results[i] = pollResults[key][i];
+            results[i] = pollResults[pollId][i];
             i++;
         }
         return results;
     }
 
     // @notice A voter can vote her/his choice.
-    // @dev The poll factory here is the `msg.sender`.
-    function vote(uint32 pollId, address voter, uint8 choice) external {
+    // @dev The voter here is the `msg.sender`.
+    function vote(uint256 pollId, uint8 choice) external {
         // Check that voter did not already choose a blank vote.
 
-        VoterKey voterKey = getVoterKey(msg.sender, pollId, voter);
+        VoterKey voterKey = getVoterKey(msg.sender, pollId);
 
-        if (seenBlankVote[voterKey]) revert ErrorVoterDidBlankVote();
+        if (seenVote[voterKey] == Vote.Blank) revert ErrorVoterDidBlankVote();
 
         // Check that valid vote does not exist yet.
 
-        if (seenValidVote[voterKey]) revert ErrorValidVoteAlreadyExists();
+        if (seenVote[voterKey] == Vote.Valid) revert ErrorValidVoteAlreadyExists();
 
-        // Increment poll results by given choice.
+        // Update poll statistics and results by given choice.
 
-        PollKey pollKey = getPollKey(msg.sender, pollId);
-
-        pollResults[pollKey][choice]++;
-        seenValidVote[voterKey] = true;
-
-        // Increment number of votes on given poll.
-
-        numberOfValidVotes[pollKey]++;
+        pollResults[pollId][choice]++;
+        numberOfValidVotes[pollId]++;
+        seenVote[voterKey] = Vote.Valid;
     }
 
     // @notice A vote can be dismissed, in case voter changed her/his mind or voted by mistake.
-    function dismissVote(uint32 pollId, address voter, uint8 choice) external {
+    // @dev The voter here is the `msg.sender`.
+    function dismissVote(uint256 pollId, uint8 choice) external {
         // Check that valid vote already exists.
 
-        VoterKey voterKey = getVoterKey(msg.sender, pollId, voter);
+        VoterKey voterKey = getVoterKey(msg.sender, pollId);
 
-        if (!seenValidVote[voterKey]) revert ErrorValidVoteDoesNotExist();
+        if (seenVote[voterKey] != Vote.Valid) revert ErrorValidVoteDoesNotExist();
 
-        // Decrement poll results by given choice.
+        // Rollback poll statistics and results.
 
-        PollKey pollKey = getPollKey(msg.sender, pollId);
-
-        pollResults[pollKey][choice]--;
-        seenValidVote[voterKey] = false;
-
-        // Decrement number of votes on given poll.
-
-        numberOfValidVotes[pollKey]--;
+        pollResults[pollId][choice]--;
+        numberOfValidVotes[pollId]--;
+        seenVote[voterKey] = Vote.None;
     }
 
     // @notice A voter can choose to do a blank vote.
-    // @dev The poll factory here is the `msg.sender`.
-    function blankVote(uint32 pollId, address voter) external {
+    // @dev The voter here is the `msg.sender`.
+    function blankVote(uint256 pollId) external {
         // Check that voter did not already choose some valid vote.
 
-        VoterKey voterKey = getVoterKey(msg.sender, pollId, voter);
+        VoterKey voterKey = getVoterKey(msg.sender, pollId);
 
-        if (seenValidVote[voterKey]) revert ErrorVoterDidSomeValidVote();
+        if (seenVote[voterKey] == Vote.Valid) revert ErrorVoterDidSomeValidVote();
 
         // Check that blank vote does not exist yet.
 
-        if (seenBlankVote[voterKey]) revert ErrorBlankVoteAlreadyExists();
+        if (seenVote[voterKey] == Vote.Blank) revert ErrorBlankVoteAlreadyExists();
 
-        // Increment number of votes on given poll.
+        // Update poll statistics.
 
-        PollKey pollKey = getPollKey(msg.sender, pollId);
-
-        seenBlankVote[voterKey] = true;
-        numberOfBlankVotes[pollKey]++;
+        seenVote[voterKey] = Vote.Blank;
+        numberOfBlankVotes[pollId]++;
     }
 
     // @notice A blank vote can be dismissed, in case voter changed her/his mind or voted by mistake.
-    function dismissBlankVote(uint32 pollId, address voter) external {
+    // @dev The voter here is the `msg.sender`.
+    function dismissBlankVote(uint256 pollId) external {
         // Check that blank vote already exists.
 
-        VoterKey voterKey = getVoterKey(msg.sender, pollId, voter);
+        VoterKey voterKey = getVoterKey(msg.sender, pollId);
 
-        if (!seenBlankVote[voterKey]) revert ErrorBlankVoteDoesNotExist();
+        if (seenVote[voterKey] != Vote.Blank) revert ErrorBlankVoteDoesNotExist();
 
-        // Decrement number of votes on given poll.
+        // Rollback poll statistics.
 
-        PollKey pollKey = getPollKey(msg.sender, pollId);
-
-        seenBlankVote[voterKey] = false;
-        numberOfBlankVotes[pollKey]--;
+        numberOfBlankVotes[pollId]--;
+        seenVote[voterKey] = Vote.None;
     }
 }
