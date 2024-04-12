@@ -7,16 +7,18 @@ import "../src/NicknameRegistry.sol";
 contract NicknameRegistryTest is Test {
     NicknameRegistry public nicknameRegistry;
 
+    address immutable nicknameOwner1 = address(1);
+    address immutable nicknameOwner2 = address(2);
+
     function setUp() public {
         nicknameRegistry = new NicknameRegistry();
     }
 
     // setNickname
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     function test_setNickname() public {
-        address nicknameOwner1 = address(1);
         string memory nickname1 = "nickname";
-        address nicknameOwner2 = address(2);
         string memory nickname2 = "nicknameThatIsExactly32BytesLong";
         vm.prank(nicknameOwner1);
         nicknameRegistry.setNickname(nickname1);
@@ -49,6 +51,7 @@ contract NicknameRegistryTest is Test {
     }
 
     // deleteNickname
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     function test_deleteNickname() public {
         vm.startPrank(address(1));
@@ -56,5 +59,17 @@ contract NicknameRegistryTest is Test {
         nicknameRegistry.deleteNickname();
         assertEq(nicknameRegistry.getNickname(address(1)), "");
         vm.stopPrank();
+    }
+
+    // myNickname
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    function test_myNickname() public {
+        string memory nicknameInput = "nickname";
+        vm.startPrank(nicknameOwner1);
+        nicknameRegistry.setNickname(nicknameInput);
+        string memory nicknameOutput = nicknameRegistry.myNickname();
+        vm.stopPrank();
+        assertEq(nicknameOutput, nicknameInput);
     }
 }

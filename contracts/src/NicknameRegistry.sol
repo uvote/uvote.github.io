@@ -10,14 +10,14 @@ error ErrorNicknameIsTooLong();
 contract NicknameRegistry {
     mapping(address => string) private nicknameOf;
 
-    /// @param wallet address of associated nickname, if any
+    /// @param wallet The address of associated nickname, if any.
     /// @return nickname
     function getNickname(address wallet) external view returns (string memory) {
         return nicknameOf[wallet];
     }
 
     /// @notice Nicknames are not unique, two wallets can have the same nickname.
-    /// @param nickname string cannot be empty or more than 42 bytes
+    /// @param nickname Cannot be empty or more than 32 bytes.
     function setNickname(string memory nickname) external {
         // Check nickname is not empty.
         if (bytes(nickname).length == 0) revert ErrorEmptyNickname();
@@ -33,5 +33,10 @@ contract NicknameRegistry {
         if (bytes(nicknameOf[msg.sender]).length > 0) {
             delete nicknameOf[msg.sender];
         }
+    }
+
+    /// @return The nickname associated with msg.sender, if any.
+    function myNickname() external view returns (string memory) {
+        return nicknameOf[msg.sender];
     }
 }
