@@ -32,21 +32,35 @@ contract PollsRegistry {
         return nextPollId;
     }
 
+    /// @notice A poll factory can list its polls in descending order, i.e. LIFO.
+    /// @param pageSize The number of polls to return.
+    /// @param pageIndex Index of the page to return.
+    /// @return A list of poll IDs.
+    function readPollsOfFactory(uint8 pageSize, uint256 pageIndex) public view returns (uint256[] memory) {
+        uint256[] memory polls = new uint256[](pageSize);
+        uint256 lastId = nextPollId - pageIndex * pageSize - 1;
+        for (uint256 i = 0; i < pageSize; i++) {
+            polls[i] = lastId - i;
+            if (lastId - i == 0) break;
+        }
+        return polls;
+    }
+
     /// @notice A poll creator can list her/his polls in descending order, i.e. LIFO.
     /// @param creator The poll creator.
     /// @param pageSize The number of polls to return.
-    /// @param offset Index of the first poll to return.
+    /// @param pageIndex Index of the page to return.
     /// @return A list of poll IDs.
-    function readPollsOfCreator(address creator, uint8 pageSize, uint256 offset)
+    function readPollsOfCreator(address creator, uint8 pageSize, uint256 pageIndex)
         public
         view
         returns (uint256[] memory)
     {
         uint256[] memory polls = new uint256[](pageSize);
-        uint256 i = pollsCreatorNextIndex[creator] - offset - 1;
-        while (i > 0) {
-            polls[i] = pollsOfCreator[creator][i];
-            i--;
+        uint256 lastId = pollsCreatorNextIndex[creator] - pageSize * pageIndex - 1;
+        for (uint256 i = 0; i < pageSize; i++) {
+            polls[i] = pollsOfCreator[creator][lastId - i];
+            if (lastId - i == 0) break;
         }
         return polls;
     }
@@ -54,9 +68,9 @@ contract PollsRegistry {
     /// @notice A poll creator can list her/his polls in descending order, i.e. LIFO.
     /// @dev Here creator is `msg.sender`.
     /// @param pageSize The number of polls to return.
-    /// @param offset Index of the first poll to return.
+    /// @param pageIndex Index of the page to return.
     /// @return A list of poll IDs.
-    function myCreatedPolls(uint8 pageSize, uint256 offset) public view returns (uint256[] memory) {
-        return this.readPollsOfCreator(msg.sender, pageSize, offset);
+    function myCreatedPolls(uint8 pageSize, uint256 pageIndex) public view returns (uint256[] memory) {
+        return this.readPollsOfCreator(msg.sender, pageSize, pageIndex);
     }
 }
