@@ -8,39 +8,29 @@ struct PollStatistics {
     uint256 numberOfBlankVotes;
 }
 
-// @notice A voter cannot submit the same valid vote twice.
-error ErrorValidVoteAlreadyExists();
+// @notice A voter cannot dismiss a choice if vote is none.
+error ErrorCannotDismiss();
+
+// @notice A voter cannot vote none.
+error ErrorInvalidVote();
 
 // @notice A voter cannot submit the same blank vote twice.
 error ErrorBlankVoteAlreadyExists();
 
-// @notice A voter cannot submit the a vote if he/she already voted blank.
-error ErrorVoterDidBlankVote();
-
-// @notice A voter cannot dismiss a valid vote if it does not exist.
-error ErrorValidVoteDoesNotExist();
-
 // @notice A voter cannot dismiss a blank vote if it does not exist.
 error ErrorBlankVoteDoesNotExist();
-
-// @notice A voter cannot submit a blank vote if he/she already did a valid vote.
-error ErrorVoterDidSomeValidVote();
 
 /// @title Polls statistics
 /// @notice It collects poll results and few basic metrics.
 /// @author Gianluca Casati https://fibo.github.io
 /// @dev Comments refer to a "poll factory" as a contract that inherits from this.
 contract PollsStatistics {
-    enum Vote {
-        None,
-        Valid,
-        Blank
-    }
+  uint8 constant BLANK_VOTE = 255;
 
-    type VoterKey is bytes32;
+    type VoteKey is bytes32;
 
     mapping(uint256 => mapping(uint8 => uint256)) private pollResults;
-    mapping(VoterKey => Vote) private seenVote;
+    mapping(VoteKey => uint8) private seenVote;
 
     // @notice The number of valid votes by given poll.
     mapping(uint256 => uint256) private numberOfValidVotes;
@@ -48,8 +38,9 @@ contract PollsStatistics {
     // @notice The number of blank votes by given poll.
     mapping(uint256 => uint256) private numberOfBlankVotes;
 
-    function getVoterKey(address voter, uint256 pollId) internal pure returns (VoterKey) {
-        return VoterKey.wrap(keccak256(abi.encodePacked(voter, pollId)));
+    // @notice A key to index a vote, that is an event that involves a voter and a poll.
+    function getVoteKey(address voter, uint256 pollId) private pure returns (VoteKey) {
+        return VoteKey.wrap(keccak256(abi.encodePacked(voter, pollId)));
     }
 
     function readPollStatistics(uint256 pollId) external view returns (PollStatistics memory) {
@@ -66,73 +57,60 @@ contract PollsStatistics {
         return results;
     }
 
-    // @notice A voter can vote her/his choice.
+    // @notice Vote for a choice. It can be a valid vote (1 <= choice < 255) or a blank vote (choice == 255).
     // @dev The voter here is the `msg.sender`.
     function vote(uint256 pollId, uint8 choice) external {
-        // Check that voter did not already choose a blank vote.
+      // Check that choice is a valid vote or blank.
 
-        VoterKey voterKey = getVoterKey(msg.sender, pollId);
-
-        if (seenVote[voterKey] == Vote.Blank) revert ErrorVoterDidBlankVote();
-
-        // Check that valid vote does not exist yet.
-
-        if (seenVote[voterKey] == Vote.Valid) revert ErrorValidVoteAlreadyExists();
+        if (choice == 0) revert ErrorInvalidVote();
 
         // Update poll statistics and results by given choice.
 
+        VoteKey voteKey = getVoteKey(msg.sender, pollId);
+
         pollResults[pollId][choice]++;
         numberOfValidVotes[pollId]++;
-        seenVote[voterKey] = Vote.Valid;
-    }
-
-    // @notice A vote can be dismissed, in case voter changed her/his mind or voted by mistake.
-    // @dev The voter here is the `msg.sender`.
-    function dismissVote(uint256 pollId, uint8 choice) external {
-        // Check that valid vote already exists.
-
-        VoterKey voterKey = getVoterKey(msg.sender, pollId);
-
-        if (seenVote[voterKey] != Vote.Valid) revert ErrorValidVoteDoesNotExist();
-
-        // Rollback poll statistics and results.
-
-        pollResults[pollId][choice]--;
-        numberOfValidVotes[pollId]--;
-        seenVote[voterKey] = Vote.None;
+        seenVote[voteKey] = choice;
     }
 
     // @notice A voter can choose to do a blank vote.
     // @dev The voter here is the `msg.sender`.
-    function blankVote(uint256 pollId) external {
-        // Check that voter did not already choose some valid vote.
-
-        VoterKey voterKey = getVoterKey(msg.sender, pollId);
-
-        if (seenVote[voterKey] == Vote.Valid) revert ErrorVoterDidSomeValidVote();
-
+    function blank(uint256 pollId) external {
         // Check that blank vote does not exist yet.
 
-        if (seenVote[voterKey] == Vote.Blank) revert ErrorBlankVoteAlreadyExists();
+        VoteKey voteKey = getVoteKey(msg.sender, pollId);
+        uint8 choice = seenVote[voteKey];
+
+        if (choice == BLANK_VOTE) revert ErrorBlankVoteAlreadyExists();
+
+        // Dismiss valid vote, if any.
+
+        if (choice != 0) pollResults[pollId][choice]--;
 
         // Update poll statistics.
 
-        seenVote[voterKey] = Vote.Blank;
+        seenVote[voteKey] = BLANK_VOTE;
         numberOfBlankVotes[pollId]++;
     }
 
-    // @notice A blank vote can be dismissed, in case voter changed her/his mind or voted by mistake.
+    // @notice A choice can be dismissed, in case voter changed her/his mind or voted by mistake.
     // @dev The voter here is the `msg.sender`.
-    function dismissBlankVote(uint256 pollId) external {
-        // Check that blank vote already exists.
+    function dismiss(uint256 pollId) external {
+        // Check that vote exists.
 
-        VoterKey voterKey = getVoterKey(msg.sender, pollId);
+        VoteKey voteKey = getVoteKey(msg.sender, pollId);
+        uint8 choice = seenVote[voteKey];
 
-        if (seenVote[voterKey] != Vote.Blank) revert ErrorBlankVoteDoesNotExist();
+        if (choice == 0) revert ErrorCannotDismiss();
 
-        // Rollback poll statistics.
+        // Rollback poll statistics and results.
 
+        if (choice == BLANK_VOTE) {
         numberOfBlankVotes[pollId]--;
-        seenVote[voterKey] = Vote.None;
+        } else {
+          pollResults[pollId][choice]--;
+        numberOfValidVotes[pollId]--;
+        }
+        seenVote[voteKey] = 0;
     }
 }
