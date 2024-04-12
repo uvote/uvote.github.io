@@ -1,3 +1,10 @@
+cache/
+dist/
+public/
+
 contracts/cache/
 contracts/lib/
 contracts/out/
+
+# File index.html is generated
+index.html
