@@ -20,8 +20,8 @@ contract PollsStatisticsTest is Test {
         address voterB = address(2);
         address voterC = address(3);
         uint32 pollId = 42;
-        uint8 choiceA = 0;
-        uint8 choiceB = 1;
+        uint8 choiceA = 1;
+        uint8 choiceB = 2;
         vm.prank(voterA);
         pollFactory.vote(pollId, choiceA);
         vm.prank(voterB);
@@ -62,7 +62,7 @@ contract PollsStatisticsTest is Test {
         vm.prank(voterB);
         pollFactory.vote(pollId, choiceB);
         vm.prank(voterC);
-        pollFactory.blank(pollId);
+        pollFactory.vote(pollId, BLANK_VOTE);
         PollStatistics memory pollStatistics = pollFactory.readPollStatistics(pollId);
         assertEq(pollStatistics.numberOfValidVotes, 2);
         assertEq(pollStatistics.numberOfBlankVotes, 1);
@@ -80,7 +80,7 @@ contract PollsStatisticsTest is Test {
         vm.prank(voterB);
         pollFactory.vote(pollId, choiceB);
         vm.startPrank(voterC);
-        pollFactory.blank(pollId);
+        pollFactory.vote(pollId, BLANK_VOTE);
         pollFactory.dismiss(pollId);
         PollStatistics memory pollStatistics = pollFactory.readPollStatistics(pollId);
         assertEq(pollStatistics.numberOfValidVotes, 2);
@@ -113,7 +113,7 @@ contract PollsStatisticsTest is Test {
         uint32 pollId = 42;
         vm.startPrank(voter);
         vm.expectRevert(ErrorInvalidVote.selector);
-        pollFactory.dismiss(pollId);
+        pollFactory.vote(pollId, VOTE_NONE);
         vm.stopPrank();
     }
 
@@ -157,17 +157,5 @@ contract PollsStatisticsTest is Test {
         uint256[] memory pollResults = pollFactory.readPollResults(pollId, numChoices);
         assertEq(pollResults[choiceA], 0);
         assertEq(pollResults[choiceB], 1);
-    }
-
-    // blank
-
-    function test_blankVote_checks_choice_happens_once() public {
-        address voter = address(1);
-        uint32 pollId = 42;
-        vm.startPrank(voter);
-        pollFactory.blank(pollId);
-        vm.expectRevert(ErrorBlankVoteAlreadyExists.selector);
-        pollFactory.blank(pollId);
-        vm.stopPrank();
     }
 }

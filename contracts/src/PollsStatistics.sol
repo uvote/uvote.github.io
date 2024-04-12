@@ -14,19 +14,14 @@ error ErrorCannotDismiss();
 // @notice A voter cannot vote none.
 error ErrorInvalidVote();
 
-// @notice A voter cannot submit the same blank vote twice.
-error ErrorBlankVoteAlreadyExists();
-
-// @notice A voter cannot dismiss a blank vote if it does not exist.
-error ErrorBlankVoteDoesNotExist();
+uint8 constant VOTE_NONE = 0;
+uint8 constant BLANK_VOTE = 255;
 
 /// @title Polls statistics
 /// @notice It collects poll results and few basic metrics.
 /// @author Gianluca Casati https://fibo.github.io
 /// @dev Comments refer to a "poll factory" as a contract that inherits from this.
 contract PollsStatistics {
-  uint8 constant BLANK_VOTE = 255;
-
     type VoteKey is bytes32;
 
     mapping(uint256 => mapping(uint8 => uint256)) private pollResults;
@@ -60,37 +55,27 @@ contract PollsStatistics {
     // @notice Vote for a choice. It can be a valid vote (1 <= choice < 255) or a blank vote (choice == 255).
     // @dev The voter here is the `msg.sender`.
     function vote(uint256 pollId, uint8 choice) external {
-      // Check that choice is a valid vote or blank.
+        // Check that choice is a valid vote or blank.
 
-        if (choice == 0) revert ErrorInvalidVote();
+        if (choice == VOTE_NONE) revert ErrorInvalidVote();
+
+        // Revert previous choice, if any.
+
+        VoteKey voteKey = getVoteKey(msg.sender, pollId);
+        uint8 previousChoice = seenVote[voteKey];
+
+        if (previousChoice != VOTE_NONE) pollResults[pollId][previousChoice]--;
 
         // Update poll statistics and results by given choice.
 
-        VoteKey voteKey = getVoteKey(msg.sender, pollId);
+        if (choice == BLANK_VOTE) {
+            numberOfBlankVotes[pollId]++;
+        } else {
+            numberOfValidVotes[pollId]++;
+        }
 
         pollResults[pollId][choice]++;
-        numberOfValidVotes[pollId]++;
         seenVote[voteKey] = choice;
-    }
-
-    // @notice A voter can choose to do a blank vote.
-    // @dev The voter here is the `msg.sender`.
-    function blank(uint256 pollId) external {
-        // Check that blank vote does not exist yet.
-
-        VoteKey voteKey = getVoteKey(msg.sender, pollId);
-        uint8 choice = seenVote[voteKey];
-
-        if (choice == BLANK_VOTE) revert ErrorBlankVoteAlreadyExists();
-
-        // Dismiss valid vote, if any.
-
-        if (choice != 0) pollResults[pollId][choice]--;
-
-        // Update poll statistics.
-
-        seenVote[voteKey] = BLANK_VOTE;
-        numberOfBlankVotes[pollId]++;
     }
 
     // @notice A choice can be dismissed, in case voter changed her/his mind or voted by mistake.
@@ -101,16 +86,16 @@ contract PollsStatistics {
         VoteKey voteKey = getVoteKey(msg.sender, pollId);
         uint8 choice = seenVote[voteKey];
 
-        if (choice == 0) revert ErrorCannotDismiss();
+        if (choice == VOTE_NONE) revert ErrorCannotDismiss();
 
         // Rollback poll statistics and results.
 
         if (choice == BLANK_VOTE) {
-        numberOfBlankVotes[pollId]--;
+            numberOfBlankVotes[pollId]--;
         } else {
-          pollResults[pollId][choice]--;
-        numberOfValidVotes[pollId]--;
+            pollResults[pollId][choice]--;
+            numberOfValidVotes[pollId]--;
         }
-        seenVote[voteKey] = 0;
+        seenVote[voteKey] = VOTE_NONE;
     }
 }
