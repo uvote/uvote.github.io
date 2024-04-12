@@ -14,16 +14,18 @@ contract PollFactory is PollsRegistry {
 contract PollsRegistryTest is Test {
     PollFactory public pollFactory;
 
+    address immutable creatorA = address(1);
+
     function setUp() public {
         pollFactory = new PollFactory();
     }
 
     // registerPoll
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     function test_registerPoll_associates_it_to_creator() public {
-        address creator = address(1);
-        vm.startPrank(creator);
+        vm.startPrank(creatorA);
         uint256 pollId = pollFactory.createPoll();
-        assertEq(pollFactory.readCreatorOfPoll(pollId), creator);
+        assertEq(pollFactory.readCreatorOfPoll(pollId), creatorA);
     }
 }
