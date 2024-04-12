@@ -14,10 +14,27 @@ contract PollFactory is PollsRegistry {
 contract PollsRegistryTest is Test {
     PollFactory public pollFactory;
 
-    address immutable creatorA = address(1);
+    address immutable creatorA = address(11);
+    address immutable creatorB = address(12);
 
     function setUp() public {
         pollFactory = new PollFactory();
+    }
+
+    // getNumberOfPolls
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    function test_getNumberOfPolls() public {
+        assertEq(pollFactory.getNumberOfPolls(), 0);
+        vm.startPrank(creatorA);
+        pollFactory.createPoll();
+        assertEq(pollFactory.getNumberOfPolls(), 1);
+        vm.startPrank(creatorA);
+        pollFactory.createPoll();
+        assertEq(pollFactory.getNumberOfPolls(), 2);
+        vm.startPrank(creatorB);
+        pollFactory.createPoll();
+        assertEq(pollFactory.getNumberOfPolls(), 3);
     }
 
     // registerPoll
@@ -27,5 +44,15 @@ contract PollsRegistryTest is Test {
         vm.startPrank(creatorA);
         uint256 pollId = pollFactory.createPoll();
         assertEq(pollFactory.readCreatorOfPoll(pollId), creatorA);
+    }
+
+    // readPollsOfCreator
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    function test_pollsOfCreator() public {
+        vm.startPrank(creatorA);
+        uint256 pollId = pollFactory.createPoll();
+        uint256[] memory polls = pollFactory.readPollsOfCreator(creatorA, 1, 0);
+        assertEq(polls[0], pollId);
     }
 }
