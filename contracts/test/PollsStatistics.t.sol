@@ -4,235 +4,174 @@ pragma solidity ^0.8.13;
 import "forge-std/Test.sol";
 import "../src/PollsStatistics.sol";
 
+contract PollFactory is PollsStatistics {}
+
 contract PollsStatisticsTest is Test {
-    PollsStatistics public pollsStatistics;
+    PollFactory public pollFactory;
+
+    address immutable voterA = address(1);
+    address immutable voterB = address(2);
+    address immutable voterC = address(3);
+
+    uint32 immutable pollId = 42;
+
+    uint32 immutable pollId1 = 11;
+    uint32 immutable pollId2 = 22;
+    uint32 immutable pollId3 = 33;
+    uint32 immutable pollId4 = 44;
+    uint32 immutable pollId5 = 55;
+
+    uint8 immutable choiceA = 1;
+    uint8 immutable choiceB = 2;
 
     function setUp() public {
-        pollsStatistics = new PollsStatistics();
+        pollFactory = new PollFactory();
     }
 
-    // readPollStatistics
+    // readPollResults
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    function test_readPollStatistics1() public {
-        address pollFactory = address(1);
-        address voterA = address(2);
-        address voterB = address(3);
-        address voterC = address(4);
-        uint32 pollId = 42;
-        uint8 choiceA = 1;
-        uint8 choiceB = 2;
-        address statisticsConsumer = address(9);
-        vm.startPrank(pollFactory);
-        pollsStatistics.vote(pollId, voterA, choiceA);
-        pollsStatistics.vote(pollId, voterB, choiceB);
-        pollsStatistics.vote(pollId, voterC, choiceA);
+    function test_readPollResults1() public {
+        uint8 numChoices = 1;
+        pollFactory.upsertChoice(voterA, pollId, choiceA);
+        uint256[] memory results = pollFactory.readPollResults(pollId, numChoices);
+        assertEq(results[NUMBER_OF_BLANK_VOTES], 0);
+        assertEq(results[choiceA], 1);
+    }
+
+    function test_readPollResults2() public {
+        uint8 numChoices = 2;
+        pollFactory.upsertChoice(voterA, pollId, choiceA);
+        pollFactory.upsertChoice(voterB, pollId, choiceB);
+        pollFactory.upsertChoice(voterC, pollId, choiceA);
+        uint256[] memory results = pollFactory.readPollResults(pollId, numChoices);
+        assertEq(results[NUMBER_OF_BLANK_VOTES], 0);
+        assertEq(results[choiceA], 2);
+        assertEq(results[choiceB], 1);
+    }
+
+    function test_readPollResults3() public {
+        uint8 numChoices = 2;
+        pollFactory.upsertChoice(voterA, pollId, choiceA);
+        pollFactory.upsertChoice(voterB, pollId, choiceB);
+        pollFactory.upsertChoice(voterC, pollId, BLANK_VOTE);
+        uint256[] memory results = pollFactory.readPollResults(pollId, numChoices);
+        assertEq(results[NUMBER_OF_BLANK_VOTES], 1);
+        assertEq(results[choiceA], 1);
+        assertEq(results[choiceB], 1);
+    }
+
+    function test_readPollResults4() public {
+        uint8 numChoices = 2;
+        pollFactory.upsertChoice(voterA, pollId, choiceA);
+        pollFactory.upsertChoice(voterB, pollId, choiceB);
+        vm.prank(voterA);
+        pollFactory.dismissChoice(pollId);
+        uint256[] memory results = pollFactory.readPollResults(pollId, numChoices);
+        assertEq(results[NUMBER_OF_BLANK_VOTES], 0);
+        assertEq(results[choiceA], 0);
+        assertEq(results[choiceB], 1);
+    }
+
+    // upsertChoice
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    function test_upsertChoice_updates_poll_results() public {
+        uint8 numChoices = 1;
+        pollFactory.upsertChoice(voterA, pollId, choiceA);
+        uint256[] memory results = pollFactory.readPollResults(pollId, numChoices);
+        assertEq(results[choiceA], 1);
+    }
+
+    function test_upsertChoice_can_override_choice() public {
+        uint8 numChoices = 2;
+        pollFactory.upsertChoice(voterA, pollId, choiceA);
+        uint256[] memory results1 = pollFactory.readPollResults(pollId, numChoices);
+        assertEq(results1[choiceA], 1);
+        assertEq(results1[choiceB], 0);
+        pollFactory.upsertChoice(voterA, pollId, choiceB);
+        uint256[] memory results2 = pollFactory.readPollResults(pollId, numChoices);
+        assertEq(results2[choiceA], 0);
+        assertEq(results2[choiceB], 1);
+    }
+
+    function test_upsertChoice_checks_choice_is_valid() public {
+        vm.expectRevert(ErrorInvalidVote.selector);
+        pollFactory.upsertChoice(voterA, pollId, VOTE_NONE);
+    }
+
+    // dismissChoice
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    function test_dismissChoice_updates_poll_results1() public {
+        uint8 numChoices = 1;
+        pollFactory.upsertChoice(voterA, pollId, choiceA);
+        uint256[] memory results1 = pollFactory.readPollResults(pollId, numChoices);
+        assertEq(results1[choiceA], 1);
+        vm.prank(voterA);
+        pollFactory.dismissChoice(pollId);
+        uint256[] memory results2 = pollFactory.readPollResults(pollId, numChoices);
+        assertEq(results2[choiceA], 0);
+    }
+
+    function test_dismissChoice_updates_poll_results2() public {
+        uint8 numChoices = 2;
+        pollFactory.upsertChoice(voterA, pollId, choiceA);
+        pollFactory.upsertChoice(voterB, pollId, choiceB);
+        vm.prank(voterA);
+        pollFactory.dismissChoice(pollId);
         vm.stopPrank();
-        vm.prank(statisticsConsumer);
-        PollStatistics memory pollStatistics = pollsStatistics.readPollStatistics(pollFactory, pollId);
-        assertEq(pollStatistics.totalNumberOfVotes, 3);
-        assertEq(pollStatistics.numberOfValidVotes, 3);
-        assertEq(pollStatistics.numberOfBlankVotes, 0);
+        uint256[] memory results = pollFactory.readPollResults(pollId, numChoices);
+        assertEq(results[choiceA], 0);
+        assertEq(results[choiceB], 1);
     }
 
-    function test_readPollStatistics2() public {
-        address pollFactory = address(1);
-        address voterA = address(2);
-        address voterB = address(3);
-        uint32 pollId = 42;
-        uint8 choiceA = 1;
-        uint8 choiceB = 2;
-        address statisticsConsumer = address(9);
-        vm.startPrank(pollFactory);
-        pollsStatistics.vote(pollId, voterA, choiceA);
-        pollsStatistics.vote(pollId, voterB, choiceB);
-        pollsStatistics.dismissVote(pollId, voterA, choiceA);
-        vm.stopPrank();
-        vm.prank(statisticsConsumer);
-        PollStatistics memory pollStatistics = pollsStatistics.readPollStatistics(pollFactory, pollId);
-        assertEq(pollStatistics.totalNumberOfVotes, 1);
-        assertEq(pollStatistics.numberOfValidVotes, 1);
-        assertEq(pollStatistics.numberOfBlankVotes, 0);
-    }
-
-    function test_readPollStatistics3() public {
-        address pollFactory = address(1);
-        address voterA = address(2);
-        address voterB = address(3);
-        address voterC = address(4);
-        uint32 pollId = 42;
-        uint8 choiceA = 1;
-        uint8 choiceB = 2;
-        address statisticsConsumer = address(9);
-        vm.startPrank(pollFactory);
-        pollsStatistics.vote(pollId, voterA, choiceA);
-        pollsStatistics.vote(pollId, voterB, choiceB);
-        pollsStatistics.blankVote(pollId, voterC);
-        vm.stopPrank();
-        vm.prank(statisticsConsumer);
-        PollStatistics memory pollStatistics = pollsStatistics.readPollStatistics(pollFactory, pollId);
-        assertEq(pollStatistics.totalNumberOfVotes, 3);
-        assertEq(pollStatistics.numberOfValidVotes, 2);
-        assertEq(pollStatistics.numberOfBlankVotes, 1);
-    }
-
-    function test_readPollStatistics4() public {
-        address pollFactory = address(1);
-        address voterA = address(2);
-        address voterB = address(3);
-        address voterC = address(4);
-        uint32 pollId = 42;
-        uint8 choiceA = 1;
-        uint8 choiceB = 2;
-        address statisticsConsumer = address(9);
-        vm.startPrank(pollFactory);
-        pollsStatistics.vote(pollId, voterA, choiceA);
-        pollsStatistics.vote(pollId, voterB, choiceB);
-        pollsStatistics.blankVote(pollId, voterC);
-        pollsStatistics.dismissBlankVote(pollId, voterC);
-        vm.stopPrank();
-        vm.prank(statisticsConsumer);
-        PollStatistics memory pollStatistics = pollsStatistics.readPollStatistics(pollFactory, pollId);
-        assertEq(pollStatistics.totalNumberOfVotes, 2);
-        assertEq(pollStatistics.numberOfValidVotes, 2);
-        assertEq(pollStatistics.numberOfBlankVotes, 0);
-    }
-
-    // vote
-
-    function test_vote_updates_poll_results() public {
-        address pollFactory = address(1);
-        address voterA = address(2);
-        address voterB = address(3);
-        address voterC = address(4);
-        uint32 pollId = 42;
-        uint8 choiceA = 1;
-        uint8 choiceB = 2;
-        uint8 numChoices = 3;
-        vm.startPrank(pollFactory);
-        pollsStatistics.vote(pollId, voterA, choiceA);
-        pollsStatistics.vote(pollId, voterB, choiceB);
-        pollsStatistics.vote(pollId, voterC, choiceB);
-        vm.stopPrank();
-        uint32[] memory pollResults = pollsStatistics.readPollResults(pollFactory, pollId, numChoices);
-        assertEq(pollResults[choiceA], 1);
-        assertEq(pollResults[choiceB], 2);
-    }
-
-    function test_vote_checks_voter_choices_once() public {
-        address pollFactory = address(1);
-        address voter = address(2);
-        uint32 pollId = 42;
-        uint8 choice1 = 1;
-        uint8 choice2 = 2;
-        vm.startPrank(pollFactory);
-        pollsStatistics.vote(pollId, voter, choice1);
-        vm.expectRevert(ErrorValidVoteAlreadyExists.selector);
-        pollsStatistics.vote(pollId, voter, choice2);
+    function test_dismissChoice_checks_choice_exists1() public {
+        vm.startPrank(voterA);
+        vm.expectRevert(ErrorCannotDismissChoice.selector);
+        pollFactory.dismissChoice(pollId);
         vm.stopPrank();
     }
 
-    function test_vote_checks_voter_did_not_a_blank_vote() public {
-        address pollFactory = address(1);
-        address voter = address(2);
-        uint32 pollId = 42;
-        uint8 choice = 1;
-        vm.startPrank(pollFactory);
-        pollsStatistics.blankVote(pollId, voter);
-        vm.expectRevert(ErrorVoterDidBlankVote.selector);
-        pollsStatistics.vote(pollId, voter, choice);
+    function test_dismissChoice_checks_choice_exists2() public {
+        vm.startPrank(voterA);
+        pollFactory.upsertChoice(voterA, pollId, choiceA);
+        pollFactory.dismissChoice(pollId);
+        vm.expectRevert(ErrorCannotDismissChoice.selector);
+        pollFactory.dismissChoice(pollId);
         vm.stopPrank();
     }
 
-    // dismissVote
+    // readPollsOfVoter
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    function test_dismissVote_checks_choice_exists1() public {
-        address pollFactory = address(1);
-        address voter = address(2);
-        uint32 pollId = 42;
-        uint8 choice = 1;
-        vm.startPrank(pollFactory);
-        vm.expectRevert(ErrorValidVoteDoesNotExist.selector);
-        pollsStatistics.dismissVote(pollId, voter, choice);
-        vm.stopPrank();
+    function test_readPollsOfVoter0() public {
+        uint8 pageSize = 1;
+        uint8 pageIndex = 0;
+        uint256[] memory polls = pollFactory.readPollsOfVoter(voterA, pageSize, pageIndex);
+        assertEq(polls.length, 0);
     }
 
-    function test_dismissVote_checks_choice_exists2() public {
-        address pollFactory = address(1);
-        address voter = address(2);
-        uint32 pollId = 42;
-        uint8 choice = 1;
-        vm.startPrank(pollFactory);
-        pollsStatistics.vote(pollId, voter, choice);
-        pollsStatistics.dismissVote(pollId, voter, choice);
-        vm.expectRevert(ErrorValidVoteDoesNotExist.selector);
-        pollsStatistics.dismissVote(pollId, voter, choice);
-        vm.stopPrank();
+    function test_readPollsOfVoter1() public {
+        uint8 pageSize = 1;
+        uint8 pageIndex = 0;
+        pollFactory.upsertChoice(voterA, pollId, choiceA);
+        uint256[] memory polls = pollFactory.readPollsOfVoter(voterA, pageSize, pageIndex);
+        assertEq(polls[0], pollId);
     }
 
-    function test_dismissVote_updates_poll_results() public {
-        address pollFactory = address(1);
-        address voterA = address(2);
-        address voterB = address(3);
-        uint32 pollId = 42;
-        uint8 choiceA = 1;
-        uint8 choiceB = 2;
-        uint8 numChoices = 3;
-        vm.startPrank(pollFactory);
-        pollsStatistics.vote(pollId, voterA, choiceA);
-        pollsStatistics.vote(pollId, voterB, choiceB);
-        pollsStatistics.dismissVote(pollId, voterA, choiceA);
-        vm.stopPrank();
-        uint32[] memory pollResults = pollsStatistics.readPollResults(pollFactory, pollId, numChoices);
-        assertEq(pollResults[choiceA], 0);
-        assertEq(pollResults[choiceB], 1);
-    }
-
-    // blankVote
-
-    function test_blankVote_checks_choice_happens_once() public {
-        address pollFactory = address(1);
-        address voter = address(2);
-        uint32 pollId = 42;
-        vm.startPrank(pollFactory);
-        pollsStatistics.blankVote(pollId, voter);
-        vm.expectRevert(ErrorBlankVoteAlreadyExists.selector);
-        pollsStatistics.blankVote(pollId, voter);
-        vm.stopPrank();
-    }
-
-    function test_blankVote_checks_voter_did_not_choose_some_valid_vote() public {
-        address pollFactory = address(1);
-        address voter = address(2);
-        uint32 pollId = 42;
-        uint8 choice = 1;
-        vm.startPrank(pollFactory);
-        pollsStatistics.vote(pollId, voter, choice);
-        vm.expectRevert(ErrorVoterDidSomeValidVote.selector);
-        pollsStatistics.blankVote(pollId, voter);
-        vm.stopPrank();
-    }
-
-    // dismissBlankVote
-
-    function test_dismissBlankVote_checks_blank_vote_exists1() public {
-        address pollFactory = address(1);
-        address voter = address(2);
-        uint32 pollId = 42;
-        vm.startPrank(pollFactory);
-        vm.expectRevert(ErrorBlankVoteDoesNotExist.selector);
-        pollsStatistics.dismissBlankVote(pollId, voter);
-        vm.stopPrank();
-    }
-
-    function test_dismissBlankVote_checks_blank_vote_exists2() public {
-        address pollFactory = address(1);
-        address voter = address(2);
-        uint32 pollId = 42;
-        vm.startPrank(pollFactory);
-        pollsStatistics.blankVote(pollId, voter);
-        pollsStatistics.dismissBlankVote(pollId, voter);
-        vm.expectRevert(ErrorBlankVoteDoesNotExist.selector);
-        pollsStatistics.dismissBlankVote(pollId, voter);
-        vm.stopPrank();
+    function test_readPollsOfVoter2() public {
+        uint8 pageSize = 2;
+        uint8 pageIndex = 0;
+        pollFactory.upsertChoice(voterA, pollId1, choiceA);
+        pollFactory.upsertChoice(voterA, pollId2, choiceB);
+        pollFactory.upsertChoice(voterB, pollId3, choiceA);
+        pollFactory.upsertChoice(voterB, pollId4, choiceB);
+        uint256[] memory pollsA = pollFactory.readPollsOfVoter(voterA, pageSize, pageIndex);
+        assertEq(pollsA[0], pollId2);
+        assertEq(pollsA[1], pollId1);
+        uint256[] memory pollsB = pollFactory.readPollsOfVoter(voterB, pageSize, pageIndex);
+        assertEq(pollsB[0], pollId4);
+        assertEq(pollsB[1], pollId3);
     }
 }

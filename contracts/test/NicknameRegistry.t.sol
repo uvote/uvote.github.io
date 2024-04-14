@@ -7,15 +7,19 @@ import "../src/NicknameRegistry.sol";
 contract NicknameRegistryTest is Test {
     NicknameRegistry public nicknameRegistry;
 
+    address immutable nicknameOwner1 = address(1);
+    address immutable nicknameOwner2 = address(2);
+
     function setUp() public {
         nicknameRegistry = new NicknameRegistry();
     }
 
+    // setNickname
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     function test_setNickname() public {
-        address nicknameOwner1 = address(1);
         string memory nickname1 = "nickname";
-        address nicknameOwner2 = address(2);
-        string memory nickname2 = "nicknameThatIsExactlyFourtyTwoBytesLong___";
+        string memory nickname2 = "nicknameThatIsExactly32BytesLong";
         vm.prank(nicknameOwner1);
         nicknameRegistry.setNickname(nickname1);
         vm.prank(nicknameOwner2);
@@ -36,33 +40,6 @@ contract NicknameRegistryTest is Test {
         assertEq(nicknameRegistry.getNickname(nicknameOwner), nickname2);
     }
 
-    function test_setNickname_increments_count() public {
-        address nicknameOwner1 = address(1);
-        address nicknameOwner2 = address(2);
-        address nicknameOwner3 = address(3);
-        string memory nickname1 = "nickname1AndNickname2AreTheSame";
-        string memory nickname2 = "nickname1AndNickname2AreTheSame";
-        string memory nickname3 = "another nickname";
-        vm.prank(nicknameOwner1);
-        nicknameRegistry.setNickname(nickname1);
-        assertEq(nicknameRegistry.getCount(), 1);
-        vm.prank(nicknameOwner2);
-        nicknameRegistry.setNickname(nickname2);
-        assertEq(nicknameRegistry.getCount(), 2);
-        vm.prank(nicknameOwner3);
-        nicknameRegistry.setNickname(nickname3);
-        assertEq(nicknameRegistry.getCount(), 3);
-    }
-
-    function test_setNickname_increments_count_only_once() public {
-        vm.startPrank(address(1));
-        nicknameRegistry.setNickname("nickname1");
-        assertEq(nicknameRegistry.getCount(), 1);
-        nicknameRegistry.setNickname("nickname2");
-        assertEq(nicknameRegistry.getCount(), 1);
-        vm.stopPrank();
-    }
-
     function test_setNickname_cannot_be_empty() public {
         vm.expectRevert(ErrorEmptyNickname.selector);
         nicknameRegistry.setNickname("");
@@ -70,8 +47,11 @@ contract NicknameRegistryTest is Test {
 
     function test_setNickname_checks_input_is_not_too_long() public {
         vm.expectRevert(ErrorNicknameIsTooLong.selector);
-        nicknameRegistry.setNickname("nickname_too_long_cause_it_has_more_then_42_bytes");
+        nicknameRegistry.setNickname("nickname_too_long_________________");
     }
+
+    // deleteNickname
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     function test_deleteNickname() public {
         vm.startPrank(address(1));
@@ -81,20 +61,15 @@ contract NicknameRegistryTest is Test {
         vm.stopPrank();
     }
 
-    function test_deleteNickname_decrements_count() public {
-        vm.prank(address(1));
-        nicknameRegistry.setNickname("nickname1");
+    // myNickname
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        vm.startPrank(address(2));
-        nicknameRegistry.setNickname("nickname2");
-        nicknameRegistry.deleteNickname();
-        assertEq(nicknameRegistry.getCount(), 1);
+    function test_myNickname() public {
+        string memory nicknameInput = "nickname";
+        vm.startPrank(nicknameOwner1);
+        nicknameRegistry.setNickname(nicknameInput);
+        string memory nicknameOutput = nicknameRegistry.myNickname();
         vm.stopPrank();
-    }
-
-    function test_deleteNickname_does_not_decrement_count_to_negative() public {
-        vm.prank(address(1));
-        nicknameRegistry.deleteNickname();
-        assertEq(nicknameRegistry.getCount(), 0);
+        assertEq(nicknameOutput, nicknameInput);
     }
 }
