@@ -6,8 +6,7 @@ import "../src/PollsRegistry.sol";
 
 contract PollFactory is PollsRegistry {
     function createPoll() public returns (uint256) {
-        uint256 pollId = registerPoll(msg.sender);
-        return pollId;
+        return this.registerPoll(msg.sender);
     }
 }
 
@@ -49,7 +48,14 @@ contract PollsRegistryTest is Test {
     // readPollsOfFactory
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    function test_pollsOfFactory() public {
+    function test_pollsOfFactory0() public {
+        uint8 pageSize = 1;
+        uint256 pageIndex = 0;
+        uint256[] memory polls = pollFactory.readPollsOfFactory(pageSize, pageIndex);
+        assertEq(polls.length, 0);
+    }
+
+    function test_pollsOfFactory1() public {
         vm.startPrank(creatorA);
         uint256 pollId1 = pollFactory.createPoll();
         uint256 pollId2 = pollFactory.createPoll();
@@ -93,6 +99,13 @@ contract PollsRegistryTest is Test {
 
     // readPollsOfCreator
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    function test_readPollsOfCreator0() public {
+        uint8 pageSize = 1;
+        uint8 pageIndex = 0;
+        uint256[] memory polls = pollFactory.readPollsOfCreator(creatorA, pageSize, pageIndex);
+        assertEq(polls.length, 0);
+    }
 
     function test_pollsOfCreator1() public {
         vm.startPrank(creatorA);

@@ -24,7 +24,7 @@ contract PollFactoryMVP is PollsRegistry, PollsStatistics {
 
     // @dev The poll creator here is the `msg.sender`.
     function createPoll(string memory title, string memory choiceA, string memory choiceB) public returns (uint256) {
-        uint256 pollId = registerPoll(msg.sender);
+        uint256 pollId = this.registerPoll(msg.sender);
         detailsOfPoll[pollId] = PollDetails(title, choiceA, choiceB);
         return pollId;
     }
@@ -35,5 +35,10 @@ contract PollFactoryMVP is PollsRegistry, PollsStatistics {
 
     function readPollResults(uint256 pollId) public view returns (uint256[] memory) {
         return this.readPollResults(pollId, NUM_CHOICES);
+    }
+
+    // @dev The poll voter here is the `msg.sender`.
+    function vote(uint256 pollId, uint8 choice) external {
+        this.upsertChoice(msg.sender, pollId, choice);
     }
 }
