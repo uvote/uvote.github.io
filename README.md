@@ -1,4 +1,4 @@
-<p align="center"><img src="\public\logotype\logotype-framesquare.svg" alt="logotype_centered" width='35%'></p>
+<p align="center"><img src="/public/images/logotype/logotype-framesquare.svg" alt="logotype_centered" width='35%'></p>
 <br/><br/>
 
 **TRANSPARENT POLL ON BLOCKCHAIN**
