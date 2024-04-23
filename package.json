@@ -2,7 +2,7 @@
   "name": "uvote",
   "version": "0.0.0",
   "private": true,
-  "description": "",
+  "description": "transparent poll on blockchain",
   "type": "module",
   "scripts": {
     "build": "npm run build_js",
