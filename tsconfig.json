@@ -19,6 +19,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2020",
+    "types": ["jest", "vite/client"],
     "useDefineForClassFields": true
   },
   "include": ["./src"]
