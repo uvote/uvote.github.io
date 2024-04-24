@@ -5,6 +5,7 @@
   "description": "",
   "type": "module",
   "scripts": {
+    "anvil": "anvil --config-out anvil/config.json --state anvil/state.json",
     "build": "npm run build_js",
     "build_formatjs_types": "node scripts/build_formatjs_types.js",
     "build_html": "node scripts/build_html.js",

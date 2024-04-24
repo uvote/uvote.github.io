@@ -8,3 +8,5 @@
 ## Smart contracts development
 
 Install [foundry](https://getfoundry.sh/).
+
+Launch local blockchain: `npm run anvil`.
