@@ -24,6 +24,7 @@
     "generate_files": "npm run build_html && npm run build_manifest && npm run formatjs_compile && npm run build_formatjs_types && npm run wagmi_generate",
     "jest": "jest",
     "lint-staged": "lint-staged",
+    "markdownlint": "markdownlint-cli2 \"**/*.md\" \"#node_modules\" \"#contracts/lib/\"",
     "postbuild": "cp dist/index.html dist/404.html",
     "prebuild": "npm run test && npm run check_types && npm run eslint",
     "preformatjs_compile": "rm -rf public/translations/",
@@ -82,6 +83,9 @@
     "eslint-plugin-tsdoc": "^0.2.17",
     "gh-pages": "^5.0.0",
     "lint-staged": "^13.2.2",
+    "markdownlint-cli2": "^0.13.0",
+    "markdownlint-rule-github-internal-links": "^0.1.0",
+    "markdownlint-rule-relative-links": "^2.3.2",
     "pre-commit": "^1.2.2",
     "prettier": "^2.8.8",
     "prettier-plugin-jsdoc": "^0.4.2",
@@ -109,8 +113,12 @@
       "prettier --write",
       "eslint --fix"
     ],
-    "*.{css,md,scss}": [
+    "*.{css,scss}": [
       "prettier --write"
+    ],
+    "*.md": [
+      "prettier --write",
+      "markdownlint-cli2 --fix"
     ],
     "*.sol": [
       "forge fmt"
