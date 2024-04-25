@@ -7,7 +7,11 @@
 
 ## Environment
 
-See example environment file [here](./.example_env).
+The following environment variables are used:
+
+- `NICKNAME_REGISTRY_ADDRESS`
+
+See example environment file [here](./.example.env).
 
 ## Smart contracts development
 
