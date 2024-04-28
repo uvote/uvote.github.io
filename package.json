@@ -32,7 +32,7 @@
     "prestart": "npm run generate_files",
     "pretest": "npm run generate_files",
     "preview": "vite preview --host",
-    "start": "vite --host",
+    "start": "vite --host --mode development",
     "test": "npm run jest && npm run forge_test",
     "wagmi_generate": "wagmi generate"
   },
