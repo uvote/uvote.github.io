@@ -70,12 +70,7 @@ module.exports = {
     "jsx-a11y/aria-unsupported-elements": "error",
     "jsx-a11y/role-has-required-aria-props": "error",
     "no-case-declarations": "error",
-    "no-console": [
-      "warn",
-      {
-        allow: ["error", "info", "warn"],
-      },
-    ],
+    "no-console": "error",
     "prettier/prettier": "warn",
     "react/display-name": "error",
     "react-hooks/exhaustive-deps": "error",
