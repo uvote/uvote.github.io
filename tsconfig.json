@@ -22,5 +22,5 @@
     "types": ["jest", "vite/client"],
     "useDefineForClassFields": true
   },
-  "include": ["./src", "./wagmi.config.ts"]
+  "include": ["./node.d.ts", "./src", "./wagmi.config.ts"]
 }
