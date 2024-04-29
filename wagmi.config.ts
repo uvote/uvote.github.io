@@ -6,7 +6,7 @@ import { foundry as foundryChain } from "@wagmi/core/chains";
 
 export default defineConfig(() => {
   return {
-    out: "src/wagmi/generated.ts",
+    out: "app/wagmi/generated.ts",
     contracts: [],
     plugins: [
       foundry({

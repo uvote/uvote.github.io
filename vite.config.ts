@@ -13,7 +13,7 @@ export default defineConfig({
   publicDir: "public",
   resolve: {
     alias: {
-      _: "/src",
+      _: "/app",
     },
   },
   server: {
