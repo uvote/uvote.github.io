@@ -18,7 +18,7 @@ If dependencies are already installed and steps below were already done, you can
 
 ## Environment
 
-The following environment variables are used:
+The following environment variables are used for development:
 
 - `NICKNAME_REGISTRY_ADDRESS`
 - `POLL_FACTORY_MVP_REGISTRY_ADDRESS`
@@ -86,6 +86,14 @@ Add a new network to your wallet:
 
 To fund your wallet, do something like:
 
-1. Get the account address, for instance `0x4B556e6d6A38edD771c9A9a0d23C781F89AB0718`
-2. Get a private key, for instance `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`. Once [local blockchain is launched](#launch-local-blockchain) from [local-blockchain](./local-blockchain/) folder open _anvil-config.json_ file and copy one item from the `private-keys` array.
-3. Send a value, for instance _one Ether_, to your wallet: `cast send 0x4B556e6d6A38edD771c9A9a0d23C781F89AB0718 --value 1ether --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`
+1. Get the account address, assuming you save it in `MY_ADDRESS` environment variable.
+2. Get a private key, assuming you save it in `PRIVATE_KEY` environment variable. Once [local blockchain is launched](#launch-local-blockchain) from [local-blockchain](./local-blockchain/) folder open _anvil-config.json_ file and copy one item from the `private-keys` array.
+3. Send a value, for instance _one Ether_, to your wallet: `cast send $MY_ADDRESS --value 1ether --private-key $PRIVATE_KEY`
+
+Try setting a nickname to your wallet:
+
+1. Assuming `NicknameRegistry` contract address is stored in `NICKNAME_REGISTRY_ADDRESS` environment variable: once you follow instructions above to deploy the contract and update the `.env` file, you should be able to import the variables with something like `source .env`.
+2. Get the private key of your wallet and store it in a `MY_PRIVATE_KEY` environment variable.
+3. Then you can:
+   - set the nickname: `cast send --private-key $MY_PRIVATE_KEY $NICKNAME_REGISTRY_ADDRESS "setNickname(string)" "my nickname"`
+   - get the nickname: `cast call $NICKNAME_REGISTRY_ADDRESS "getNickname(address)(string)" $MY_ADDRESS`
