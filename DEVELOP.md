@@ -34,7 +34,12 @@ cp .example.env .env
 
 ## Smart contracts development
 
-Install [foundry](https://getfoundry.sh/).
+Install [foundry](https://getfoundry.sh/). It provides `anvil`, `cast` and `forge` tools.
+
+### Contracts
+
+Build contracts: `npm run forge_build`.
+Test contracts: `npm run forge_test`.
 
 ### Local blockchain
 
