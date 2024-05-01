@@ -80,13 +80,4 @@ abstract contract PollsRegistry {
         }
         return polls;
     }
-
-    /// @notice A poll creator can list her/his polls in descending order, i.e. LIFO.
-    /// @dev Here creator is `msg.sender`.
-    /// @param pageSize The number of polls to return.
-    /// @param pageIndex Index of the page to return.
-    /// @return A list of poll IDs.
-    function myCreatedPolls(uint8 pageSize, uint256 pageIndex) public view returns (uint256[] memory) {
-        return this.readPollsOfCreator(msg.sender, pageSize, pageIndex);
-    }
 }

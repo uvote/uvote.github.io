@@ -1,3 +1,4 @@
+import { warn } from "_/logging";
 import {
   FC,
   PropsWithChildren,
@@ -68,7 +69,7 @@ export const I18nContextProvider: FC<PropsWithChildren> = ({ children }) => {
       intlMessages.current = json;
       dispatch({ type: "READ_INTL_MESSAGES_SUCCESS" });
     } catch (error) {
-      console.error(error);
+      warn(error);
       dispatch({ type: "READ_INTL_MESSAGES_FAILURE" });
     }
   }, [locale]);

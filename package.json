@@ -12,23 +12,29 @@
     "build_manifest": "node scripts/build_manifest.js",
     "check_types": "tsc --noEmit --project .",
     "deploy": "node scripts/deploy.cjs",
-    "eslint": "npm run eslint:scripts && npm run eslint:src",
+    "eslint": "npm run eslint:scripts && npm run eslint:app",
     "eslint:scripts": "eslint --fix --ext .js scripts/",
-    "eslint:src": "eslint --fix --ext .ts --ext .tsx src/",
+    "eslint:app": "eslint --fix --ext .ts --ext .tsx app/",
     "forge_build": "forge build",
     "forge_test": "forge test --gas-report",
     "formatjs_compile": "npm run formatjs_compile:en && npm run formatjs_compile:it",
     "formatjs_compile:en": "formatjs compile translations/en.json --ast --out-file public/translations/en-${npm_package_version}.json",
     "formatjs_compile:it": "formatjs compile translations/it.json --ast --out-file public/translations/it-${npm_package_version}.json",
-    "generate_files": "npm run build_html && npm run build_manifest && npm run formatjs_compile && npm run build_formatjs_types && npm run wagmi_generate",
+    "generate_webapp_files": "npm run build_html && npm run build_manifest && npm run formatjs_compile && npm run build_formatjs_types && npm run wagmi_generate",
     "jest": "jest",
+    "local-blockchain": "anvil --config-out local-blockchain/anvil-config.json --state local-blockchain/anvil-state.json",
+    "local-blockchain_create_NicknameRegistry": "node scripts/local-blockchain_forge_create.js NicknameRegistry",
+    "local-blockchain_create_PollFactoryMVP": "node scripts/local-blockchain_forge_create.js PollFactoryMVP",
+    "local-blockchain_update_env_contract_NicknameRegistry": "node scripts/local-blockchain_update_env_contract.js NicknameRegistry",
+    "local-blockchain_update_env_contract_PollFactoryMVP": "node scripts/local-blockchain_update_env_contract.js PollFactoryMVP",
     "lint-staged": "lint-staged",
+    "markdownlint": "markdownlint-cli2 \"**/*.md\" \"#node_modules\" \"#contracts/lib/\"",
     "prebuild": "npm run test && npm run check_types && npm run eslint",
     "predeploy": "npm run build",
-    "prestart": "npm run generate_files",
-    "pretest": "npm run generate_files",
+    "prestart": "npm run generate_webapp_files",
+    "pretest": "npm run generate_webapp_files",
     "preview": "vite preview --host",
-    "start": "vite --host",
+    "start": "vite --host --mode development",
     "test": "npm run jest && npm run forge_test",
     "wagmi_generate": "wagmi generate"
   },
@@ -79,6 +85,9 @@
     "eslint-plugin-tsdoc": "^0.2.17",
     "gh-pages": "^5.0.0",
     "lint-staged": "^13.2.2",
+    "markdownlint-cli2": "^0.13.0",
+    "markdownlint-rule-github-internal-links": "^0.1.0",
+    "markdownlint-rule-relative-links": "^2.3.2",
     "pre-commit": "^1.2.2",
     "prettier": "^2.8.8",
     "prettier-plugin-jsdoc": "^0.4.2",
@@ -106,8 +115,12 @@
       "prettier --write",
       "eslint --fix"
     ],
-    "*.{css,md,scss}": [
+    "*.{css,scss}": [
       "prettier --write"
+    ],
+    "*.md": [
+      "prettier --write",
+      "markdownlint-cli2 --fix"
     ],
     "*.sol": [
       "forge fmt"

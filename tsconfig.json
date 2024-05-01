@@ -13,13 +13,14 @@
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "_/*": ["./src/*"]
+      "_/*": ["./app/*"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2020",
+    "types": ["jest", "vite/client"],
     "useDefineForClassFields": true
   },
-  "include": ["./src"]
+  "include": ["./node.d.ts", "./app", "./wagmi.config.ts"]
 }
