@@ -16,7 +16,7 @@ const run = promisify(exec);
 
 try {
   const contractName = getContractNameArgument();
-  const { owner: privateKey } = await getPrivateKeys();
+  const [privateKey] = await getPrivateKeys();
 
   // Run command to deploy contract, notice the `--json` flag.
 
