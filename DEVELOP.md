@@ -20,8 +20,8 @@ If dependencies are already installed and steps below were already done, you can
 
 The following environment variables are used for development:
 
-- `NICKNAME_REGISTRY_ADDRESS`
-- `POLL_FACTORY_MVP_REGISTRY_ADDRESS`
+- `LOCAL_NICKNAME_REGISTRY_ADDRESS`
+- `LOCAL_POLL_FACTORY_BASIC_ADDRESS`
 - `LOCAL_PRIVATE_KEY`
 - `VITE_RPC_URL`
 
@@ -57,16 +57,16 @@ Deploy [NicknameRegistry](./contracts/src/NicknameRegistry.sol) contract.
 npm run local-blockchain_create_NicknameRegistry
 ```
 
-Deploy [PollFactoryMVP](./contracts/src/PollFactoryMVP.sol) contract.
+Deploy [PollFactoryBasic](./contracts/src/PollFactoryBasic.sol) contract.
 
 ```sh
-npm run local-blockchain_create_PollFactoryMVP
+npm run local-blockchain_create_PollFactoryBasic
 ```
 
 Update `.env` file with addresses of locally deployed contracts:
 
 - `npm run local-blockchain_update_env_contract_NicknameRegistry`
-- `npm run local-blockchain_update_env_contract_PollFactoryMVP`
+- `npm run local-blockchain_update_env_contract_PollFactoryBasic`
 
 Once `.env` file is updated with the addresses of deployed contracts, it is possible to launch `npm run wagmi_generate`.
 This command is automatically launched before `npm start`.

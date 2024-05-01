@@ -2,10 +2,10 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/PollFactoryMVP.sol";
+import "../src/PollFactoryBasic.sol";
 
-contract PollFactoryTest is Test {
-    PollFactoryMVP public pollFactory;
+contract PollFactoryBasicTest is Test {
+    PollFactoryBasic public pollFactory;
     uint256 pollId1;
 
     address immutable creator1 = address(11);
@@ -15,7 +15,7 @@ contract PollFactoryTest is Test {
     address immutable voter3 = address(23);
 
     function setUp() public {
-        pollFactory = new PollFactoryMVP();
+        pollFactory = new PollFactoryBasic();
         pollId1 = pollFactory.createPoll("Title", "Yes", "No");
     }
 

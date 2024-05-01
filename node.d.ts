@@ -1,6 +1,6 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    NICKNAME_REGISTRY_ADDRESS: `0x${string}`;
-    POLL_FACTORY_MVP_REGISTRY_ADDRESS: `0x${string}`;
+    LOCAL_NICKNAME_REGISTRY_ADDRESS: `0x${string}`;
+    LOCAL_POLL_FACTORY_BASIC_ADDRESS: `0x${string}`;
   }
 }

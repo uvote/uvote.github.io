@@ -4,7 +4,7 @@ import { isLiteralType } from "minimal-type-guard-helpers";
 
 import { EnvironmentVariableName } from "./_env.js";
 
-const contractNames = ["NicknameRegistry", "PollFactoryMVP"] as const;
+const contractNames = ["NicknameRegistry", "PollFactoryBasic"] as const;
 export type ContractName = (typeof contractNames)[number];
 const isContractName = isLiteralType<ContractName>(contractNames);
 
@@ -16,8 +16,8 @@ export const contractAddressEnvironmentVariableName: Record<
   ContractName,
   EnvironmentVariableName
 > = {
-  NicknameRegistry: "NICKNAME_REGISTRY_ADDRESS",
-  PollFactoryMVP: "POLL_FACTORY_MVP_REGISTRY_ADDRESS",
+  NicknameRegistry: "LOCAL_NICKNAME_REGISTRY_ADDRESS",
+  PollFactoryBasic: "LOCAL_POLL_FACTORY_BASIC_ADDRESS",
 };
 
 /** Get contract name from first argument. */

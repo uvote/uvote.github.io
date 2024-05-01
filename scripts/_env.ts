@@ -5,8 +5,8 @@ import read from "read-file-utf8";
 import write from "write-file-utf8";
 
 const environmentVariableNames = [
-  "NICKNAME_REGISTRY_ADDRESS",
-  "POLL_FACTORY_MVP_REGISTRY_ADDRESS",
+  "LOCAL_NICKNAME_REGISTRY_ADDRESS",
+  "LOCAL_POLL_FACTORY_BASIC_ADDRESS",
   "LOCAL_PRIVATE_KEY",
 ] as const;
 export type EnvironmentVariableName = (typeof environmentVariableNames)[number];

@@ -14,10 +14,10 @@ struct PollDetails {
     string choiceB;
 }
 
-/// @title Poll factory Minimum Viable Product
+/// @title Poll factory basic
 /// @notice It implements the simplest poll factory for uVote.
 /// @author Gianluca Casati https://fibo.github.io
-contract PollFactoryMVP is PollsRegistry, PollsStatistics {
+contract PollFactoryBasic is PollsRegistry, PollsStatistics {
     uint8 immutable NUM_CHOICES = 2;
 
     mapping(uint256 => PollDetails) private detailsOfPoll;
