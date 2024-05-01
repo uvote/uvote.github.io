@@ -25,11 +25,5 @@ export const getContractNameArgument = (): ContractName => {
   const contractName = argv[2];
   if (!contractName) throw new Error("Missing contractName argument");
   if (isContractName(contractName)) return contractName;
-  throw new UnknownContractError(contractName);
+  throw new Error(`Unknown contract ${contractName}`);
 };
-
-export class UnknownContractError extends Error {
-  constructor(contractName: unknown) {
-    super(`Unknown contract ${contractName}`);
-  }
-}

@@ -38,3 +38,10 @@ export const getPrivateKeys = async () => {
 
   return anvilConfig.private_keys;
 };
+
+/** Read available accounts from anvil config. */
+export const getAvailableAccounts = async () => {
+  const anvilConfig = await getAnvilConfig();
+
+  return anvilConfig.available_accounts;
+};

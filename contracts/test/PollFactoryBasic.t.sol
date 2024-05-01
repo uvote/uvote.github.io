@@ -28,7 +28,7 @@ contract PollFactoryBasicTest is Test {
         string memory choiceB = "No";
         vm.prank(creator1);
         uint256 pollId = pollFactory.createPoll(title, choiceA, choiceB);
-        PollDetails memory poll = pollFactory.readPollDetails(pollId);
+        PollDetailsBasic memory poll = pollFactory.readPollDetails(pollId);
         assertEq(poll.title, title);
         assertEq(poll.choiceA, choiceA);
         assertEq(poll.choiceB, choiceB);

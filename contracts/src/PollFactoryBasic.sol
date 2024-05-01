@@ -7,29 +7,29 @@ import "./PollsRegistry.sol";
 uint8 constant INDEX_OF_CHOICE_A = 1;
 uint8 constant INDEX_OF_CHOICE_B = 2;
 
-// @notice A poll is expressed as a title and two choices.
-struct PollDetails {
+// @notice A basic poll is expressed as a title and two choices.
+struct PollDetailsBasic {
     string title;
     string choiceA;
     string choiceB;
 }
 
-/// @title Poll factory basic
+/// @title Basic poll factory
 /// @notice It implements the simplest poll factory for uVote.
 /// @author Gianluca Casati https://fibo.github.io
 contract PollFactoryBasic is PollsRegistry, PollsStatistics {
     uint8 immutable NUM_CHOICES = 2;
 
-    mapping(uint256 => PollDetails) private detailsOfPoll;
+    mapping(uint256 => PollDetailsBasic) private detailsOfPoll;
 
     // @dev The poll creator here is the `msg.sender`.
     function createPoll(string memory title, string memory choiceA, string memory choiceB) public returns (uint256) {
         uint256 pollId = this.registerPoll(msg.sender);
-        detailsOfPoll[pollId] = PollDetails(title, choiceA, choiceB);
+        detailsOfPoll[pollId] = PollDetailsBasic(title, choiceA, choiceB);
         return pollId;
     }
 
-    function readPollDetails(uint256 pollId) public view returns (PollDetails memory) {
+    function readPollDetails(uint256 pollId) public view returns (PollDetailsBasic memory) {
         return detailsOfPoll[pollId];
     }
 
