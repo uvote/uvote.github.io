@@ -34,9 +34,4 @@ contract NicknameRegistry {
             delete nicknameOf[msg.sender];
         }
     }
-
-    /// @return The nickname associated with msg.sender, if any.
-    function myNickname() external view returns (string memory) {
-        return nicknameOf[msg.sender];
-    }
 }

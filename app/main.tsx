@@ -2,7 +2,7 @@ import "_/styles/main.scss";
 
 import { I18nContextProvider } from "_/contexts/I18n";
 import { Router } from "_/routing/Router";
-import { wagmiConfig } from "_/wagmi/config";
+import { wagmiProviderConfig } from "_/wagmi/provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Buffer } from "buffer";
 import React from "react";
@@ -15,7 +15,7 @@ const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <WagmiProvider config={wagmiConfig}>
+    <WagmiProvider config={wagmiProviderConfig}>
       <QueryClientProvider client={queryClient}>
         <I18nContextProvider>
           <Router />

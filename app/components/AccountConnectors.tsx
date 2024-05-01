@@ -1,5 +1,7 @@
+import { useIsDev } from "_/hooks/useIsDev";
 import { useIsMobile } from "_/hooks/useIsMobile";
 import { metaMaskDeepLink } from "_/locators";
+import { debug } from "_/logging";
 import { FC, useCallback } from "react";
 import toast from "react-hot-toast";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -12,6 +14,8 @@ type Props = {
 
 export const AccountConnectors: FC<Props> = ({ onConnect }) => {
   const { formatMessage } = useIntl();
+
+  const isDev = useIsDev();
 
   const { connectors, status: connectStatus } = useConnect();
   const { isMobile } = useIsMobile();
@@ -35,7 +39,8 @@ export const AccountConnectors: FC<Props> = ({ onConnect }) => {
               try {
                 await metaMask.connect();
                 onConnect();
-              } catch {
+              } catch (error) {
+                debug(error);
                 showCannotConnectMessage();
               }
             }}
@@ -53,7 +58,8 @@ export const AccountConnectors: FC<Props> = ({ onConnect }) => {
               try {
                 await coinbase.connect();
                 onConnect();
-              } catch {
+              } catch (error) {
+                debug(error);
                 showCannotConnectMessage();
               }
             }}
@@ -74,6 +80,26 @@ export const AccountConnectors: FC<Props> = ({ onConnect }) => {
           </Button>
         </div>
       ) : null}
+
+      {isDev
+        ? connectors.map((connector) => (
+            <div key={connector.id}>
+              <Button
+                onClick={async () => {
+                  try {
+                    await connector.connect();
+                    onConnect();
+                  } catch (error) {
+                    debug(error);
+                    showCannotConnectMessage();
+                  }
+                }}
+              >
+                {connector.name}
+              </Button>
+            </div>
+          ))
+        : null}
     </Flex>
   );
 };

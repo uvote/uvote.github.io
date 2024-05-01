@@ -1,8 +1,8 @@
 import read from "read-file-utf8";
 import write from "write-file-utf8";
 
-const metadata = await read("src/metadata.json");
-const colors = await read("src/styles/colors.json");
+const metadata = await read("app/metadata.json");
+const colors = await read("app/styles/colors.json");
 
 const { themeColor } = colors;
 
@@ -31,7 +31,7 @@ const content = (entryPoint) => `<!DOCTYPE html>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <script type="module" src="/src/polyfills.ts"></script>
+    <script type="module" src="/app/polyfills.ts"></script>
   </head>
   <body>
     <div id="root"></div>
@@ -40,4 +40,4 @@ const content = (entryPoint) => `<!DOCTYPE html>
 </html>
 `;
 
-await write("index.html", content("/src/main.tsx"));
+await write("index.html", content("/app/main.tsx"));

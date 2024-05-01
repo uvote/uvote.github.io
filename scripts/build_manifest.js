@@ -1,8 +1,8 @@
 import read from "read-file-utf8";
 import write from "write-file-utf8";
 
-const metadata = await read("src/metadata.json");
-const colors = await read("src/styles/colors.json");
+const metadata = await read("app/metadata.json");
+const colors = await read("app/styles/colors.json");
 
 const { backgroundColor, themeColor } = colors;
 

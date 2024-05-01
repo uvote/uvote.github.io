@@ -25,4 +25,4 @@ declare global {
 }
 `;
 
-await write("src/i18n/FormatjsIntlMessageIds.d.ts", content);
+await write("app/i18n/FormatjsIntlMessageIds.d.ts", content);

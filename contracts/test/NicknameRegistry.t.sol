@@ -60,16 +60,4 @@ contract NicknameRegistryTest is Test {
         assertEq(nicknameRegistry.getNickname(address(1)), "");
         vm.stopPrank();
     }
-
-    // myNickname
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    function test_myNickname() public {
-        string memory nicknameInput = "nickname";
-        vm.startPrank(nicknameOwner1);
-        nicknameRegistry.setNickname(nicknameInput);
-        string memory nicknameOutput = nicknameRegistry.myNickname();
-        vm.stopPrank();
-        assertEq(nicknameOutput, nicknameInput);
-    }
 }

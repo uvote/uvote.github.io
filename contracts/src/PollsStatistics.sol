@@ -72,15 +72,6 @@ abstract contract PollsStatistics {
         return polls;
     }
 
-    /// @notice A voter can list her/his polls in descending order, i.e. LIFO.
-    /// @dev Here voter is `msg.sender`.
-    /// @param pageSize The number of polls to return.
-    /// @param pageIndex Index of the page to return.
-    /// @return A list of poll IDs.
-    function myVotedPolls(uint8 pageSize, uint256 pageIndex) public view returns (uint256[] memory) {
-        return this.readPollsOfVoter(msg.sender, pageSize, pageIndex);
-    }
-
     /// @notice Vote for a choice. It can be called more than once, in that case it overrides the previous choice.
     /// @dev The voter here is the `msg.sender`.
     /// @param voter The address of poll voter.
