@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 const About = lazy(() => import("_/pages/About"));
 const Account = lazy(() => import("_/pages/Account"));
 const Home = lazy(() => import("_/pages/Home"));
+const Poll = lazy(() => import("_/pages/Poll"));
 const NotFound = lazy(() => import("_/pages/NotFound"));
 
 // Mockup s.
@@ -46,6 +47,15 @@ export const Router: FC = () => (
         element={
           <Suspense fallback={<TopBar />}>
             <Account />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path={routePath.poll}
+        element={
+          <Suspense fallback={<TopBar />}>
+            <Poll />
           </Suspense>
         }
       />

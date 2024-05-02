@@ -50,6 +50,15 @@
   "CreateSection.instruction4": {
     "defaultMessage": "Pay the blockchain writing fee."
   },
+  "FindPollSection.ctaText": {
+    "defaultMessage": "Go to Upoll"
+  },
+  "FindPollSection.label": {
+    "defaultMessage": "Invitation by Link/Name"
+  },
+  "FindPollSection.title": {
+    "defaultMessage": "Vote by Invitation"
+  },
   "Footer.GitHub": {
     "defaultMessage": "GitHub"
   },
@@ -83,13 +92,10 @@
   "PageNotFound.title": {
     "defaultMessage": "Page not found"
   },
-  "FindPollSection.ctaText": {
-    "defaultMessage": "Go to Upoll"
+  "PollPage.invalidPollId": {
+    "defaultMessage": "Poll not found"
   },
-  "FindPollSection.label": {
-    "defaultMessage": "Invitation by Link/Name"
-  },
-  "FindPollSection.title": {
-    "defaultMessage": "Vote by Invitation"
+  "PollPage.title": {
+    "defaultMessage": "Poll"
   }
 }

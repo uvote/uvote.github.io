@@ -67,6 +67,8 @@ To add some data to the local blockchain, launch
 npm run local-blockchain:populate_data
 ```
 
+Get poll details: `cast call $LOCAL_POLL_FACTORY_BASIC_ADDRESS "readPollDetails(uint256)((string,string,string))" 1`
+
 #### Configure wallet to use local blockchain
 
 To get the _chain ID_ of local blockchain, launch `cast chain-id`. It should be `31337`.
