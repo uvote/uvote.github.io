@@ -9,31 +9,34 @@
     "defaultMessage": "Coinbase"
   },
   "AccountConnectors.metaMaskBrowser": {
-    "defaultMessage": "Apri nel browser di MetaMask"
+    "defaultMessage": "Open with MetaMask browser"
   },
   "AccountConnectors.metaMaskWallet": {
     "defaultMessage": "MetaMask"
   },
   "ConnectButton.connect": {
-    "defaultMessage": "Connetti"
+    "defaultMessage": "Connect"
   },
   "ConnectWallet.connectedToUnsopportedNetworkTitle": {
-    "defaultMessage": "Network non supportato"
+    "defaultMessage": "Network not supported"
   },
   "ConnectWallet.pleaseSelectEthereumNetwork": {
-    "defaultMessage": "Sembra che ti sia collegato ad un altro network. Per favore apri il tuo wallet e seleziona il network Ethereum."
+    "defaultMessage": "It looks like you are connected to another network. Please open your wallet and select Ethereum network."
   },
   "ConnectedAccount.disconnect": {
-    "defaultMessage": "Disconnetti"
+    "defaultMessage": "Disconnect"
   },
-  "CreateSection.subtitle": {
-    "defaultMessage": "Crea il tuo Upoll scritto nella blockchain"
+  "CreatePollForm.ctaText": {
+    "defaultMessage": "Create"
   },
   "CreatePollPage.title": {
     "defaultMessage": "Create Upoll"
   },
   "CreateSection.ctaText": {
     "defaultMessage": "Create"
+  },
+  "CreateSection.subtitle": {
+    "defaultMessage": "Create your Upoll written in the blockchain"
   },
   "CreateSection.title": {
     "defaultMessage": "Create Upoll"
@@ -66,13 +69,16 @@
     "defaultMessage": "Uvote {versionName} {version}"
   },
   "Footer.subtitle": {
-    "defaultMessage": "Made in Italy dall'ennesimo GG-team"
+    "defaultMessage": "Made in Italy by yet another GG-team"
   },
   "HypeSection.ctaText": {
     "defaultMessage": "See all"
   },
   "HypeSection.title": {
     "defaultMessage": "Hype Upoll"
+  },
+  "InputField.stringTooLong": {
+    "defaultMessage": "String is too long"
   },
   "ListPollsPage.title": {
     "defaultMessage": "Hype Upoll"
@@ -88,6 +94,15 @@
   },
   "MyPollsSection.title": {
     "defaultMessage": "Your Upoll"
+  },
+  "PollDetailsBasic.title": {
+    "defaultMessage": "Title"
+  },
+  "PollDetailsBasic.choiceA": {
+    "defaultMessage": "First choice"
+  },
+  "PollDetailsBasic.choiceB": {
+    "defaultMessage": "Second choice"
   },
   "PageNotFound.title": {
     "defaultMessage": "Page not found"

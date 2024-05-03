@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const About = lazy(() => import("_/pages/About"));
 const Account = lazy(() => import("_/pages/Account"));
+const CreatePoll = lazy(() => import("_/pages/CreatePoll"));
 const Home = lazy(() => import("_/pages/Home"));
 const Poll = lazy(() => import("_/pages/Poll"));
 const NotFound = lazy(() => import("_/pages/NotFound"));
@@ -16,7 +17,6 @@ const MockupHome = lazy(() => import("_/mockup/pages/Home"));
 const MockupConnectedAccount = lazy(
   () => import("_/mockup/pages/ConnectedAccount")
 );
-const MockupCreatePoll = lazy(() => import("_/mockup/pages/CreatePoll"));
 const MockupListPolls = lazy(() => import("_/mockup/pages/ListPolls"));
 const MockupMyPolls = lazy(() => import("_/mockup/pages/MyPolls"));
 const MockupPollExample1 = lazy(() => import("_/mockup/pages/PollExample1"));
@@ -47,6 +47,15 @@ export const Router: FC = () => (
         element={
           <Suspense fallback={<TopBar />}>
             <Account />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path={routePath.createPoll}
+        element={
+          <Suspense fallback={<TopBar color="primary-b" />}>
+            <CreatePoll />
           </Suspense>
         }
       />
@@ -85,15 +94,6 @@ export const Router: FC = () => (
         element={
           <Suspense fallback={<TopBar />}>
             <MockupConnectedAccount />
-          </Suspense>
-        }
-      />
-
-      <Route
-        path={mockupRoutePath.createPoll}
-        element={
-          <Suspense fallback={<TopBar color="primary-b" />}>
-            <MockupCreatePoll />
           </Suspense>
         }
       />

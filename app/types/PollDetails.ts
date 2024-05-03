@@ -4,3 +4,8 @@ export type PollDetailsBasic = {
   choiceA: string;
   choiceB: string;
 };
+
+export const pollDetailsBasic = {
+  titleMaxBytesLength: 40,
+  choiceMaxBytesLength: 32,
+};

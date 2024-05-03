@@ -46,7 +46,7 @@ contract NicknameRegistryTest is Test {
     }
 
     function test_setNickname_checks_input_is_not_too_long() public {
-        vm.expectRevert(ErrorNicknameIsTooLong.selector);
+        vm.expectRevert(ErrorNicknameTooLong.selector);
         nicknameRegistry.setNickname("nickname_too_long_________________");
     }
 

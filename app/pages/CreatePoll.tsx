@@ -1,7 +1,7 @@
+import { ConnectionBar } from "_/components/ConnectionBar";
+import { CreatePollForm } from "_/components/CreatePollForm";
 import { Footer } from "_/components/Footer";
 import { Flex, Main, Title } from "_/components/library";
-import { ConnectionBar } from "_/mockup/components/ConnectionBar";
-import { classNames } from "_/styles/classNames";
 import { FC } from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -12,10 +12,12 @@ const CreatePollPage: FC = () => {
 
       <Main>
         <Flex justify="center">
-          <Title className={classNames("is-uppercase")}>
+          <Title>
             <FormattedMessage id="CreatePollPage.title" />
           </Title>
         </Flex>
+
+        <CreatePollForm />
       </Main>
 
       <Footer />

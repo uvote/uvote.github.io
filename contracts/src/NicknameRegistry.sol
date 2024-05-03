@@ -2,12 +2,14 @@
 pragma solidity ^0.8.13;
 
 error ErrorEmptyNickname();
-error ErrorNicknameIsTooLong();
+error ErrorNicknameTooLong();
 
 /// @title Nickname registry
 /// @notice It associates an address to a nickname.
 /// @author Gianluca Casati https://fibo.github.io
 contract NicknameRegistry {
+    uint8 immutable MAX_NICKNAME_LENGTH = 32;
+
     mapping(address => string) private nicknameOf;
 
     /// @param wallet The address of associated nickname, if any.
@@ -22,7 +24,7 @@ contract NicknameRegistry {
         // Check nickname is not empty.
         if (bytes(nickname).length == 0) revert ErrorEmptyNickname();
         // Set a limit to nickname length.
-        if (bytes(nickname).length > 32) revert ErrorNicknameIsTooLong();
+        if (bytes(nickname).length > MAX_NICKNAME_LENGTH) revert ErrorNicknameTooLong();
         // Set nickname.
         nicknameOf[msg.sender] = nickname;
     }

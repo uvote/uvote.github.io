@@ -21,10 +21,6 @@ const Index: FC = () => {
           </li>
 
           <li>
-            <Link to={pathname.createPoll()}>Create poll</Link>
-          </li>
-
-          <li>
             <Link to={pathname.listPolls()}>List polls</Link>
           </li>
 
