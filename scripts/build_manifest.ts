@@ -1,14 +1,15 @@
-import read from "read-file-utf8";
 import write from "write-file-utf8";
 
-const metadata = await read("app/metadata.json");
-const colors = await read("app/styles/colors.json");
+import { getAppInfo } from "./_app_info.js";
 
-const { backgroundColor, themeColor } = colors;
+const {
+  colors: { backgroundColor, themeColor },
+  metadata: { asciiName },
+} = await getAppInfo();
 
 const content = `{
-  "short_name": "${metadata.asciiName}",
-  "name": "${metadata.asciiName}",
+  "short_name": "${asciiName}",
+  "name": "${asciiName}",
   "icons": [
     {
       "src": "favicon.ico",

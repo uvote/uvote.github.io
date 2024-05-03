@@ -14,3 +14,4 @@ export type Poll = {
   text: string;
   end: number;
 };
+// TODO delete this

@@ -1,6 +1,6 @@
 import { HomeSection, HomeSectionProps } from "_/components/HomeSection";
 import { Title } from "_/components/library";
-import { pathname } from "_/mockup/routing/pathnames";
+import { pathname } from "_/routing/pathnames";
 import { classNames } from "_/styles/classNames";
 import { FC, useCallback } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
