@@ -13,6 +13,8 @@ export const ConnectedAccount: FC = () => {
   const { disconnect } = useDisconnect();
   const nickname = useMyNickname();
 
+  const { data: balance } = useBalance({ address });
+
   const onClickDisconnect = useCallback(() => {
     disconnect();
   }, [disconnect]);
@@ -21,6 +23,12 @@ export const ConnectedAccount: FC = () => {
     <>
       <div>{address}</div>
       <div>{nickname}</div>
+
+      {balance ? (
+        <div>
+          {balance.value.toString()} {balance.symbol}
+        </div>
+      ) : null}
 
       <Button onClick={onClickDisconnect}>
         <FormattedMessage id="ConnectedAccount.disconnect" />

@@ -2,19 +2,8 @@ import "dotenv/config";
 
 import { defineConfig } from "@wagmi/cli";
 import { foundry, react } from "@wagmi/cli/plugins";
-import { foundry as foundryChain } from "@wagmi/core/chains";
-
-import { ContractName } from "./scripts/_contracts.js";
-
-type ContractDeployment = Record<number, `0x${string}`>;
-const deployments: Record<ContractName, ContractDeployment> = {
-  NicknameRegistry: {
-    [foundryChain.id]: process.env.LOCAL_NICKNAME_REGISTRY_ADDRESS,
-  },
-  PollFactoryBasic: {
-    [foundryChain.id]: process.env.LOCAL_POLL_FACTORY_BASIC_ADDRESS,
-  },
-};
+import { coinbaseWallet } from "@wagmi/connectors";
+import { anvil } from "@wagmi/core/chains";
 
 export default defineConfig(() => {
   return {
@@ -22,7 +11,14 @@ export default defineConfig(() => {
     contracts: [],
     plugins: [
       foundry({
-        deployments,
+        deployments: {
+          NicknameRegistry: {
+            [anvil.id]: process.env.LOCAL_NICKNAME_REGISTRY_ADDRESS,
+          },
+          PollFactoryBasic: {
+            [anvil.id]: process.env.LOCAL_POLL_FACTORY_BASIC_ADDRESS,
+          },
+        },
         project: "./contracts",
       }),
       react(),
