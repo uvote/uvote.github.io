@@ -135,8 +135,7 @@
   },
   "pre-commit": [
     "check_types",
-    "lint-staged",
-    "test"
+    "lint-staged"
   ],
   "prettier": {
     "plugins": [
