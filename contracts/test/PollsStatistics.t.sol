@@ -145,7 +145,7 @@ contract PollsStatisticsTest is Test {
     // readPollsOfVoter
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    function test_readPollsOfVoter0() public {
+    function test_readPollsOfVoter0() public view {
         uint8 pageSize = 1;
         uint8 pageIndex = 0;
         uint256[] memory polls = pollFactory.readPollsOfVoter(voterA, pageSize, pageIndex);

@@ -48,7 +48,7 @@ contract PollsRegistryTest is Test {
     // readPollsOfFactory
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    function test_pollsOfFactory0() public {
+    function test_pollsOfFactory0() public view {
         uint8 pageSize = 1;
         uint256 pageIndex = 0;
         uint256[] memory polls = pollFactory.readPollsOfFactory(pageSize, pageIndex);
@@ -100,7 +100,7 @@ contract PollsRegistryTest is Test {
     // readPollsOfCreator
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    function test_readPollsOfCreator0() public {
+    function test_readPollsOfCreator0() public view {
         uint8 pageSize = 1;
         uint8 pageIndex = 0;
         uint256[] memory polls = pollFactory.readPollsOfCreator(creatorA, pageSize, pageIndex);
