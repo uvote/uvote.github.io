@@ -84,7 +84,6 @@
     "eslint-plugin-formatjs": "^4.10.3",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
@@ -96,7 +95,6 @@
     "markdownlint-rule-relative-links": "^2.3.2",
     "pre-commit": "^1.2.2",
     "prettier": "^2.8.8",
-    "prettier-plugin-jsdoc": "^0.4.2",
     "read-file-utf8": "^3.0.0",
     "sass": "^1.62.1",
     "ts-jest": "^29.1.1",
@@ -119,14 +117,12 @@
   },
   "lint-staged": {
     "*.{cjs,js,json,ts,tsx}": [
-      "prettier --write",
       "eslint --fix"
     ],
     "*.{css,scss}": [
       "prettier --write"
     ],
     "*.md": [
-      "prettier --write",
       "markdownlint-cli2 --fix"
     ],
     "*.sol": [
@@ -136,21 +132,5 @@
   "pre-commit": [
     "check_types",
     "lint-staged"
-  ],
-  "prettier": {
-    "plugins": [
-      "prettier-plugin-jsdoc"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "*.ts",
-          "*.tsx"
-        ],
-        "options": {
-          "tsdoc": true
-        }
-      }
-    ]
-  }
+  ]
 }
