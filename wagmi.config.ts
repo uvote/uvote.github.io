@@ -2,7 +2,6 @@ import "dotenv/config";
 
 import { defineConfig } from "@wagmi/cli";
 import { foundry, react } from "@wagmi/cli/plugins";
-import { coinbaseWallet } from "@wagmi/connectors";
 import { anvil } from "@wagmi/core/chains";
 
 export default defineConfig(() => {

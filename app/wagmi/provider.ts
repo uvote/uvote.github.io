@@ -1,23 +1,24 @@
 import { createConfig, http } from "wagmi";
-import { foundry, mainnet, sepolia } from "wagmi/chains";
+import { anvil, mainnet, sepolia } from "wagmi/chains";
 import { coinbaseWallet, injected } from "wagmi/connectors";
 
-import * as metadata from "../metadata.json";
-
-const appName = metadata.asciiName;
-const RPC_URL = import.meta.env.VITE_RPC_URL;
+import metadata from "../metadata.json" with { type: 'json' };
 
 export const wagmiProviderConfig = createConfig({
-  chains: [foundry, sepolia, mainnet],
+  chains: [anvil, sepolia, mainnet],
   connectors: [
     injected(),
     coinbaseWallet({
-      appName,
+      appName: metadata.asciiName,
+      preference: {
+    keysUrl: 'https://keys-dev.coinbase.com/connect',
+		options: 'smartWalletOnly',
+      }
     }),
   ],
   transports: {
-    [foundry.id]: http(),
-    [sepolia.id]: http(RPC_URL),
-    [mainnet.id]: http(RPC_URL),
+    [anvil.id]: http('http://localhost:8545'),
+    [sepolia.id]: http(),
+    [mainnet.id]: http(),
   },
 });
