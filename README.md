@@ -1,11 +1,11 @@
 <p align="center"><img src="/public/images/logotype/logotype-framesquare.svg" alt="logotype_centered" width='35%'></p>
 <br/><br/>
 
+<br>
 
-================
+**https://uvote.github.io/**
 
-[![uVote](https://uvote.github.io/)](https://uvote.github.io/)
-
+</br>
 
 ## Introduction
 uVote is a blockchain-based polling system that utilizes the security and transparency of blockchain technology to create trustworthy and verifiable polls, providing a truthful depiction of reality through real-time polls that can be verified by anyone.
@@ -27,7 +27,7 @@ The uVote system can be navigated through the following flow:
 ```mermaid
 graph TD
 
-A["https://uvote.github.io/"]
+A[uVote<a href='https://uvote.github.io/'> link</a>]
 B[Vote by Invitation]:::inv
 C[Create Upoll]:::cre
 D[Hype Upoll]:::hyp
